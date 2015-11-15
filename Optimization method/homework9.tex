@@ -1,0 +1,165 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz,comment}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 9}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+Suppose $A$ is a $m*n$ matrix, $B$ is a $n*l$ matrix, $c\in E^n$, Prove that only one of the following two system has solutions:
+\begin{enumerate}
+\item $Ax\leq0,Bx=0,c^Tx>0, x\in E^n$
+\item $A^Ty+B^Tz=c,y\geq0, y,z\in E^n$
+\end{enumerate}
+\emph{\textbf{Proof:}}
+since $Bx=0$ is the same as
+\begin{equation}
+\left\{
+\begin{aligned}
+Bx\leq0 \\
+Bx\geq0 \\
+\end{aligned}
+\right.\nonumber
+\end{equation}
+so the first system can turn into
+\begin{equation} 
+\begin{bmatrix}A \\ B \\ -B\end{bmatrix}x\leq0,c^Tx>0   \nonumber
+\end{equation}
+according to Farkas Theorem,
+\begin{equation}
+\begin{bmatrix}A^T & B^T & -B^T\end{bmatrix}\begin{bmatrix}y \\ u \\ v\end{bmatrix}=c, \begin{bmatrix}y \\ u \\ v\end{bmatrix}>0    \nonumber
+\end{equation}
+has no solutions. we set $z=u-v$, we know that $A^Ty+B^Tz=c,y\geq0$ has no solution, or vice versa.
+\section{Problem 2}
+Suppose $A$ is a $m*n$ matrix, $c\in E^n$, Prove that only one of the following two system has solutions:
+\begin{enumerate}
+\item $Ax\leq0,x\geq0,c^Tx>0, x\in E^n$
+\item $A^Ty\geq0,y\geq0, y\in E^n$
+\end{enumerate}
+
+\emph{\textbf{Proof:}}\\
+the first system can turn into
+\begin{equation}
+\begin{bmatrix}A \\ -I\end{bmatrix}x\leq0,c^Tx>0   \nonumber
+\end{equation}
+according to Farkas Theorem,
+\begin{equation}
+\begin{bmatrix}A^T & -I \end{bmatrix}\begin{bmatrix}y \\ u\end{bmatrix}=c, \begin{bmatrix}y \\ u\end{bmatrix}>0    \nonumber
+\end{equation}
+has no solutions. It means $A^Ty-u=c,y\geq0,u\geq0$ has no solution. Also we have
+\begin{equation}
+A^Ty\geq0,y\geq0 \nonumber
+\end{equation}
+has no solutions, or vice versa. 
+
+\section{Problem 3}
+$f(x_1,x_2)=10-2(x_2-x_1^2)^2$, $S=\{(x_1,x_2)|-11\leq x_1\leq1, -1\leq x_2\leq1\}$,is $f(x_1,x_2)$ a convex function on $S$?\\
+\emph{\textbf{Solution:}}\\
+for each ($x_1$,$x_2$),
+\begin{equation}
+\nabla^2f(x) = \begin{bmatrix} -24x_1^2+8x_2 & 8x_1 \\ 8x_1 &  -4 \end{bmatrix} \nonumber
+\end{equation}
+obviously, $\nabla^2f(x)$ is not positive semidefinite for all $x$, $f(x_1,x_2)$ is not a convex function.
+
+\section{Problem 4}
+Suppose $f$ is a convex function on $E^n$, $x^{(1)},x^{(2)},\cdots,x^{(n)}$belongs to $E^n$,prove that
+\begin{equation}
+f(\lambda_1x^{(1)}+\cdots+\lambda_kx^{(k)})\leq\lambda_1f(x^{(1)})+\cdots+\lambda_kf(x^{(k)}) \nonumber
+\end{equation}
+$\lambda_1+\lambda_2+\cdots+\lambda_k=1, \lambda_i>0, i= 1,2,\cdots,k$.\\
+\emph{\textbf{Proof:}}\\
+Using mathematical induction,when $k=2$, since $f(x)$ is a convex function on $E^n$.
+\begin{equation}
+f(\lambda_1x^{(1)}+\lambda_2x^{(2)})\leq \lambda_1f(x^{(1)})+ \lambda_2f(x^{(2)}) \nonumber
+\end{equation}
+Suppose when $k = n$ the equation holds, $k=n+1$,
+\begin{equation}
+f(\lambda_1x^{(1)}+\cdots+\lambda_{n+1}x^{(n+1)})= f(\sum_1^n\lambda_i(\frac{\lambda_1}{\sum_1^n\lambda_i}x^{(1)}+\cdots+\frac{\lambda_n}{\sum_1^n\lambda_i}x^{(n)})+\lambda_{n+1}x^{(n+1)}) \nonumber
+\end{equation}
+Set $\hat{x} = \frac{\lambda_1}{\sum_1^n\lambda_i}x^{(1)}+\cdots+\frac{\lambda_n}{\sum_1^n\lambda_i}x^{(n)}$, since $f (x)$ is convex and $\sum_1^n\lambda_i+\lambda_{n+1}=1$, we have
+\begin{equation}
+f(\lambda_1x^{(1)}+\cdots+\lambda_{n+1}x^{(n+1)})\leq (\sum_1^n\lambda_i)f(\hat{x})+\lambda_{n+1}f(x^{(n+1)})\nonumber
+\end{equation}
+Moreover, from hypothesis we have
+\begin{equation}
+f(\hat{x})\leq \frac{\lambda_1}{\sum_1^n\lambda_i}f(x^{(1)})+\cdots+ \frac{\lambda_n}{\sum_1^n\lambda_i}f(x^{(n)})\nonumber
+\end{equation}
+then we get
+\begin{equation}
+f(\lambda_1x^{(1)}+\lambda_2x^{(2)}+\cdots+\lambda_{n+1}x^{(n+1)})\leq \lambda_1f(x^{(1)})+\lambda_2f(x^{(2)})+\cdots+\lambda_{n+1}f(x^{(n+1)})\nonumber
+\end{equation}
+thus, the original equation holds.
+\end{document}
