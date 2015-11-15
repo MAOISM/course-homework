@@ -1,0 +1,236 @@
+\iffalse                             % 块注释
+如果要注释一块文字，用\iffalse ... \fi 界定住要
+注释的文字。特别提醒：以下设置的次序不能乱，否则
+会引发冲突，影响到编译是否成功。
+\fi
+\documentclass[a4paper,11pt,         % A4纸
+               twoside,              % 双面
+%              openany               % 新章节在偶数页开始
+               ]{article}
+
+%%%%%%%%%% 版面控制 %%%%%%%%%%
+\usepackage{indentfirst}             % 首行缩进
+\iffalse
+\usepackage[%paperwidth=18.4cm, paperheight= 26cm,
+            body={14.6true cm,22true cm},
+            twosideshift=0 pt,
+            %headheight=1.0true cm
+            ]{geometry}
+\fi
+\usepackage[perpage,symbol]{footmisc}% 脚注控制
+\usepackage[sf]{titlesec}            % 控制标题
+\usepackage{titletoc}                % 控制目录
+\usepackage{fancyhdr}                % 页眉页脚
+\usepackage{type1cm}                 % 控制字体大小
+\usepackage{indentfirst}             % 首行缩进
+\usepackage{makeidx}                 % 建立索引
+\usepackage{textcomp}                % 千分号等特殊符号
+\usepackage{layouts}                 % 打印当前页面格式
+\usepackage{bbding}                  % 一些特殊符号
+\usepackage{cite}                    % 支持引用
+\usepackage{color,xcolor}            % 支持彩色文本、底色、文本框等
+\usepackage{listings}                % 粘贴源代码
+\lstloadlanguages{}                  % 所要粘贴代码的编程语言
+\lstset{language=,tabsize=4, keepspaces=true,
+    xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+    backgroundcolor=\color{lightgray},    % 定义背景颜色
+    frame=none,                           % 表示不要边框
+    keywordstyle=\color{blue}\bfseries,
+    breakindent=22pt,
+    numbers=left,stepnumber=1,numberstyle=\tiny,
+    basicstyle=\footnotesize,
+    showspaces=false,
+    flexiblecolumns=true,
+    breaklines=true, breakautoindent=true,breakindent=4em,
+    escapeinside={/*@}{@*/}
+}
+
+%%%%%%%%%% 字体支持 %%%%%%%%%%%%
+%\usepackage{ccmap}                  % 使pdfLatex生成的文件支持复制等
+\usepackage{CJK,CJKnumb,CJKulem}     % 中文支持
+\usepackage{times}     % 包括 Times Roman + Helvetica + Courier
+%\usepackage{palatino} % 包括 Palatino + Helvetica + Courier
+%\usepackage{newcent}  % 包括 New Century Schoolbook + Avant Garde + Courier
+%\usepackage{bookman}  % 包括 Bookman + Avant Garde + Courier
+
+%%%%%%%%%% 数学符号公式 %%%%%%%%%%
+\usepackage{latexsym}
+\usepackage{amsmath}                 % AMS LaTeX 宏包
+\usepackage{amssymb}                 % 用来排版漂亮的数学公式
+\usepackage{amsbsy}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}                % 英文花体字体
+\usepackage{bm}                      % 数学公式中的黑斜体
+\usepackage{relsize}                 % 调整公式字体大小：\mathsmaller, \mathlarger
+\usepackage{caption2}                % 浮动图形和表格标题样式
+
+%%%%%%%%%% 图形支持宏包 %%%%%%%%%%
+\ifx\pdfoutput\undefined             % 用latex或pdflatex编译
+  \usepackage[dvips]{graphicx}       % 将eps格式的图片放在figures目录下
+\else                                % 在setup/format.tex中用以下命令注明路径：
+  \usepackage[pdftex]{graphicx}      % \graphicspath{{figures/}}
+\fi
+%\usepackage{subfigure}
+\usepackage{epsfig}                  % 支持eps图像
+%\usepackage{picinpar}               % 图表和文字混排宏包
+%\usepackage[verbose]{wrapfig}       % 图表和文字混排宏包
+%\usepackage{eso-pic}                % 向文档的部分页加n副图形, 可实现水印效果
+%\usepackage{eepic}                  % 扩展的绘图支持
+%\usepackage{curves}                 % 绘制复杂曲线
+%\usepackage{texdraw}                % 增强的绘图工具
+%\usepackage{treedoc}                % 树形图绘制
+%\usepackage{pictex}                 % 可以画任意的图形
+%\usepackage{hyperref}
+
+
+\makeindex                           % 生成索引
+\pagestyle{fancy}                    % 页眉页脚风格
+\fancyhf{}                           % 清空当前页眉页脚的默认设置
+
+%%%% 下面的命令重定义页面边距，使其符合中文刊物习惯 %%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{0.63cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{14.66cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+
+%%%% 下面的命令设置行间距与段落间距 %%%%
+\linespread{1.4}
+% \setlength{\parskip}{1ex}
+\setlength{\parskip}{0.5\baselineskip}
+
+%%%%%%%%%% 导入中文环境 %%%%%%%%%%
+\AtBeginDocument{\begin{CJK*}{GBK}{song} % 不计中文的空格
+\CJKindent                           % 首行缩进两个汉字
+\sloppy\CJKspace                     % 中英文混排的断行
+\CJKtilde                            % 重新定义~，用~隔开中英文
+}
+\AtEndDocument{\end{CJK*}}
+
+%%%%%%%%%% 正文 %%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%% 一些新定义 %%%%%%%%%%
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\hei}{\CJKfamily{hei}}   % 黑体
+\newcommand{\fs}{\CJKfamily{fs}}     % 仿宋
+\newcommand{\kai}{\CJKfamily{kai}}   % 楷体
+
+%%%%%%%%%% 定理类环境的定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\newtheorem{example}{例}             % 整体编号
+\newtheorem{algorithm}{算法}
+\newtheorem{theorem}{定理}[section]  % 按 section 编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+
+%%%%%%%%%% 一些重定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\renewcommand{\contentsname}{目录}     % 将Contents改为目录
+\renewcommand{\abstractname}{摘\ \ 要} % 将Abstract改为摘要
+\renewcommand{\refname}{参考文献}      % 将References改为参考文献
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\proofname}{\hei 证明}
+\renewcommand{\algorithm}{\hei 算法}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+%%%%%%%%%% 重定义字号命令 %%%%%%%%%%
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}       % 一号, 1.4倍行距
+\newcommand{\erhao}{\fontsize{22pt}{28pt}\selectfont}       % 二号, 1.25倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{24pt}\selectfont}      % 三号, 1.5倍行距
+\newcommand{\xiaosan}{\fontsize{15pt}{22pt}\selectfont}     % 小三, 1.5倍行距
+\newcommand{\sihao}{\fontsize{14pt}{21pt}\selectfont}       % 四号, 1.5倍行距
+\newcommand{\bansi}{\fontsize{13pt}{19.5pt}\selectfont}     % 半四, 1.5倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}      % 小四, 1.5倍行距
+\newcommand{\dawu}{\fontsize{11pt}{11pt}\selectfont}        % 大五, 单倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+
+
+%%%%%%%%%% 页眉和页脚的设置 %%%%%%%%%%
+\lhead{清华大学软件学院计算机系统软件（2）}
+\rhead{}
+\lfoot{}
+\rfoot{~\thepage~}
+
+%%%%%%%%%% 论文标题、作者等 %%%%%%%%%%
+\title{\hei{计算机与网络体系结构（2）第五次作业}}
+\author{文庆福 \\ 2011013239 thssvince@163.com  \\
+   \xiaosi  清华大学软件学院11班\\
+}
+\date{\today}                % 日期
+\maketitle                           % 生成标题
+\thispagestyle{empty}                % 首页无页眉页脚
+\newpage
+
+%%%%%%%%%% section %%%%%%%%%%
+\begin{enumerate}
+    \item  宏定义中\&、！和\%操作符的作用分别是什么？
+        \begin{itemize}
+        \item \& 替换操作符，将宏的内部对宏参数的引用替换为调用时的实际值。
+        \item ! 特殊字符操作符，强制预处理器将预定义的操作符作为原始字符传递。
+        \item \% 展开操作符，用于展开文本宏或把常量表达式转换为文本表示式。
+        \end{itemize}
+    \item IFIDN伪指令的用途是什么?\\
+        比较两个符号是否相等，但是要区分大小写，若相等则返回 True. 当要确保调用宏时传递的参数不和宏内使用的寄存器冲突时，
+    \item  写出生成100到A0000000h之间的斐波那契数作为一系列编译时期的常量。
+        \begin{lstlisting}[language={[ANSI]C}]
+        . data
+            num1 = 55
+            num2 = 89
+            DWORD num1
+            DWORD num2
+            sum = num1 + num2
+
+            WHILE sum LT 0A0000000h
+                DWORD sum
+                num1 = num2
+                num2 = sum
+                sum = num1 + num2
+            ENDM\end{lstlisting}
+    \item  哪个Win32函数返回标准输入的句柄？\\
+            GetStdHandle 
+    \item  说出至少三个由WinMain过程所做的工作。
+            \begin{itemize}
+            \item 获取当前程序的句柄
+            \item 装载程序使用的图标和鼠标光标
+            \item 注册主窗口使用的窗口，并且定义用来接收窗口事件消息的子程序
+            \item 创建主窗口
+            \item 显示并更新主窗口
+            \item 开始一个消息循环来接收和分派处理消息
+            \end{itemize}
+    \item 解释 HeapAlloc 函数的用途。\\
+           它用来在指定的堆上分配内存，并且分配后的内存不可移动。调用成功则通过 EAX 返回内存块的地址，否则 EAX 为 0
+    \item 给出一个调用HeapCreate函数的例子。\\
+            INVOKE HeapCreate, 0, 20000, 50000
+    \item 段选择子是32位长吗？\\
+        不对，是16位
+    \item 什么是“分段”？\\
+        将多个内存段相互隔离的办法，这使多个程序可以相互隔离地运行，而不会相互干扰
+    \item 代码题目
+    在教材第11.2.6节的程序清单的基础，写出一个WinApp.asm程序，要求：
+    \begin{itemize}
+    \item[a.]实现第11.2.6节的程序清单的所有功能；
+    \item[b.]当用户在主窗口的任何地方按下键盘时，程序显示消息框的标题为“Welcome”；
+    \item[c.]当用户按下主窗口右上角的关闭按钮时，窗口关闭前显示消息框的文本为“Bye”。
+    \item[d.]提示：可能需要在GraphWin.inc中添加  WM\_KEYDOWN          =  0100h
+    \end{itemize}
+
+
+\end{enumerate}
+%%%%%%%%% 参考文献 %%%%%%%%%%
+\clearpage
+\end{document}
+%%%%%%%%%% 结束 %%%%%%%%%%

@@ -1,0 +1,324 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 6}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+Given a linear programming problem:
+\begin{alignat}{2}          \nonumber
+\min\quad & -2x_1-x_2+x_3 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& x_1+x_2+2x_3 \leq 6\\        \nonumber
+& x_1+4x_2-x_3 \leq 4\\         \nonumber
+& x_1,x_2,x_3 \geq 0
+\end{alignat}
+its simplex table is as follow:
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&\\
+\hline$x_3$&0&-1&1&$\frac{1}{3}$&-$\frac{1}{3}$&$\frac{2}{3}$\\
+$x_1$&1&3&0&$\frac{1}{3}$&$\frac{2}{3}$&$\frac{14}{3}$\\
+\hline &0&-6&0&-$\frac{1}{3}$&-$\frac{5}{3}$&-$\frac{26}{3}$\\
+\hline
+\end{tabular}
+\begin{enumerate}
+\item if vector $b=(6, 4)^T$ changed into $b' =(2,4)^T$ on the right side, is optimal base still optimal? Please solve the optimal table using old optimal table.
+\item if change the coefficient of $x_1$ in objective function from $c_1=-2$ into $c_1'$, what range does $c_1'$ belong to, old optimal solution is still optimal for new question?
+\end{enumerate}
+
+\emph{\textbf{Solution:}}
+\begin{enumerate}
+\item compute column vector on the right side\\
+\begin{equation}\nonumber
+\overline{b'}=B^{-1}b'=
+ \begin{bmatrix}
+   \frac{1}{3} & -\frac{1}{3} \\
+   \frac{1}{3} & \frac{2}{3}
+  \end{bmatrix}
+ \begin{bmatrix}
+   2\\
+   4
+  \end{bmatrix}=\begin{bmatrix}
+   -\frac{2}{3}\\
+   \frac{10}{3}
+  \end{bmatrix}
+\end{equation}
+\begin{equation}\nonumber
+c_B\overline{b'}=(1,-2)
+ \begin{bmatrix}
+   -\frac{2}{3}\\
+   \frac{10}{3}
+  \end{bmatrix}=-\frac{22}{3}
+\end{equation}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&\\
+\hline$x_3$&0&$-1$&1&$\frac{1}{3}$&$\Large{\textcircled{\small{-$\frac{1}{3}$}}}$&$\frac{2}{3}$\\
+$x_1$&1&3&0&$\frac{1}{3}$&$\frac{2}{3}$&$\frac{10}{3}$\\
+\hline &0&-6&0&-$\frac{1}{3}$&-$\frac{5}{3}$&-$\frac{22}{3}$\\
+\hline
+\hline$x_5$&0&3&-3&-1&1&2\\
+$x_1$&1&1&2&1&0&2\\
+\hline &0&-1&-5&-2&0&-4\\
+\hline
+\end{tabular}\\
+this solution is $(x_1,x_2,x_3)=(2,0,0)$, $f_{min}=-4$.
+\item change $c_1$ to $c_1'$
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+z_1'-c_1'&=0\\
+z_2'-c_2'&=-6+3(c_1'+2)\leq0\\
+z_3'-c_3'&=0+0(c_1'+2)\leq0\\
+z_4'-c_4'&=-\frac{1}{3}+\frac{1}{3}(c_1'+2)\leq0\\
+z_5'-c_5'&=-\frac{5}{3}+\frac{2}{3}(c_1'+2)\leq0\\
+\end{aligned}
+\right.
+\end{equation}
+we get $c_1'\leq-1$.
+\end{enumerate}
+
+
+\section{Problem 2}
+Given a linear programming problem:
+\begin{alignat}{2}          \nonumber
+\max\quad & -5x_1+5x_2+13x_3 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1+x_2+3x_3 \leq 20\\        \nonumber
+& 12x_1+4x_2+10x_3 \leq 90\\         \nonumber
+& x_1,x_2,x_3 \geq 0
+\end{alignat}
+Please solve this problem using simplex method first. Then change the original problem respectively as follow, and solve them using old optimal table.
+\begin{enumerate}
+\item change the coefficient of $x_3$ in objective function $c_3$ from 13 into 8
+\item change $b_1$ from 20 to 30
+\item change $b_2$ from 90 to 70
+\item change column of $A$ from $(-1, 12)^T$ to $(0, 5)^T$
+\item add constraint condition $2x_1+3x_2+5x_3\leq50$
+\end{enumerate}
+\emph{\textbf{Solution:}}\\
+Add slack variable $x_4$, $x_5$, change it into:
+\begin{alignat}{2}          \nonumber
+\max\quad & -5x_1+5x_2+13x_3 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1+x_2+3x_3 +x_4\leq 20\\        \nonumber
+& 12x_1+4x_2+10x_3+x_5 \leq 90\\         \nonumber
+& x_1,x_2,x_3,x_4,x_5 \geq 0
+\end{alignat}
+solve it using simplex method.\\
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&\\
+\hline$x_4$&-1&$\Large{\textcircled{\small{1}}}$&3&1&0&20\\
+$x_5$&12&4&10&0&1&90\\
+\hline &5&-5&-13&0&0&0\\
+\hline
+\hline$x_2$&-1&1&3&1&0&20\\
+$x_5$&16&0&-2&-4&1&10\\
+\hline &0&0&2&5&0&100\\
+\hline
+\end{tabular}\\
+this solution is $(x_1,x_2,x_3)=(0,20,0)$, $f_{max}=100$.
+\begin{enumerate}
+\item when $c_3$ changed from 13 to 8, $x_3$'s test number$z_3'-c_3'=(z_3-c_3)+c_3-c_3'$=2+13-8=7>0,solution does not change. $(x_1,x_2,x_3)=(0,20,0)$, $f_{max}=100$.
+\item change $b_1$ from 20 to 30 \\
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&\\
+\hline$x_2$&-1&1&3&1&0&30\\
+$x_5$&16&0&\Large{\textcircled{\small{-2}}}&-4&1&-30\\
+\hline &0&0&2&5&0&150\\
+\hline
+\hline$x_2$&23&1&0&$\Large{\textcircled{\small{-5}}}$&$\frac{3}{2}$&-15\\
+$x_3$&-8&0&1&2&-$\frac{1}{2}$&15\\
+\hline &16&0&0&1&1&120\\
+\hline
+\hline$x_4$&-$\frac{23}{5}$&-$\frac{1}{5}$&0&1&-$\frac{3}{10}$&3\\
+$x_3$&$\frac{6}{5}$&$\frac{2}{5}$&1&0&$\frac{1}{10}$&9\\
+\hline &$\frac{103}{5}$&$\frac{1}{5}$&0&0&$\frac{13}{10}$&117\\
+\hline
+\end{tabular}\\
+the solution is $(x_1,x_2,x_3)=(0,0,9)$, $f_{max}=117$.
+\item change $b_2$ from 90 to 70 \\
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&\\
+\hline$x_2$&-1&1&3&1&0&20\\
+$x_5$&16&0&\Large{\textcircled{\small{-2}}}&-4&1&-10\\
+\hline &0&0&2&5&0&100\\
+\hline
+\hline$x_2$&23&1&0&-5&$\frac{3}{2}$&5\\
+$x_3$&-8&0&1&2&-$\frac{1}{2}$&5\\
+\hline &16&0&0&1&1&90\\
+\hline
+\end{tabular}\\
+the solution is $(x_1,x_2,x_3)=(0,5,5)$, $f_{max}=90$.
+\item change column of $A$ from $(-1, 12)^T$ to $(0, 5)^T$, $x_1$'s test number
+\begin{equation} \nonumber
+z_1-c_1=c_BB^{-1}p_1-c_1=0-(-5)=5>0
+\end{equation}
+the solution is $(x_1,x_2,x_3)=(0,20,0)$, $f_{max}=100$.
+\item add constraint condition $2x_1+3x_2+5x_3\leq50$, add a new slack variable $x_6$\\
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&$x_6$&\\
+\hline$x_2$&-1&1&3&1&0&0&20\\
+$x_5$&16&0&-2&-4&1&0&10\\
+$x_6$&2&3&5&0&0&1&50\\
+\hline &0&0&2&5&0&0&100\\
+\hline
+\hline$x_2$&-1&1&3&1&0&0&20\\
+$x_5$&16&0&-2&-4&1&0&10\\
+$x_6$&5&0&-4&-3&0&1&-10\\
+\hline &0&0&2&5&0&0&100\\
+\hline
+\hline$x_2$&$\frac{11}{4}$&1&0&$-\frac{5}{4}$&0&$\frac{3}{4}$&$\frac{25}{2}$\\
+$x_5$&$\frac{27}{2}$&0&0&-$\frac{5}{2}$&1&-$\frac{1}{2}$&15\\
+$x_3$&-$\frac{5}{4}$&0&1&$\frac{3}{4}$&0&-$\frac{1}{4}$&$\frac{5}{2}$\\
+\hline &$\frac{5}{2}$&0&0&$\frac{7}{2}$&0&$\frac{1}{2}$&95\\
+\hline
+\end{tabular}\\
+the solution is $(x_1,x_2,x_3)=(0,\frac{25}{2},\frac{5}{2})$, $f_{max}=95$.
+\end{enumerate}
+\section{Problem 3}
+Given the original linear problem:
+\begin{alignat}{2}          \nonumber
+\min\quad & cx \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& Ax=b\\        \nonumber
+& x \geq 0
+\end{alignat}
+Suppose this problem and its dual problem is feasible,$w^{(0)}$ is an optimal solution of dual problem.
+\begin{enumerate}
+\item if $\mu\neq0$ multiply the $k$th equation of original problem, we can get a new problem. Please solve dual problem of this problem.
+\item if $\mu$ multiply the $k$th equation of original problem and add it to the $r$th equation. Please solve dual problem of this problem.
+\end{enumerate}
+
+\emph{\textbf{Solution:}}\\
+suppose $A$ is a $m*n$ matrix. And write
+\begin{equation}\nonumber
+A=\begin{bmatrix}
+   A_1\\
+   A_2\\
+   \vdots\\
+   A_m
+  \end{bmatrix},
+b= \begin{bmatrix}
+   b_1\\
+   b_2\\
+   \vdots\\
+   b_m
+  \end{bmatrix}
+\end{equation}
+we can rewrite the original problem into:
+\begin{alignat}{2}          \nonumber
+\min\quad & cx \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& A_ix=b_i, i=1,2,\cdots,m\\        \nonumber
+& x \geq 0
+\end{alignat}
+and its dual problem:
+\begin{alignat}{2}          \nonumber
+\max\quad & \sum\limits_{i=1}^m b_iw_i \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& \sum\limits_{i=1}^m w_iA_i\leq c\\        \nonumber
+\end{alignat}
+\begin{enumerate}
+\item $\mu\neq0$ multiply the $k$th equation of original problem, dual problem is
+\begin{alignat}{2}          \nonumber
+\max\quad & b_1w_1+b_2w_2+\cdots+\mu b_kw_k+\cdots+b_mw_m \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& w_1A_1+\cdots+\mu w_kA_k+\cdots+w_mA_m\leq c\\        \nonumber
+\end{alignat}
+we can see that $\mathbf{w}=(w_1^{(0)},\cdots,\frac{1}{\mu}w_k^{(0)},\cdots,w_m^{(0)})$ is a feasible solution, and at this point, the value of objective function equals to the dual one, so this a optimal solution.
+\item the original problem after changing:
+\begin{alignat}{2}          \nonumber
+\min\quad & cx \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& A_1x=b_1,\\        \nonumber
+& \quad\vdots\\           \nonumber
+& A_kx=b_k,\\        \nonumber
+& \quad\vdots\\           \nonumber
+& (A_r+\mu A_k)x=b_r+\mu b_k,\\        \nonumber
+& \quad\vdots\\           \nonumber
+& A_mx = b_m,\\        \nonumber
+& x \geq 0
+\end{alignat}
+its dual problem:
+\begin{alignat}{2}          \nonumber
+\max\quad & b_1w_1+\cdots+\mu b_kw_k+\cdots+(b_r+\mu b_k)w_r+\cdots+b_mw_m \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& w_1A_1+\cdots+\mu w_kA_k+\cdots+w_r(A_r+\mu A_k)+\cdots+w_mA_m\leq c\\        \nonumber
+\end{alignat}
+we can see that $\mathbf{w}=(w_1^{(0)},\cdots,w_k^{(0)}-\mu w_r^{(0)},\cdots,w_r^{(0)},\cdots,w_m^{(0)})$ is a feasible solution, and at this point, the value of objective function equals to the dual one, so this a optimal solution.
+\end{enumerate}
+\end{document}

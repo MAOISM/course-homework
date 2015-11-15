@@ -1,0 +1,229 @@
+\iffalse                             % 块注释
+如果要注释一块文字，用\iffalse ... \fi 界定住要
+注释的文字。特别提醒：以下设置的次序不能乱，否则
+会引发冲突，影响到编译是否成功。
+\fi
+\documentclass[a4paper,11pt,         % A4纸
+               twoside,              % 双面
+%              openany               % 新章节在偶数页开始
+               ]{article}
+
+%%%%%%%%%% 版面控制 %%%%%%%%%%
+\usepackage{indentfirst}             % 首行缩进
+\iffalse
+\usepackage[%paperwidth=18.4cm, paperheight= 26cm,
+            body={14.6true cm,22true cm},
+            twosideshift=0 pt,
+            %headheight=1.0true cm
+            ]{geometry}
+\fi
+\usepackage[perpage,symbol]{footmisc}% 脚注控制
+\usepackage[sf]{titlesec}            % 控制标题
+\usepackage{titletoc}                % 控制目录
+\usepackage{fancyhdr}                % 页眉页脚
+\usepackage{type1cm}                 % 控制字体大小
+\usepackage{indentfirst}             % 首行缩进
+\usepackage{makeidx}                 % 建立索引
+\usepackage{textcomp}                % 千分号等特殊符号
+\usepackage{layouts}                 % 打印当前页面格式
+\usepackage{bbding}                  % 一些特殊符号
+\usepackage{cite}                    % 支持引用
+\usepackage[pdfstartview=FitH,
+            CJKbookmarks=true,
+            bookmarksnumbered=true,
+            bookmarksopen=false,
+            colorlinks=true, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder 同时注释掉)
+            %pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+            citecolor=magenta,% magenta , cyan
+            linkcolor=black,
+            ]{hyperref}       % hyperref 宏包通常要求放在导言区的最后!!!
+\usepackage{color,xcolor}            % 支持彩色文本、底色、文本框等
+\usepackage{listings}                % 粘贴源代码
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\lstloadlanguages{}                  % 所要粘贴代码的编程语言
+\lstset{
+    language=[AspectJ]Java,
+    basicstyle=\footnotesize,
+    numbers=left,
+    numberstyle= \tiny,
+    keywordstyle=\color{keywordcolor}\bfseries, %\underbar,
+    identifierstyle=,
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    extendedchars=false,%
+    linewidth=\textwidth,%
+}
+
+%%%%%%%%%% 字体支持 %%%%%%%%%%%%
+%\usepackage{ccmap}                  % 使pdfLatex生成的文件支持复制等
+\usepackage{CJK,CJKnumb,CJKulem}     % 中文支持
+\usepackage{times}     % 包括 Times Roman + Helvetica + Courier
+%\usepackage{palatino} % 包括 Palatino + Helvetica + Courier
+%\usepackage{newcent}  % 包括 New Century Schoolbook + Avant Garde + Courier
+%\usepackage{bookman}  % 包括 Bookman + Avant Garde + Courier
+
+%%%%%%%%%% 数学符号公式 %%%%%%%%%%
+\usepackage{latexsym}
+\usepackage{amsmath}                 % AMS LaTeX 宏包
+\usepackage{amssymb}                 % 用来排版漂亮的数学公式
+\usepackage{amsbsy}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}                % 英文花体字体
+\usepackage{bm}                      % 数学公式中的黑斜体
+\usepackage{relsize}                 % 调整公式字体大小：\mathsmaller, \mathlarger
+\usepackage{caption2}                % 浮动图形和表格标题样式
+
+%%%%%%%%%% 图形支持宏包 %%%%%%%%%%
+\ifx\pdfoutput\undefined             % 用latex或pdflatex编译
+  \usepackage[dvips]{graphicx}       % 将eps格式的图片放在figures目录下
+\else                                % 在setup/format.tex中用以下命令注明路径：
+  \usepackage[pdftex]{graphicx}      % \graphicspath{{figures/}}
+\fi
+%\usepackage{subfigure}
+\usepackage{epsfig}                  % 支持eps图像
+%\usepackage{picinpar}               % 图表和文字混排宏包
+%\usepackage[verbose]{wrapfig}       % 图表和文字混排宏包
+%\usepackage{eso-pic}                % 向文档的部分页加n副图形, 可实现水印效果
+%\usepackage{eepic}                  % 扩展的绘图支持
+%\usepackage{curves}                 % 绘制复杂曲线
+%\usepackage{texdraw}                % 增强的绘图工具
+%\usepackage{treedoc}                % 树形图绘制
+%\usepackage{pictex}                 % 可以画任意的图形
+%\usepackage{hyperref}
+
+
+\makeindex                           % 生成索引
+\pagestyle{fancy}                    % 页眉页脚风格
+\fancyhf{}                           % 清空当前页眉页脚的默认设置
+
+%%%% 下面的命令重定义页面边距，使其符合中文刊物习惯 %%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{0.63cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{14.66cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+
+%%%% 下面的命令设置行间距与段落间距 %%%%
+\linespread{1.4}
+% \setlength{\parskip}{1ex}
+\setlength{\parskip}{0.5\baselineskip}
+
+%%%%%%%%%% 导入中文环境 %%%%%%%%%%
+\AtBeginDocument{\begin{CJK*}{GBK}{song} % 不计中文的空格
+\CJKindent                           % 首行缩进两个汉字
+\sloppy\CJKspace                     % 中英文混排的断行
+\CJKtilde                            % 重新定义~，用~隔开中英文
+}
+\AtEndDocument{\end{CJK*}}
+
+%%%%%%%%%% 正文 %%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%% 一些新定义 %%%%%%%%%%
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\hei}{\CJKfamily{hei}}   % 黑体
+\newcommand{\fs}{\CJKfamily{fs}}     % 仿宋
+\newcommand{\kai}{\CJKfamily{kai}}   % 楷体
+
+%%%%%%%%%% 定理类环境的定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\newtheorem{example}{例}             % 整体编号
+\newtheorem{algorithm}{算法}
+\newtheorem{theorem}{定理}[section]  % 按 section 编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+
+%%%%%%%%%% 一些重定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\renewcommand{\contentsname}{目录}     % 将Contents改为目录
+\renewcommand{\abstractname}{摘\ \ 要} % 将Abstract改为摘要
+\renewcommand{\refname}{参考文献}      % 将References改为参考文献
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\proofname}{\hei 证明}
+\renewcommand{\algorithm}{\hei 算法}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+%%%%%%%%%% 重定义字号命令 %%%%%%%%%%
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}       % 一号, 1.4倍行距
+\newcommand{\erhao}{\fontsize{22pt}{28pt}\selectfont}       % 二号, 1.25倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{24pt}\selectfont}      % 三号, 1.5倍行距
+\newcommand{\xiaosan}{\fontsize{15pt}{22pt}\selectfont}     % 小三, 1.5倍行距
+\newcommand{\sihao}{\fontsize{14pt}{21pt}\selectfont}       % 四号, 1.5倍行距
+\newcommand{\bansi}{\fontsize{13pt}{19.5pt}\selectfont}     % 半四, 1.5倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}      % 小四, 1.5倍行距
+\newcommand{\dawu}{\fontsize{11pt}{11pt}\selectfont}        % 大五, 单倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+
+
+%%%%%%%%%% 页眉和页脚的设置 %%%%%%%%%%
+\lhead{}
+\rhead{清华大学系统分析与控制课程大作业}
+\lfoot{}
+\rfoot{~\thepage~}
+
+%%%%%%%%%% 论文标题、作者等 %%%%%%%%%%
+\title{\hei{基于视频的动态纹理合成}}
+\author{文庆福 \\ 2011013239 thssvince@163.com  \\
+   \xiaosi  清华大学软件学院11班\\
+}
+\date{\today}                % 日期
+\maketitle                           % 生成标题
+\thispagestyle{empty}                % 首页无页眉页脚
+\tableofcontents
+\newpage
+
+
+%%%%%%%%%% section %%%%%%%%%%
+\section{背景介绍}
+动态纹理是指描述某种动态景观的具有时间相关重复特征的图像序列，比如海浪、瀑布、火焰、烟雾等。它在视频制作、虚拟仿真、虚拟漫游中具有重要的应用价值。动态纹理的合成一直是计算机图形学的主要目标和难点之一。\\\indent
+此次作业的主要目标就是针对已给出一组 150 帧的动态纹理数据，建立一个状态空间模型，并合成 2000 帧的新动态纹理帧。\\\indent
+希望通过此次作业，对以下几个方面的知识有所学习：状态空间模型的建立，系统分析相关结论的综合应用，MATLAB 的矩阵计算、图像操作、视频操作等的用法。
+\section{算法描述}
+根据老师已经给出的状态空间模型：
+ \begin{equation}
+\begin{cases}
+x(k+1)= Ax(k)+Bv(k) \\
+y(k)= cx(k) 
+\end{cases}
+\end{equation}
+因此我们只要依据原有的 150 帧图像计算出这个模型，就可以利用模型进行预报合成新的图像了。\\\indent
+从已给的源代码中可以看出，我们就用$y(k)$表示第 k 帧的图像，图像是大小是$row*col$，那么$y(k)$就是一个长度为$row*col$的一维向量。这里考虑比较简单的情况，即图像是灰度图（若不是灰度图则先转化为灰度图）。\\\indent
+首先，将所有图片数据读入后，我们可以得到$Y=[y(1),y(2),\ldots, y(T)]$。由$Y=CX$，利用矩阵奇异值分解可以计算出$C$和$X$。
+通过对$Y$进行奇异值分解，我们可以得到$Y=U\Sigma V^T$，其中$U$的前$n$列作为$C$，则$X=\Sigma(1:n,1:n) V(:,1,n)^T$。\\\indent
+接下来根据老师提供的方法计算：
+\begin{eqnarray}
+A &=& [x(2),y(3),\ldots, x(T)][x(1),y(2),\ldots, x(T-1)]^{-1} \\
+Q &=& \frac{1}{T-1}\sum_{t=1}^{T-1}\hat{v}(t)\hat{v}^T(t)\\
+Q &=& U_Q\Sigma_Q {U_Q}^T \\
+Q &=& BB^T
+\end{eqnarray}
+其中(2)式中$\hat{v}(t)=x(t+1)-Ax(t)$，视为估计的误差。根据以上几个式子就可以求出$A 和 B$，这样整个模型就计算出来了。
+\section{实验过程}
+根据以上算法，在原有的 main.m 的基础上编写了代码，包括了main.m、readImage.m 以及 train.m 三个文件。\\\indent
+其中主函数在 main.m 中，读入数据，训练模型，合成新的图片，导出视频。\\\indent
+readImage.m 中的函数 function [ Y, row, col ] = readImage( imagedir ) 用于读入图片数据，其中 imagedir 就是输入图片存放的路径，Y 是训练数据，$row$ 和 $col$ 分别是图片的行数和列数。\\\indent
+train.m 中的函数 function [ Ahat, Bhat, Chat, x0, Ymean ] = train( Y, n, nv ) 用来计算模型参数。其中 $Y$ 是训练数据，$n$、$nv$ 是 $x$ 和 $v$ 的维数。$Ahat,Bhat,Chat$ 是训练结果，$x0$ 是模型输入的起始 $x$，Ymean是 $y$ 的均值。\\\indent
+下面通过对不同的输入数据进行测试，同时不断调节 $n$ 和 $nv$ 以达到临界稳定。倘若系统趋于稳定，则最后 $y$ 将收敛到某个值，那么生成新的纹理帧就不具有动态性；如果系统发散，则生成的 $y$ 有可能使得两帧过渡不自然，也很可能得到有纯黑纯白图像组成的动态纹理。显然上述两种情况都不是我们期望的。因此只有临界稳定的系统才能持续生成我们需要的动态纹理。\\\indent
+通过大量实验发现，当 $n$ 选取过小时，$x$ 的维度比较小，生成的 $y$ 容易不稳定，而当 $n$ 过大时，生成的 $y$ 容易导致相邻两帧连贯性差。$nv$ 决定了白噪声的维数，而白噪声主要可以促进系统平滑过渡，因此选出合适的 $nv$ 也是很有必要的。因此在调解的过程中，我们可以先选择调节 $n$, 然后再微调 $nv$。\\\indent
+最终我选择的输入数据是 see-i-far-2, 这组数据训练出来的模型比较容易临界稳定，我只是经过一两次调节就达到比较合适的效果了。最终选取的 $n=50$, $nv=48$。我猜想，其中愿意可能是这组训练数据中的颜色差异并不大，数据本省波动比较小，不太容易发散。
+\section{实验总结}
+状态空间模型中的 $x$ 维数 $n$ 和白噪声的维数 $nv$ 这两个量作为参数，经实际调整发现对生成结果的影响很大，$n$ 对能不能生成期望结果起决定性作用，而虽然 $nv$ 影响较小，但选择合适的对提升生成结果的真实感、连贯性都颇有帮助。\\\indent
+本次实验的一些方法和分析方式让我深受启发，我们是按照老师给出的模型和算法进行合成，能够得到比较实用的结果，而且这个模型其实非常简单，如果换用其它复杂一点的模型不知道是否还能得到这样的效果。其实我们有时候在做算法的过程中，往往一味的为了追求算法的完备性而将算法搞得非常复杂，其实有时候简单就是最好的。我想这样一种思路对我们解决实际的工程问题应该会大有帮助。
+%%%%%%%%% 参考文献 %%%%%%%%%%
+\newpage
+\end{document}
+%%%%%%%%%% 结束 %%%%%%%%%%

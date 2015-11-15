@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+    basicstyle=\small,%
+    escapeinside=``,%
+    keywordstyle=\color{red} \bfseries,% \underbar,%
+    identifierstyle={},%
+    commentstyle=\color{blue},%
+    stringstyle=\ttfamily,%
+    %labelstyle=\tiny,%
+    extendedchars=false,%
+    linewidth=\textwidth,%
+    numbers=left,%
+    numberstyle=\tiny \color{blue},%
+    frame=trbl%
+}
+
+
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Architecture of Computer and Network (2)\\ % The assignment title
+\LARGE\textit{homework 2}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2011013239} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem 1}
+Which instruction pushes all 32 bits general register into stack?\\
+PUSHAD
+
+\section{Problem 2}
+In protect mode,how many bytes of space does procedure need at least? \\
+4 bytes
+
+
+\section{Problem 3}
+Please write a instruction to reverse all the bit in EAX.\\
+xor eax, FFFFFFFFh
+
+\section{Problem 4}
+Which jump instruction equals to JA? \\
+JNBE
+
+\section*{Problem 5}
+Please write some instructions to jump to label L2 when signed integer in AX is larger than signed integer in CX.\\
+cmp ax, cx \\
+jg L2
+
+\section{Problem 6}
+Does LOOPZ instruction jump to the label only when ZF = 0?\\
+No, it jumps when ZF = 0 or ECX $\leq$ 0.
+
+\section{Problem 7}
+Use assembly language to implement the following pseudocode(assume that they are all unsigned)\\
+\begin{lstlisting}[language={[ANSI]C}]
+if (dx <= cx)
+     X = 1;
+else
+     X = 2;
+\end{lstlisting}
+
+
+\begin{lstlisting}[language={[ANSI]C}]
+cmp dx, cx
+jbe L1
+jmp L2
+L1:
+  mov x, 1
+L2:
+  mov x, 2
+\end{lstlisting}
+
+
+\section{Problem 8}
+Use 32 bits register to implement the following loop(do not use directives like .while)\\
+\begin{lstlisting}[language={[ANSI]C}]
+while( ebx <= val1)
+{
+	ebx = ebx + 5;
+	val1 = val1 - 1
+}
+\end{lstlisting}
+\begin{lstlisting}[language={[ANSI]C}]
+while:
+    cmp ebx, val1
+    jg endwhile
+    add ebx, 5
+    dec val1
+    jmp while
+endwhile
+\end{lstlisting}
+
+\end{document}

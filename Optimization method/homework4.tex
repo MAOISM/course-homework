@@ -1,0 +1,168 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 4}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem 1}
+solve the following LP problem using big M algorithm.
+\begin{enumerate}
+\item
+\begin{alignat}{2}          \nonumber
+\max\quad & -3x_1+2x_2-x_3 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& 2x_1-x_2+x_3 \leq 5\\        \nonumber
+& 4x_1+3x_2+x_3 \geq 3\\         \nonumber
+& -x_1+x_2+x_3 = 2\\          \nonumber
+& x_1,x_2,x_3 \geq 0
+\end{alignat}
+\emph{\textbf{Solution:}}\\
+
+Lead slack variable $x_4$, $x_5$ and artificial variable $x_6$, $x_7$ into it.
+\begin{alignat}{2}          \nonumber
+\max\quad & -3x_1+2x_2-x_3+M(x_6+x_7) \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& 2x_1-x_2+x_3+x_4 = 5\\        \nonumber
+& 4x_1+3x_2+x_3-x_5+x_6= 3\\         \nonumber
+& -x_1+x_2+x_3+x_7 = 2\\          \nonumber
+& x_j \geq 0, j = 1,\cdots,7
+\end{alignat}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&$x_6$&$x_7$&\\
+\hline$x_4$&2&-1&1&1&0&0&0&5\\
+$x_6$&4&\Large{\textcircled{\small{3}}}&1&-1&1&0&3\\
+$x_7$&-1&1&1&0&0&0&1&2\\
+\hline f&-3M+3&-4M-2&-2M+1&0&M&0&0&-5M\\
+\hline
+\hline $x_4$&$\frac{10}{3}$& 0 &$\frac{4}{3}$& 1&$-\frac{1}{3}$&$\frac{1}{3}$&0&6\\
+$x_2$&$\frac{4}{3}$&1&$\frac{1}{3}$&0&$-\frac{1}{3}$&$\frac{1}{3}$&0&1\\
+$x_7$&-$\frac{7}{3}$& 0&\Large{\textcircled{\small{$\frac{2}{3}$}}}& 0& $\frac{1}{3}$&-$\frac{1}{3}$&1&1\\
+\hline f    &$\frac{7}{3}M+\frac{17}{3}$& 0&$-\frac{2}{3}M+\frac{5}{3}$& 0&$-\frac{M}{3}-\frac{2}{3}$&$-\frac{4}{3}M+\frac{2}{3}$& 0&2-M\\
+\hline
+\hline $x_4$&8& 0 &0& 1&-1&1&-2&4\\
+$x_2$&$\frac{5}{2}$&1&0&0&$-\frac{1}{2}$&$\frac{1}{2}$&$-\frac{1}{2}$&$\frac{1}{2}$\\
+$x_3$&-$\frac{7}{2}$& 0 & 1 & 0&\Large{\textcircled{\small{$\frac{1}{2}$}}}&-$\frac{1}{2}$&$\frac{3}{2}$&$\frac{3}{2}$\\
+\hline f    &$\frac{23}{2}$& 0 & 0 & 0 &$-\frac{3}{2}$&$\frac{3}{2}+M$&-$\frac{5}{2}+M$&-$\frac{1}{2}$\\
+\hline
+\hline $x_4$&1& 0 &2& 1&0&0&1&7\\
+$x_2$&-1 & 1 & 1 & 0 & 0 & 0 & 1 & 2\\
+$x_5$&-7 & 0 & 2 & 0 & 1 & -1& 3 & 3\\
+\hline f & 1 & 0 & 3 & 0 & 0 & M & 2+M & 4\\
+\hline
+\end{tabular}
+\\\\
+From the above table, we can see that solution $\mathbf{x}$=(0,2,0),$f_{max}=4$.
+
+
+\item
+\begin{alignat}{2}          \nonumber
+\min\quad & 3x_1-2x_2+x_3\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& 2x_1-3x_2+x_3 = 1\\        \nonumber
+& 2x_1+3x_2 \geq 8\\         \nonumber
+& x_1,x_2,x_3\geq0
+\end{alignat}
+
+\emph{\textbf{Solution:}}\\
+Lead slack variable $x_4$ and artificial variable $x_5$ into it.
+\begin{alignat}{2}          \nonumber
+\min\quad & 3x_1-2x_2+x_3\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& 2x_1-3x_2+x_3 = 1\\        \nonumber
+& 2x_1+3x_2-x_4+x_5 = 8\\         \nonumber
+& x_j\geq0, j=1,\cdots,5
+\end{alignat}
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline &$x_1$&$x_2$&$x_3$&$x_4$&$x_5$&\\
+\hline$x_3$&2&-3&1&0&0&1\\
+$x_5$&2&\Large{\textcircled{\small{3}}}&0&-1&1&8\\
+\hline f&2M-1&3M-1&0&-M&0&8M+1\\
+\hline
+\hline $x_3$&4 & 0 & 1 & -1& 1 & 9\\
+$x_2$&$\frac{2}{3}$& 1 & 0 &$-\frac{1}{3}$&$\frac{1}{3}$&$\frac{8}{3}$\\
+\hline f   &-$\frac{1}{3}$& 0 & 0 & -$\frac{1}{3}$&$\frac{1}{3}$-M&$\frac{11}{3}$\\
+\hline
+\end{tabular}
+\\\\
+From the above table, we can see that solution $\mathbf{x}$=(0,$\frac{8}{3}$,9),$f_{min}=\frac{11}{3}$.
+
+\end{enumerate}
+
+\end{document}

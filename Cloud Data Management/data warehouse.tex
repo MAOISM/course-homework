@@ -1,0 +1,181 @@
+\documentclass[onecolumn,a4paper,10pt]{article}
+
+\usepackage[ boldfont,slantfont]{xeCJK}
+\usepackage{multicol}
+
+\setmainfont{Times New Roman}
+\setCJKmainfont[BoldFont={SimHei},ItalicFont={KaiTi}]{SimSun}
+\setsansfont{SimHei}
+
+\setCJKfamilyfont{song}{SimSun}
+\setCJKfamilyfont{kai}{KaiTi}
+\setCJKfamilyfont{hei}{SimHei}
+\setCJKfamilyfont{yao}{FZYaoTi}
+
+\newcommand\song{\CJKfamily{song}}
+\newcommand\kai{\CJKfamily{kai}}
+\newcommand\hei{\CJKfamily{hei}}
+\newcommand\yao{\CJKfamily{yao}}
+
+\newcommand{\erhao}{\fontsize{22pt}{\baselineskip}\selectfont}
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}
+\newcommand{\sanhao}{\fontsize{16pt}{\baselineskip}\selectfont}
+\newcommand{\xiaosanhao}{\fontsize{15pt}{\baselineskip}\selectfont}
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}
+\newcommand{\liuhao}{\fontsize{7.5pt}{\baselineskip}\selectfont}
+
+%%%段落首行缩进两个字
+\makeatletter
+\let\@afterindentfalse\@afterindenttrue
+\@afterindenttrue
+\makeatother
+\setlength{\parindent}{2em}%中文缩进两个汉字位
+
+%%%%%%%%%% 定理类环境的定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\newtheorem{example}{例}             % 整体编号
+\newtheorem{algorithm}{算法}
+\newtheorem{theorem}{定理}[section]  % 按 section 编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+
+%%%%%%%%%% 一些重定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\renewcommand{\contentsname}{目录}     % 将Contents改为目录
+\renewcommand{\abstractname}{摘\ \ 要} % 将Abstract改为摘要
+\renewcommand{\refname}{参考文献}      % 将References改为参考文献
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+%\renewcommand{\proofname}{证明}
+\renewcommand{\algorithm}{算法}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  packages
+%    这部分声明需要用到的包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}    % EPS 图片支持
+\usepackage{indentfirst} % 中文段落首行缩进
+\usepackage{bm}          % 公式中的粗体字符（用命令\boldsymbol）
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  lengths
+%    下面的命令重定义页面边距，使其符合中文刊物习惯。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{0.63cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{14.66cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  定义标题格式，包括title，author，affiliation，email等。
+%  在任何用到中文的地方，用\begin{CJK} ... \end{CJK}将其括起来。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{\hei{浅谈数据仓库的实时性 }}
+\author{文庆福\footnote{thssvince@163.com}~~~~~~ \\
+%黄少滨\footnote{huangshaobin@hrbeu.edu.cn}~~~~~~
+%张涛\footnote{zhangtaohrbeu@163.com}~~~~~~
+%陈志远\footnote{chenzhiyuan@hrbeu.edu.cn}\\[8pt]
+\xiaowuhao 清华大学软件学院~~软件11班~~100084\\[4pt]
+}
+\date{}  % 这一行用来去掉默认的日期显示
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  自定义命令
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 此行使文献引用以上标形式显示
+\newcommand{\supercite}[1]{\textsuperscript{\cite{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  显示title，并设页码为空（按杂志社要求）
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle  \pagestyle{empty} \thispagestyle{empty}
+\vspace{-20pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  中文摘要
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+\parbox{\textwidth}{
+%\rule{2em}{0pt}
+\hei{摘要：}\song{数据仓库是一个面向主题的、集成的、时变的、非易失的数据集合，支持管理者的决策过程\cite{book1}。传统的数据仓库只能用于分析已有的历史数据，难以实现数据的实时提取、转变、载入等处理，满足实时分析的要求。本文主要分析目前实时数据仓库所面临的的一些瓶颈以及可能的解决方法。}\\[5pt]
+\hei{关键词：}\song{数据仓库；实时性；ETL}
+\\[5pt]
+}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  英文摘要
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}
+\sihao{\textbf{A Brief probe into Data Warehouse}}\\[7pt]
+\normalsize
+Qingfu Wen\\
+%ShaobinHuang~~~~~~
+%Tao Zhang~~~~~~
+%Zhiyuan Chen\\[7pt]
+\xiaowuhao School of Software Tsinghua University, Class 11, 100084\\[10pt]
+\end{center}
+\begin{center}
+\parbox{\textwidth}{
+\textbf{Abstract:} A data warehouse is a subject-oriented, integrated, time-variant , nonvolatile collection of data in support of decision-making processes of managers \cite{book1}. Traditional data warehouse can only be used to analyze historical data which can not achieve real-time data extraction, transformation, loading and other processing to meet the requirements of real-time analysis. This paper mainly analyzes some bottlenecks currently faced by the real-time data warehousing and possible solutions.\\[4pt]
+\textbf{Keywords:} Data Warehouse; Real-time; Extract-Transform-Load (ETL)
+}
+\end{center}
+
+
+\section{引言}
+随着“大数据”概念的提出，数据越来越受到人们的关注，尤其的企业的关注，数据技术的发展对数据仓库的需求也日益增长。传统数据仓库的数据更新一般是每天、每周或是每个月一次，甚至更长，这使得我们在访问数据仓库时所获取的数据并非最新的。从 OLTP 系统更新的记录保存是不包括数据区的，这说明最近的业务记录没有纳入数据区，然而对于电子商业，股票经济，在线通讯等行业的数据信息或是一些突发事件的数据信息，需要及时发送给依赖它们的知识工作者或决策者，他们可能需要实时地获取这些最新的数据信息或是依赖实时数据信息分析结果，来辅助作出判断和决策。
+
+\section{简介}
+实时数据仓库（Real-time Data Warehouse）\cite{mc1}可以看作实时行为与数据仓库的结合。以超市商品的购买行为为例，一旦完成购买，与之相关的购买记录，如购买的物品、价格、数量等信息便可实时的存储到数据仓库之中。换句话说，实时数据仓库是这样一个系统，只要行为发生，数据变得可用时，知识工作者就可以实时获取信息，从而做出决策。
+\section{实时数据仓库的瓶颈\cite{mc2}}
+\subsection{数据载入方法}
+实时数据仓库的面临的第一个挑战就是数据载入的问题。一个实时的数据仓库，不能像传统数据仓库采用缓存方式，最终按照定期地批处理方式进行延期加载，必须以实时地连续加载数据量。这样，实时获取的数据量不能过大。因此如何改变载入方式以扩大实时载入的数据量就成为了一大问题。
+\subsection{查询会话}
+实时数据仓库不仅允许用户在历史数据上进行分析处理，同时也能在实时数据上进行操作。查询会话就是影响实时数据仓库架构的一个因素。实时数据仓库要求能够做到持久在线，即意味着要在进行数据载入更新的同时进行查询处理。二者在发生的过程中可能会相互影响，如何平衡二者以实现一个高效的数据仓库是我们不得不面对的挑战。
+\subsection{索引技术}
+索引技术可谓是加速查询过程的关键。对数据进行增加、删除、修改、查找等操作都会与索引结构密切相关，因此，索引结构的好坏直接关系到了数据仓库的效率，实时数据仓库则更会受到索引结构好坏的影响。两种最常见的索引方法就是 B-tree 索引和位图索引。相比而言，在数据仓库中通常会采用位图索引，因为它可以实现更有利的压缩。
+\subsection{外键约束}
+外键约束是用来做引用完整性的检查的，例如在我们执行插入操作时，我们需要检查外键属性是否出现在引用的表格中。这个过程同样也会影响到数据载入的性能。为了加速这一个过程，我们可能可以将其移到数据转变的过程中。
+
+\section{实时数据库的解决方法}
+\subsection{数据载入\cite{mc3}}
+文中提出了实现数据连续载入的方法，主要是修改数据仓库的模式、优化 ETL 的加载过程以及 OLAP 的查询优化等方式。
+
+\subsection{state-of-the-art ETL 工具\cite{mc4}}
+实时数据仓库需要解决的一个主要问题就是数据的更新周期，传统更新周期都是以天来计算，如果更新周期能够降低到秒的级别，则可以解决实时性的问题。降低更新周期可能会带来数据的不一致，或者是数据紊乱。那么如果在降低周期的同时保证数据的一致性和正确性。文中提出了一种 state-of-the-art ETL 工具的方式来解决这一问题。
+
+\section{总结}
+在传统数据仓库中引入实时性，实现数据的实时获取与处理，是数据仓库技术的又一大进步。实时数据仓库的实现需要我们对传统数据仓库体系结构进行优化，需要在实践之中去检验他的合理性。如何做到有条件实时获取数据，如何做到在获取数据同时实时处理请求，如果扩大实时数据的容量都将是我们亟待解决的问题。
+
+\small
+\begin{thebibliography}{99}
+\setlength{\itemsep}{0pt}
+\setlength{\parskip}{5pt}  %段落之间的竖直距离
+
+\bibitem{book1} Jiawei Han, Micheline Kamber, Jian Pei. 数据挖掘概念与技术[M]. 范明, 孟小峰译, 北京:机械工业出版社, 2013: 82-117.
+
+\bibitem{mc1} Inmon WH. Building the Data Warehoue. John Wiley \& Sons Inc, 2003.
+
+\bibitem{mc2} Nickerson Ferreira, Pedro Furtado. Near Real-Time withTraditionalData Warehouse Architectures: Factors and How-to. IDEAS '13 Proceedings of the 17th International Database Engineering \& Applications Symposium
+Pages 68-75.
+
+\bibitem{mc3}Ricardo Jorge Santos, Jorge Bernardino. Real-Time Data Warehouse Loading Methodology. IDEAS '08 Proceedings of the 2008 international symposium on Database engineering \& applications Pages 49-58.
+
+\bibitem{mc4} Jorg T., Dessloch S.: Near Real-time data warehousing using state-of-the-art ETL tools. Enabling Real-Time Business Intelligence, Lecture Notes in Business Information Processing, Volume 41. ISBN 978-3-642-14558-2. Springer-Verlag Heidelberg (2010). 
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,118 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Computer System Software(2)\\ % The assignment title
+\LARGE\textit{Structured Query Language}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2011013239 thssvince@163.com} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem 1}
+Find the names of all employees who work for "First Bank Corporation".\\
+\textbf{select} person\_name \textbf{from} works \\
+\textbf{where} company\_name = 'First Bank Corporation'
+\section{Problem 2}
+Find the names of all employees in this database who do not work for "First Bank Corporation".\\
+\textbf{select} person\_name \textbf{from} employee\\
+\textbf{except}\\
+\textbf{select} person\_name \textbf{from} works \textbf{where} company\_name = 'First Bank Corporation'
+\section{Problem 3}
+Find the names of all employees who live in the same city and on the same street as do their managers.\\
+\textbf{select} T.person\_name \textbf{from} employee as T, manages, employee as S \\
+\textbf{where} T.person\_name = manages.person\_name \textbf{and}  S.person\_name = manages.manager\_name \textbf{and} T.city = S.city and T.street = S.street
+\section{Problem 4}
+Find the names of all employees who earn more than every employee of "Small Bank Corporation".\\
+\textbf{select} person\_name \textbf{from} works  \\
+\textbf{except} \\
+\textbf{select} T.person\_name \textbf{from} works as T, works as S \textbf{where} S.company\_name = 'Small Bank Corporation' \textbf{and} S.salary >= T.salary
+\section*{Problem 5}
+Find the names and cities of residence of all employees who work for "First Bank Corporation".\\
+\textbf{select} employee.person\_name, employee.city \textbf{from} employee, works \\
+\textbf{where} employee.person\_name = works.person\_name \textbf{and}  works.company\_name = 'First Bank Corporation'
+\section{Problem 6}
+Find the names, street addresses, and cities of residence of all employees who work for "First Bank Corporation" and earn more than \$10,000.\\
+\textbf{select} employee.person\_name, employee.city \textbf{from} employee, works \\
+\textbf{where} employee.person\_name = works.person\_name \textbf{and}  works.company\_name = 'First Bank Corporation' \textbf{and} works.salary >= 10,000
+\section{Problem 7}
+Find the names of all employees in this database who live in the same city as the company for which they work.\\
+\textbf{select} employee.person\_name \textbf{from} employee, works, company \\
+\textbf{where} employee.person\_name = works.person\_name \textbf{and}  works.company\_name = company.company\_name \textbf{and} employee.city = company.city
+\section{Problem 8}
+Assume the companies may be located in several cities. Find all companies located in every city in which "Small Bank Corporation" is located.\\
+\textbf{select} * \\
+\textbf{from} company  \textbf{as} S\\
+\textbf{where  not exists} \\
+((\textbf{select} T.city \textbf{from} company  \textbf{as} T \textbf{where} T.company\_name='Small Bank Corporation')\\
+\textbf{except}\\
+(\textbf{select} R.city \textbf{from} company as R \textbf{where} R.company\_name=S.company\_name)
+)
+\end{document}

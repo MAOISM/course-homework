@@ -1,0 +1,299 @@
+\iffalse                             % 块注释
+如果要注释一块文字，用\iffalse ... \fi 界定住要
+注释的文字。特别提醒：以下设置的次序不能乱，否则
+会引发冲突，影响到编译是否成功。
+\fi
+\documentclass[a4paper,11pt,         % A4纸
+               twoside,              % 双面
+%              openany               % 新章节在偶数页开始
+               ]{article}
+
+%%%%%%%%%% 版面控制 %%%%%%%%%%
+\usepackage{indentfirst}             % 首行缩进
+\iffalse
+\usepackage[%paperwidth=18.4cm, paperheight= 26cm,
+            body={14.6true cm,22true cm},
+            twosideshift=0 pt,
+            %headheight=1.0true cm
+            ]{geometry}
+\fi
+\usepackage[perpage,symbol]{footmisc}% 脚注控制
+\usepackage[sf]{titlesec}            % 控制标题
+\usepackage{titletoc}                % 控制目录
+\usepackage{fancyhdr}                % 页眉页脚
+\usepackage{type1cm}                 % 控制字体大小
+\usepackage{indentfirst}             % 首行缩进
+\usepackage{makeidx}                 % 建立索引
+\usepackage{textcomp}                % 千分号等特殊符号
+\usepackage{layouts}                 % 打印当前页面格式
+\usepackage{bbding}                  % 一些特殊符号
+\usepackage{cite}                    % 支持引用
+\usepackage{color,xcolor}            % 支持彩色文本、底色、文本框等
+\usepackage{listings}                % 粘贴源代码
+\lstloadlanguages{}                  % 所要粘贴代码的编程语言
+\lstset{language=,tabsize=4, keepspaces=true,
+    xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+    backgroundcolor=\color{lightgray},    % 定义背景颜色
+    frame=none,                           % 表示不要边框
+    keywordstyle=\color{blue}\bfseries,
+    breakindent=22pt,
+    numbers=left,stepnumber=1,numberstyle=\tiny,
+    basicstyle=\footnotesize,
+    showspaces=false,
+    flexiblecolumns=true,
+    breaklines=true, breakautoindent=true,breakindent=4em,
+    escapeinside={/*@}{@*/}
+}
+
+%%%%%%%%%% 字体支持 %%%%%%%%%%%%
+%\usepackage{ccmap}                  % 使pdfLatex生成的文件支持复制等
+\usepackage{CJK,CJKnumb,CJKulem}     % 中文支持
+\usepackage{times}     % 包括 Times Roman + Helvetica + Courier
+%\usepackage{palatino} % 包括 Palatino + Helvetica + Courier
+%\usepackage{newcent}  % 包括 New Century Schoolbook + Avant Garde + Courier
+%\usepackage{bookman}  % 包括 Bookman + Avant Garde + Courier
+
+%%%%%%%%%% 数学符号公式 %%%%%%%%%%
+\usepackage{latexsym}
+\usepackage{amsmath}                 % AMS LaTeX 宏包
+\usepackage{amssymb}                 % 用来排版漂亮的数学公式
+\usepackage{amsbsy}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}                % 英文花体字体
+\usepackage{bm}                      % 数学公式中的黑斜体
+\usepackage{relsize}                 % 调整公式字体大小：\mathsmaller, \mathlarger
+\usepackage{caption2}                % 浮动图形和表格标题样式
+
+%%%%%%%%%% 图形支持宏包 %%%%%%%%%%
+\ifx\pdfoutput\undefined             % 用latex或pdflatex编译
+  \usepackage[dvips]{graphicx}       % 将eps格式的图片放在figures目录下
+\else                                % 在setup/format.tex中用以下命令注明路径：
+  \usepackage[pdftex]{graphicx}      % \graphicspath{{figures/}}
+\fi
+%\usepackage{subfigure}
+\usepackage{epsfig}                  % 支持eps图像
+%\usepackage{picinpar}               % 图表和文字混排宏包
+%\usepackage[verbose]{wrapfig}       % 图表和文字混排宏包
+%\usepackage{eso-pic}                % 向文档的部分页加n副图形, 可实现水印效果
+%\usepackage{eepic}                  % 扩展的绘图支持
+%\usepackage{curves}                 % 绘制复杂曲线
+%\usepackage{texdraw}                % 增强的绘图工具
+%\usepackage{treedoc}                % 树形图绘制
+%\usepackage{pictex}                 % 可以画任意的图形
+%\usepackage{hyperref}
+
+
+\makeindex                           % 生成索引
+\pagestyle{fancy}                    % 页眉页脚风格
+\fancyhf{}                           % 清空当前页眉页脚的默认设置
+
+%%%% 下面的命令重定义页面边距，使其符合中文刊物习惯 %%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{0.63cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{14.66cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+
+%%%% 下面的命令设置行间距与段落间距 %%%%
+\linespread{1.4}
+% \setlength{\parskip}{1ex}
+\setlength{\parskip}{0.5\baselineskip}
+
+%%%%%%%%%% 导入中文环境 %%%%%%%%%%
+\AtBeginDocument{\begin{CJK*}{GBK}{song} % 不计中文的空格
+\CJKindent                           % 首行缩进两个汉字
+\sloppy\CJKspace                     % 中英文混排的断行
+\CJKtilde                            % 重新定义~，用~隔开中英文
+}
+\AtEndDocument{\end{CJK*}}
+
+%%%%%%%%%% 正文 %%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%% 一些新定义 %%%%%%%%%%
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\hei}{\CJKfamily{hei}}   % 黑体
+\newcommand{\fs}{\CJKfamily{fs}}     % 仿宋
+\newcommand{\kai}{\CJKfamily{kai}}   % 楷体
+
+%%%%%%%%%% 定理类环境的定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\newtheorem{example}{例}             % 整体编号
+\newtheorem{algorithm}{算法}
+\newtheorem{theorem}{定理}[section]  % 按 section 编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+
+%%%%%%%%%% 一些重定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\renewcommand{\contentsname}{目录}     % 将Contents改为目录
+\renewcommand{\abstractname}{摘\ \ 要} % 将Abstract改为摘要
+\renewcommand{\refname}{参考文献}      % 将References改为参考文献
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\proofname}{\hei 证明}
+\renewcommand{\algorithm}{\hei 算法}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+%%%%%%%%%% 重定义字号命令 %%%%%%%%%%
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}       % 一号, 1.4倍行距
+\newcommand{\erhao}{\fontsize{22pt}{28pt}\selectfont}       % 二号, 1.25倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{24pt}\selectfont}      % 三号, 1.5倍行距
+\newcommand{\xiaosan}{\fontsize{15pt}{22pt}\selectfont}     % 小三, 1.5倍行距
+\newcommand{\sihao}{\fontsize{14pt}{21pt}\selectfont}       % 四号, 1.5倍行距
+\newcommand{\bansi}{\fontsize{13pt}{19.5pt}\selectfont}     % 半四, 1.5倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}      % 小四, 1.5倍行距
+\newcommand{\dawu}{\fontsize{11pt}{11pt}\selectfont}        % 大五, 单倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+
+
+%%%%%%%%%% 页眉和页脚的设置 %%%%%%%%%%
+\lhead{清华大学软件学院计算机系统软件（2）}
+\rhead{}
+\lfoot{}
+\rfoot{~\thepage~}
+
+%%%%%%%%%% 论文标题、作者等 %%%%%%%%%%
+\title{\hei{计算机与网络体系结构（2）第三次作业}}
+\author{文庆福 \\ 2011013239 thssvince@163.com  \\
+   \xiaosi  清华大学软件学院11班\\
+}
+\date{\today}                % 日期
+\maketitle                           % 生成标题
+\thispagestyle{empty}                % 首页无页眉页脚
+\newpage
+
+
+%%%%%%%%%% section %%%%%%%%%%
+\begin{enumerate}
+    \item  写一条逻辑移位指令,将ECX的内容乘以4。\\
+            shl ecx, 2
+    \item  写指令把BX的最低位移至CX的最高位（要求写出使用和不使用SHRD指令的两个版本）。\\
+            1) shrd cx, bx, 1 \\
+            2) ror bx, 1
+               sar cx, 1
+    \item  文件的时间戳使用位0$\sim$4代表秒数，使用位5$\sim$10代表分钟，位11$\sim$15代表小时数，写指令小时数、分钟数、秒数并分别将数值复制到变量bHours、bMinutes、bSeconds。
+        不妨设文件的时间戳为t
+\begin{lstlisting}[language={[ANSI]C}]
+        mov ax, 11111b
+        mov bx, 111111b
+        mov cx, t
+        shr cx, 11
+        and cx, ax
+        mov bHours, cx
+        mov cx, t
+        shr cx, 5
+        and cx, bx
+        mov bMinutes, cx
+        mov cx, t
+        and cx, ax
+        mov bSeconds, cx
+\end{lstlisting}
+    \item  以汇编实现下面的C++语句（使用32位有符号整数）：\\
+            var1 = (var2 * -6) / ( -var3 \% var4 )\\
+\begin{lstlisting}[language={[ANSI]C}]
+    mov eax, val3
+	neg eax
+	cdq
+	idiv val4
+	mov ebx, edx
+	mov eax, -6
+	imul val2
+	idiv ebx
+	mov val1, eax
+\end{lstlisting}
+    \item 分别描述ADC指令和SBB指令的功能。 \\
+        ADC指令时将源操作数、目的操作数以及进位标志相加；SBB则是从目的操作数中减去源操作数和进位标志的值。
+    \item 说明LEA指令与OFFSET指令有何不同？ \\
+        LEA是用于返回任意类型的间接操作数的偏移，间接操作数的偏移值只有在运行时才能得知。OFFSET返回编译时的偏移，不需要运行就可以得知。
+    \item 试声明一个指向双字数组的局部变量dArray。\\
+        LOCAL dArray[10]:DWORD
+    \item 解释SMALL内存模式和FLAT内存模式。\\
+        SMALL内存模式：包括一个代码段（64KB）和一个数据段（64KB），默认情况下所有的代码和数据都是近地址的。\\
+        FAT内存模式：保护模式，代码和数据使用32位偏移，所有的代码和数据都在一个32位段中。
+    \item 声明一个名为MulArray的过程，接收一个指向字节数组的指针和一个指向双字数组的指针，此外还要接收第三个表示数组元素数目的参数。\\
+        MulArray PROC array1:PTR WORD,array2:PTR DOWRD,num:WORD\\
+        MulArray ENDP
+    \item 找到程序Task\_Lock.EXE的注册码（提示：可以采用反汇编的方法，阅读汇编代码，得到答案）。要求
+    \begin{itemize}
+    \item[a] 写出得到最终答案的各个步骤，并做一定的描述；
+    \begin{enumerate}
+    \item 先直接启动Task\_Lock.EXE，随意输入一个注册码，尝试注册一下，看有什么反应，笔者直接输入了“123456”
+     \begin{figure}[!htb]
+      \centering
+      \includegraphics[width=33em]{1.jpg}\\
+      \caption{}\label{1}
+     \end{figure}
+     \begin{figure}[!htb]
+      \centering
+      \includegraphics[width=33em]{2.jpg}\\
+      \caption{}\label{2}
+     \end{figure}
+     点击“OK”之后，返回的结果是“registration number incorrect”
+    \item 启动 OllyDbg，选择菜单 File $\rightarrow$ Open 载入 Task\_Lock.EXE 文件，然后按 F9 调试运行，同样点击 Register 输入 “123456”，点击“OK”，还是会弹出之前同样的错误：
+        \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{3.jpg}\\
+        \caption{}\label{3}
+        \end{figure}
+    \item 然后在反汇编的窗口中，右击鼠标，选择 search for $\rightarrow$ All referenced strings，就可以看到下面的窗口：
+        \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{4.jpg}\\
+        \caption{}\label{4}
+        \end{figure}
+        在这个 Text strings 的窗口内按“Ctrl”+"F"键搜索 “registration number incorrect”字符串，发现字符串是在 00402C06 这个地址的命令操作执行的，双击之，反汇编窗口定位到相应地址。
+        \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{6.jpg}\\
+        \caption{}\label{5}
+        \end{figure}
+    \item 在这一行按 F2 添加一个断点，重新调试运行程序，输入“123456” 注册，发现程序在此处暂停。
+        \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{6.jpg}\\
+        \caption{}\label{6}
+        \end{figure}
+    观察右上角的寄存器的值，特别是 ECX 与 EDX，EDX 为我们输入的注册码，而 ECX 是 8765468413464354654，会不会这就是咱们要的注册码呢？不管这么多，拿来试试先。
+    \item 不试不知道，一试吓一跳，真是咱们要找的注册码。梦里寻它千百度,蓦然回首，原来它就藏在 ECX 处。
+        \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{7.jpg}\\
+        \caption{}\label{7}
+        \end{figure}
+    \end{enumerate}
+    \item[b] 写出程序对注册码正确性的检验方法；\\
+    既然还要写出验证方法，那么我们则需要对整个验证流程要再走一遍，于是我先尝试去找验证注册码的函数入口，向上不断寻找发现了这样一行（图8）：\\
+    \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{8.jpg}\\
+        \caption{}\label{8}
+    \end{figure}
+    这不是 Win32 的系统调用获取对话框中文本框的值么，那么验证注册码应该在获取了值之后，所以在这行代码的下一行设置一个断点，一步步 F8 调试运行。（图9）\\
+        \begin{figure}[!htb]
+        \centering
+        \includegraphics[width=33em]{9.jpg}\\
+        \caption{}\label{9}
+        \end{figure}
+    多次调试运行后发现，原来验证码不止一个，有两个。分别存在 local.39 和 local.26，其中 local.39 处存放的是 6543545735465657712，而 local.26 处存放的是 8765468413464354654。还有一个位置 local.13 存放的是我们输入的注册码，先与 6543545735465657712 比较，如果不匹配，则与 8765468413464354654 比较，根据输出提示可知，这应该是两种不同的注册码。
+    \item[c] 总结本次试验的体会。
+    刚开始不知道该如何下手，后面请教同学之后，推荐了下面的资料看了一下，很快就找到了注册码，感觉还是挺有意思的，虽然，后面具体注册码判断的细节就尝试了很多次才弄明白，不过整体感觉比较轻松的。
+    \item[d] 参考资料：http://www.cnblogs.com/webman/archive/2007/10/08/916795.html
+    \end{itemize}
+\end{enumerate}
+%%%%%%%%% 参考文献 %%%%%%%%%%
+\clearpage
+\end{document}
+%%%%%%%%%% 结束 %%%%%%%%%%

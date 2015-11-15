@@ -1,0 +1,153 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{amssymb}
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Computer System Software(2)\\ % The assignment title
+\LARGE\textit{Normal Form Homework}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2011013239 thssvince@163.com} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem 1}
+Compute the closure of the following set F of functional dependencies for relation schema r(A, B, C, D, E).
+\begin{center}
+A$\rightarrow$BC\\
+CD$\rightarrow$E\\
+B$\rightarrow$D\\
+E$\rightarrow$A
+\end{center}
+List the candidate keys for R. \\
+$F^{+} is BD\rightarrow BD, B\rightarrow B,D\rightarrow D,C\rightarrow C,BD\rightarrow B, BD\rightarrow D,B\rightarrow D, B\rightarrow BD.$ And$ A*\rightarrow \beta, BC*\rightarrow \beta, CD*\rightarrow \beta, E*\rightarrow \beta $where * is any set of attributes in R and $\beta$ is  any subset of { A, B, C, D, E }.So the candidate keys are A, BC, CD and E.\\
+$(A)^{+} = {A,B,C,D,E} \\
+(CD)^{+} = {A,B,C,D,E}  \\
+(BC)^{+} = {A,B,C,D,E}  \\
+(E)^{+} = {A,B,C,D,E}$
+\section{Problem 2}
+Consider the following set F of functional dependencies on the relation schemar(A, B, C, D,E,F):
+\begin{center}
+A$\rightarrow$BCD \\
+BC$\rightarrow$DE \\
+B$\rightarrow$D \\
+D$\rightarrow$A
+\end{center}
+\begin{itemize}
+\item[a.] Compute $B^{+}$.\\
+$\because B \rightarrow D$ and $ D \rightarrow A$, $\therefore B \rightarrow A. \\
+$ and $ \because$, $A \rightarrow BCD$, $\therefore B \rightarrow ABCD.\\
+\because BC \rightarrow DE, \therefore B\rightarrow ABCDE$\\
+$B^{+}= \{A,B,C,D,E\}$
+\item[b.] Prove (using Armstrong's axioms) that AF is a superkey.\\
+$\because A \rightarrow BCD$, $B \rightarrow ABCDE$, $\therefore A\rightarrow ABCDE$\\
+$\because F\rightarrow F$,$\therefore AF\rightarrow ABCDEF$\\
+thus, AF is a superkey.
+\item[c.] Compute a canonical cover for the above set of functional dependencies F; give each step of your derivation with an explanation.\\
+    \begin{itemize}
+    \item First, we can test left-hand side. All the functional dependencies in F is not redundant except BC$\rightarrow$DE which may be redundant. \\
+        Suppose B is extraneous, $C^{+}$ in F is \{C\}, $\therefore$ $C^{+}$does not contain DE, B is not extraneous.\\
+        Suppose C is extraneous, $B^{+}$ in F is \{A,B,C,D,E\}, $\therefore$ $B^{+}$ contains DE, C is extraneous.
+    \item Now, we test right-hand side. \\
+        For A$\rightarrow$BCD:\\
+        Suppose B is extraneous, $A^{+}$ in F' is \{A,C,D\}, $\therefore$ $A^{+}$ does not contain B, B is not extraneous.\\
+        Suppose C is extraneous,$A^{+}$ in F' is \{A,B,D\}, $\therefore$ $A^{+}$ does not contain C, C is not extraneous.\\
+        Suppose D is extraneous, $A^{+}$ in F' is \{A,B,C,D,E\}, $\therefore$ $A^{+}$ contains D, D is extraneous.\\
+        BC$\rightarrow$DE:\\
+        Suppose D is extraneous, $BC^{+}$ in F' is \{A,B,C,D,E\}, $\therefore$$ BC^{+}$ contains D, D is extraneous.\\
+        Suppose E is extraneous, $BC^{+}$ in F' is \{A,B,C,D\}, $\therefore$ $BC^{+}$ does not contain E, E is not extraneous.\\
+    \end{itemize}
+    Thus, the canonical cover of F is
+    \begin{center}
+A$\rightarrow$BC \\
+B$\rightarrow$DE \\
+D$\rightarrow$A
+\end{center}
+\end{itemize}
+\section{Problem 3}
+Given the database schema R(a,b,c), and a relation r on the schema R, write an SQL query to test whether the functional dependency b$\rightarrow$c holds on relation r.Also write an SQL assertion that enforces the functional dependency; assume that no null values are present. (Although part of the SQL standard, such assertions are not supported by any database implementation currently.)
+\begin{quote}
+\textbf{select} b \\
+\textbf{from} r \\
+\textbf{group by} b\\
+\textbf{having count}(\textbf{distinct} c) > 1\\
+\end{quote}
+If the result is empty, b$\rightarrow$c holds on r. \\
+
+\textbf{create assertion} assertion\_b\_c \textbf{check} \\
+(\textbf{not exists}  \\
+    \begin{quote}
+    (\textbf{select} b \\
+    \textbf{from} r \\
+    \textbf{group by} b \\
+    \textbf{having count}(\textbf{distinct} c) > 1 \\
+    )
+    \end{quote}
+)
+\end{document}

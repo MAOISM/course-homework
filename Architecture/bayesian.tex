@@ -1,0 +1,289 @@
+\iffalse                             % 块注释
+如果要注释一块文字，用\iffalse ... \fi 界定住要
+注释的文字。特别提醒：以下设置的次序不能乱，否则
+会引发冲突，影响到编译是否成功。
+\fi
+\documentclass[a4paper,11pt,         % A4纸
+               twoside,              % 双面
+%              openany               % 新章节在偶数页开始
+               ]{article}
+
+%%%%%%%%%% 版面控制 %%%%%%%%%%
+\usepackage{indentfirst}             % 首行缩进
+\iffalse
+\usepackage[%paperwidth=18.4cm, paperheight= 26cm,
+            body={14.6true cm,22true cm},
+            twosideshift=0 pt,
+            %headheight=1.0true cm
+            ]{geometry}
+\fi
+\usepackage[perpage,symbol]{footmisc}% 脚注控制
+\usepackage[sf]{titlesec}            % 控制标题
+\usepackage{titletoc}                % 控制目录
+\usepackage{fancyhdr}                % 页眉页脚
+\usepackage{type1cm}                 % 控制字体大小
+\usepackage{indentfirst}             % 首行缩进
+\usepackage{makeidx}                 % 建立索引
+\usepackage{textcomp}                % 千分号等特殊符号
+\usepackage{layouts}                 % 打印当前页面格式
+\usepackage{bbding}                  % 一些特殊符号
+\usepackage{cite}                    % 支持引用
+\usepackage[pdfstartview=FitH,
+            CJKbookmarks=true,
+            bookmarksnumbered=true,
+            bookmarksopen=false,
+            colorlinks=true, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder 同时注释掉)
+            %pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+            citecolor=magenta,% magenta , cyan
+            linkcolor=black,
+            ]{hyperref}       % hyperref 宏包通常要求放在导言区的最后!!!
+\usepackage{color,xcolor}            % 支持彩色文本、底色、文本框等
+\usepackage{listings}                % 粘贴源代码
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\lstloadlanguages{}                  % 所要粘贴代码的编程语言
+\lstset{
+    language=[AspectJ]Java,
+    basicstyle=\footnotesize,
+    numbers=left,
+    numberstyle= \tiny,
+    keywordstyle=\color{keywordcolor}\bfseries, %\underbar,
+    identifierstyle=,
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    extendedchars=false,%
+    linewidth=\textwidth,%
+}
+
+%%%%%%%%%% 字体支持 %%%%%%%%%%%%
+%\usepackage{ccmap}                  % 使pdfLatex生成的文件支持复制等
+\usepackage{CJK,CJKnumb,CJKulem}     % 中文支持
+\usepackage{times}     % 包括 Times Roman + Helvetica + Courier
+%\usepackage{palatino} % 包括 Palatino + Helvetica + Courier
+%\usepackage{newcent}  % 包括 New Century Schoolbook + Avant Garde + Courier
+%\usepackage{bookman}  % 包括 Bookman + Avant Garde + Courier
+
+%%%%%%%%%% 数学符号公式 %%%%%%%%%%
+\usepackage{latexsym}
+\usepackage{amsmath}                 % AMS LaTeX 宏包
+\usepackage{amssymb}                 % 用来排版漂亮的数学公式
+\usepackage{amsbsy}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}                % 英文花体字体
+\usepackage{bm}                      % 数学公式中的黑斜体
+\usepackage{relsize}                 % 调整公式字体大小：\mathsmaller, \mathlarger
+\usepackage{caption2}                % 浮动图形和表格标题样式
+
+%%%%%%%%%% 图形支持宏包 %%%%%%%%%%
+\ifx\pdfoutput\undefined             % 用latex或pdflatex编译
+  \usepackage[dvips]{graphicx}       % 将eps格式的图片放在figures目录下
+\else                                % 在setup/format.tex中用以下命令注明路径：
+  \usepackage[pdftex]{graphicx}      % \graphicspath{{figures/}}
+\fi
+%\usepackage{subfigure}
+\usepackage{epsfig}                  % 支持eps图像
+%\usepackage{picinpar}               % 图表和文字混排宏包
+%\usepackage[verbose]{wrapfig}       % 图表和文字混排宏包
+%\usepackage{eso-pic}                % 向文档的部分页加n副图形, 可实现水印效果
+%\usepackage{eepic}                  % 扩展的绘图支持
+%\usepackage{curves}                 % 绘制复杂曲线
+%\usepackage{texdraw}                % 增强的绘图工具
+%\usepackage{treedoc}                % 树形图绘制
+%\usepackage{pictex}                 % 可以画任意的图形
+%\usepackage{hyperref}
+
+
+\makeindex                           % 生成索引
+\pagestyle{fancy}                    % 页眉页脚风格
+\fancyhf{}                           % 清空当前页眉页脚的默认设置
+
+%%%% 下面的命令重定义页面边距，使其符合中文刊物习惯 %%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{0.63cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{14.66cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+
+%%%% 下面的命令设置行间距与段落间距 %%%%
+\linespread{1.4}
+% \setlength{\parskip}{1ex}
+\setlength{\parskip}{0.5\baselineskip}
+
+%%%%%%%%%% 导入中文环境 %%%%%%%%%%
+\AtBeginDocument{\begin{CJK*}{GBK}{song} % 不计中文的空格
+\CJKindent                           % 首行缩进两个汉字
+\sloppy\CJKspace                     % 中英文混排的断行
+\CJKtilde                            % 重新定义~，用~隔开中英文
+}
+\AtEndDocument{\end{CJK*}}
+
+%%%%%%%%%% 正文 %%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%% 一些新定义 %%%%%%%%%%
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\hei}{\CJKfamily{hei}}   % 黑体
+\newcommand{\fs}{\CJKfamily{fs}}     % 仿宋
+\newcommand{\kai}{\CJKfamily{kai}}   % 楷体
+
+%%%%%%%%%% 定理类环境的定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\newtheorem{example}{例}             % 整体编号
+\newtheorem{algorithm}{算法}
+\newtheorem{theorem}{定理}[section]  % 按 section 编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+
+%%%%%%%%%% 一些重定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\renewcommand{\contentsname}{目录}     % 将Contents改为目录
+\renewcommand{\abstractname}{摘\ \ 要} % 将Abstract改为摘要
+\renewcommand{\refname}{参考文献}      % 将References改为参考文献
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\proofname}{\hei 证明}
+\renewcommand{\algorithm}{\hei 算法}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+%%%%%%%%%% 重定义字号命令 %%%%%%%%%%
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}       % 一号, 1.4倍行距
+\newcommand{\erhao}{\fontsize{22pt}{28pt}\selectfont}       % 二号, 1.25倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{24pt}\selectfont}      % 三号, 1.5倍行距
+\newcommand{\xiaosan}{\fontsize{15pt}{22pt}\selectfont}     % 小三, 1.5倍行距
+\newcommand{\sihao}{\fontsize{14pt}{21pt}\selectfont}       % 四号, 1.5倍行距
+\newcommand{\bansi}{\fontsize{13pt}{19.5pt}\selectfont}     % 半四, 1.5倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}      % 小四, 1.5倍行距
+\newcommand{\dawu}{\fontsize{11pt}{11pt}\selectfont}        % 大五, 单倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+
+
+%%%%%%%%%% 页眉和页脚的设置 %%%%%%%%%%
+\lhead{}
+\rhead{清华大学概率论与数理统计课程}
+\lfoot{}
+\rfoot{~\thepage~}
+
+%%%%%%%%%% 论文标题、作者等 %%%%%%%%%%
+\title{\hei{贝叶斯定理与垃圾邮件过滤}}
+\author{文庆福 \\ 2011013239 thssvince@163.com  \\
+   \xiaosi  清华大学软件学院11班\\
+}
+\date{\today}                % 日期
+\maketitle                           % 生成标题
+\thispagestyle{empty}                % 首页无页眉页脚
+\tableofcontents
+\newpage
+
+
+%%%%%%%%%% section %%%%%%%%%%
+\section{贝叶斯定理}
+\subsection{历史}
+Thomas Bayes(1702-1763), 托马斯·贝叶斯是一位英国牧师数学家，1742年成为英国皇家学会会员，1761年4月7日逝世。他死后，理查德·普莱斯(Richard Price)于1763年将他的著作《机会问题的解法》发表。贝叶斯理论假设：如果事件的结果不确定，那么量化它的唯一方法就是事件的发生概率。如果过去试验中事件的出现率已知，那么根据数学方法可以计算出未来试验中事件出现的概率。贝叶斯定理可以用一个数学公式表达，即贝叶斯公式。
+\subsection{贝叶斯公式}
+那么，到底什么是贝叶斯公式呢？要理解贝叶斯公式必先了解什么是条件概率。\\
+所谓“条件概率”（Conditional probability），就是指在事件$B$发生的情况下，事件$A$发生的概率，用$P(A|B)$来表示。\\
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=15em]{bg2011082502.jpg}\\
+\caption{条件概率}\label{1}
+\end{figure}
+根据文氏图，可以很清楚地看到在事件$B$发生的情况下，事件A发生的概率就是$P(A\cap B)$除以$P(B)$，即$P(A|B) = \frac{P(A\cap B)}{P(B)}$， 故$P(A\cap B) = P(A|B)P(B)$。 \\
+同理可知，$P(A\cap B) = P(B|A)P(A)$。 所以，
+\begin{equation}P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+\end{equation}
+这便是贝叶斯公式。\\
+\section{垃圾邮件过滤}
+垃圾邮件过滤是具有相当难度的事情，垃圾邮件每天都在增加和变化。传统的垃圾邮件过滤方法，主要有“关键词法”和“校验码法”等。前者的过滤依据是特定的词语；后者则是计算邮件文本的校验码，再与已知的垃圾邮件进行对比。它们的识别效果都不理想，而且很容易规避。垃圾邮件发送者只要简单的研究一下现在采用了哪些静态反垃圾邮件，然后相应的改变一下邮件的内容或发送方式，就可以逃避检查了。\\
+因此，必须采用一种更强大的方法来克服静态反垃圾邮件的弱点，这种方法应该对垃圾邮件发送者的各种伎俩了如指掌，还要能适应不同用户对于反垃圾邮件的个性化需求。这种方法就是贝叶斯邮件过滤算法。
+\section{贝叶斯过滤算法}
+2002年，Paul Graham 提出使用“贝叶斯推断”过滤垃圾邮件$^{[1]}$。实验表明，这种过滤方法的效果非常好，1000封垃圾邮件可以过滤掉995封，且没有一个误判。另外，这种过滤器还具有自我学习的功能，会根据新收到的邮件，不断调整。收到的垃圾邮件越多，它的准确率就越高。
+\subsection{建立邮件词频库}
+贝叶斯过滤器是一种统计学过滤器，建立在已有的统计结果之上。所以，我们必须预先提供两组已经识别好的邮件，一组是正常邮件，另一组是垃圾邮件。\\\indent
+我们用这两组邮件，对过滤器进行“训练”。这两组邮件的规模越大，训练效果就越好。Paul Graham使用的邮件规模，是正常邮件和垃圾邮件各4 000 封。\\\indent
+“训练”过程很简单。首先，解析所有邮件，提取每一个词。然后，计算每个词语在正常邮件和垃圾邮件中的出现频率。比如，我们假定“sex”这个词，在 4000 封垃圾邮件中，有 200 封包含这个词，那么它的出现频率就是 5\%；而在4000封正常邮件中，只有2封包含这个词，那么出现频率就是0.05\%。
+\subsection{贝叶斯公式的使用}
+现在，我们收到了一封新邮件。在未经统计分析之前，我们假定它是垃圾邮件的概率为 50\%。（【注释】有研究表明，用户收到的电子邮件中，80\% 是垃圾邮件。但是，这里仍然假定垃圾邮件的“先验概率”为 50\%。）\\\indent
+我们用S表示垃圾邮件（spam），H表示正常邮件（healthy）。因此，$P(S)$和$P(H)$的先验概率，都是 50\%。
+$$P(H)=P(S)=50\%$$
+然后，对这封邮件进行解析，发现其中包含了sex这个词，请问这封邮件属于垃圾邮件的概率有多高？\\\indent
+我们用W表示“sex”这个词，那么问题就变成了如何计算$P(S|W)$的值，即在某个词语（W）已经存在的条件下，垃圾邮件（S）的概率有多大。\\
+\indent
+根据条件概率公式，马上可以写出
+\begin{equation}
+P(S|W) = \frac{P(W|S)P(S)}{P(W|S)P(S)+P(W|H)P(H)}
+\end{equation}
+公式中，$P(W|S)$和$P(W|H)$的含义是，这个词语在垃圾邮件和正常邮件中，分别出现的概率。这两个值可以从历史资料库中得到，对sex这个词来说，上文假定它们分别等于5\%和0.05\%。另外，$P(S)$和$P(H)$的值，前面说过都等于50\%。所以，马上可以计算$P(S|W)$的值：
+$$P(S|W) = \frac{5\%*50\%}{5\%*50\%+0.05\%*50\%}$$
+因此，这封新邮件是垃圾邮件的概率等于99\%。这说明，sex这个词的推断能力很强，将50\%的“先验概率”一下子提高到了99\%的“后验概率”。
+\subsection{联合概率}
+做完上面一步，请问我们能否得出结论，这封新邮件就是垃圾邮件？\\\indent
+回答是不能。因为一封邮件包含很多词语，一些词语（比如sex）说这是垃圾邮件，另一些说这不是。你怎么知道以哪个词为准？\\\indent
+Paul Graham的做法是，选出这封信中$P(S|W)$最高的15个词，计算它们的联合概率。（如果有的词是第一次出现，无法计算$P(S|W)$，Paul Graham就假定这个值等于0.4。因为垃圾邮件用的往往都是某些固定的词语，所以如果你从来没见过某个词，它多半是一个正常的词。）\\
+在计算联合概率过程中，我们需要作出了个非常简单粗暴的假设：邮件中每个单词的出现是独立事件（显然，这种假设是不完全正确的，但是这并不会影响邮件过滤）。基于这一假设（邮件中每个单词的出现是独立事件），根据贝叶斯定理可以推导出最终的计算公式：
+\begin{equation}
+P = \frac{P_{1}P{2}\cdots P_{n}}{P_{1}P{2}\cdots P_{n}+(1-P_{1})(1-P_{2})\cdots (1-P_{n})}
+\end{equation}
+其中， $P_{n}$表示$P(S|W _{1})$，知道包含第一个单词$W_{1}$情况下，这封邮件是垃圾邮件的概率。其推导流程如下：\\
+
+\begin{eqnarray*}
+P &=& P(S|W_{1},W_{2},\ldots,W_{n}) \\
+  &=& \frac{P(W_{1},W_{2},\ldots,W_{n}|S)P(S)}{P(W_{1},W_{2},\ldots,W_{n})} \\
+  &=&\frac{P(W_{1},W_{2},\ldots,W_{n}|S)P(S)}{P(W_{1},W_{2},\ldots,W_{n}|S)P(S)+P(W_{1},W_{2},\ldots,W_{n}|H)P(H)}\\
+  &=&\frac{1}{1+\frac{P(W_{1},W_{2},\ldots,W_{n}|H)P(H)}{P(W_{1},W_{2},\ldots,W_{n}|S)P(S)}}
+\end{eqnarray*}
+由于每个单词出现事件$W_{i}$是相互独立的，所以上式可以改为：
+\begin{eqnarray*}
+P &=& \frac{1}{1+\frac{P(W_{1},W_{2},\ldots,W_{n}|H)P(H)}{P(W_{1},W_{2},\ldots,W_{n}|S)P(S)}} \\
+  &=& \frac{1}{1+\frac{P(W_{1}|H)P(W_{2}|H)\cdots P(W_{n}|H)P(H)}{P(W_{1}|S)P(W_{2}|S)\cdots P(W_{n}|S)P(S)}} \\
+  &=& \frac{1}{1+\frac{P(W_{1}|H)P(W_{2}|H)\cdots P(W_{n}|H)}{P(W_{1}|S)P(W_{2}|S)\cdots P(W_{n}|S)}}\\
+\end{eqnarray*}
+注：P(H)=P(S) = 0.5\\
+又因为$$P_{i}=P(S|W_{i})=\frac{P(W_{i}|S)}{P(W_{i}|S)+P(W_{i}|H)}$$\\
+所有$$\frac{P(W_{i}|H)}{P(W_{i}|S)}==\frac{1}{P_{i}}-1$$
+将上式代入公式有：
+\begin{equation}
+P = \frac{1}{1+(\frac{1}{P_{1}}-1)(\frac{1}{P_{2}}-1)\cdots(\frac{1}{P_{n}}-1)} =\frac{P_{1}P{2}\cdots P_{n}}{P_{1}P{2}\cdots P_{n}+(1-P_{1})(1-P_{2})\cdots (1-P_{n})}
+\end{equation}
+这样，计算出来的概率$P$值通常与给定的阈值进行比较来决定是否为垃圾邮件。如果$P$小于阈值，邮件被认为是正常邮件，否则被认为是垃圾邮件。
+\section{算法结果}
+下面以我今天所收到一封邮件为例：
+\begin{quote}
+2013～2014学年春季学期第二次SRT项目报名工作开始，学生报名时间为2014年6月3日至2014年6月8日，立项人集中审核学生报名时间为2014年6月9日至2014年6月11日。项目详细情况可在网上直接查询。报名学生和立项人请用自己的学号或工作证号登录综合信息服务系统进行网上报名及报名审核。
+
+报名及审核注意事项如下：
+1．报名学生填写报名申请表后，要进行确认，只有在确认后立项人才能看到报名申请表；
+2．在立项人同意接收之前或者不同意接收之后，学生可以取消自己的申请并申请其他项目，但在立项人同意接收之后，就不能再申请其他项目；
+3．没有进行网上报名的学生，即使完成了SRT项目，也不能获得学分。
+4．由立项人网上审批学生的报名申请表；
+5. 学生立项人不用再登录系统报名，系统默认学生立项人为项目参与人之一。只有立项人参与的项目，立项人不用进行报名审核。
+6.本次报名开放的项目为2012－2013学年春季学期―――2013－2014学年春季学期立项的未结题项目，若项目接纳人数已满，不再接收学生报名，立项人可登录系统，点击“报名审核”，针对项目进行“结束报名”操作。
+
+说明：自本学期开始，SRT管理启用新版系统，采用新的流程。每学期有两批项目立项、两次学生报名。本次开放报名为本学期的第二次项目报名。
+\end{quote}
+下面是该邮件经过过滤算法测试之后的结果：
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=15em]{result.jpg}\\
+\caption{运行结果}\label{2}
+\end{figure}
+$P(S|W)$最高的15个词以及其对应的$P(S|W)$，最后的概率是该邮件时垃圾邮件的概率。
+\section{参考资料}
+[1]. Paul Graham, a plan for spam, \href{http://www.paulgraham.com/index.html}{http://www.paulgraham.com/index.html}
+
+[2]. \href{http://en.wikipedia.org/wiki/Bayesian_spam_filtering}{http://en.wikipedia.org/wiki/Bayesian\_spam\_filtering}
+%%%%%%%%% 参考文献 %%%%%%%%%%
+\newpage
+\end{document}
+%%%%%%%%%% 结束 %%%%%%%%%%

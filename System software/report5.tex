@@ -1,0 +1,663 @@
+\iffalse                             % 块注释
+如果要注释一块文字，用\iffalse ... \fi 界定住要
+注释的文字。特别提醒：以下设置的次序不能乱，否则
+会引发冲突，影响到编译是否成功。
+\fi
+\documentclass[a4paper,11pt,         % A4纸
+               twoside,              % 双面
+%              openany               % 新章节在偶数页开始
+               ]{article}
+
+%%%%%%%%%% 版面控制 %%%%%%%%%%
+\usepackage{indentfirst}             % 首行缩进
+\iffalse
+\usepackage[%paperwidth=18.4cm, paperheight= 26cm,
+            body={14.6true cm,22true cm},
+            twosideshift=0 pt,
+            %headheight=1.0true cm
+            ]{geometry}
+\fi
+\usepackage[perpage,symbol]{footmisc}% 脚注控制
+\usepackage[sf]{titlesec}            % 控制标题
+\usepackage{titletoc}                % 控制目录
+\usepackage{fancyhdr}                % 页眉页脚
+\usepackage{type1cm}                 % 控制字体大小
+\usepackage{indentfirst}             % 首行缩进
+\usepackage{makeidx}                 % 建立索引
+\usepackage{textcomp}                % 千分号等特殊符号
+\usepackage{layouts}                 % 打印当前页面格式
+\usepackage{bbding}                  % 一些特殊符号
+\usepackage{cite}                    % 支持引用
+\usepackage[pdfstartview=FitH,
+            CJKbookmarks=true,
+            bookmarksnumbered=true,
+            bookmarksopen=false,
+            colorlinks=true, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder 同时注释掉)
+            %pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+            citecolor=magenta,% magenta , cyan
+            linkcolor=black,
+            ]{hyperref}       % hyperref 宏包通常要求放在导言区的最后!!!
+\usepackage{color,xcolor}            % 支持彩色文本、底色、文本框等
+\usepackage{listings}                % 粘贴源代码
+\definecolor{keywordcolor}{rgb}{0.8,0.1,0.5}
+\lstloadlanguages{}                  % 所要粘贴代码的编程语言
+\lstset{
+    language=[AspectJ]Java,
+    basicstyle=\footnotesize,
+    numbers=left,
+    numberstyle= \tiny,
+    keywordstyle=\color{keywordcolor}\bfseries, %\underbar,
+    identifierstyle=,
+    commentstyle=\color{blue} \textit,
+    stringstyle=\ttfamily,
+    showstringspaces=false,
+    extendedchars=false,%
+    xleftmargin=4em,
+    linewidth=\textwidth,%
+}
+
+%%%%%%%%%% 字体支持 %%%%%%%%%%%%
+%\usepackage{ccmap}                  % 使pdfLatex生成的文件支持复制等
+\usepackage{CJK,CJKnumb,CJKulem}     % 中文支持
+\usepackage{times}     % 包括 Times Roman + Helvetica + Courier
+%\usepackage{palatino} % 包括 Palatino + Helvetica + Courier
+%\usepackage{newcent}  % 包括 New Century Schoolbook + Avant Garde + Courier
+%\usepackage{bookman}  % 包括 Bookman + Avant Garde + Courier
+
+%%%%%%%%%% 数学符号公式 %%%%%%%%%%
+\usepackage{latexsym}
+\usepackage{amsmath}                 % AMS LaTeX 宏包
+\usepackage{amssymb}                 % 用来排版漂亮的数学公式
+\usepackage{amsbsy}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}                % 英文花体字体
+\usepackage{bm}                      % 数学公式中的黑斜体
+\usepackage{relsize}                 % 调整公式字体大小：\mathsmaller, \mathlarger
+\usepackage{caption2}                % 浮动图形和表格标题样式
+
+%%%%%%%%%% 图形支持宏包 %%%%%%%%%%
+\ifx\pdfoutput\undefined             % 用latex或pdflatex编译
+  \usepackage[dvips]{graphicx}       % 将eps格式的图片放在figures目录下
+\else                                % 在setup/format.tex中用以下命令注明路径：
+  \usepackage[pdftex]{graphicx}      % \graphicspath{{figures/}}
+\fi
+%\usepackage{subfigure}
+\usepackage{epsfig}                  % 支持eps图像
+%\usepackage{picinpar}               % 图表和文字混排宏包
+%\usepackage[verbose]{wrapfig}       % 图表和文字混排宏包
+%\usepackage{eso-pic}                % 向文档的部分页加n副图形, 可实现水印效果
+%\usepackage{eepic}                  % 扩展的绘图支持
+%\usepackage{curves}                 % 绘制复杂曲线
+%\usepackage{texdraw}                % 增强的绘图工具
+%\usepackage{treedoc}                % 树形图绘制
+%\usepackage{pictex}                 % 可以画任意的图形
+%\usepackage{hyperref}
+
+
+\makeindex                           % 生成索引
+\pagestyle{fancy}                    % 页眉页脚风格
+\fancyhf{}                           % 清空当前页眉页脚的默认设置
+
+%%%% 下面的命令重定义页面边距，使其符合中文刊物习惯 %%%%
+\addtolength{\topmargin}{-54pt}
+\setlength{\oddsidemargin}{0.63cm}  % 3.17cm - 1 inch
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\textwidth}{14.66cm}
+\setlength{\textheight}{24.00cm}    % 24.62
+
+%%%% 下面的命令设置行间距与段落间距 %%%%
+\linespread{1.4}
+% \setlength{\parskip}{1ex}
+\setlength{\parskip}{0.5\baselineskip}
+
+%%%%%%%%%% 导入中文环境 %%%%%%%%%%
+\AtBeginDocument{\begin{CJK*}{GBK}{song} % 不计中文的空格
+\CJKindent                           % 首行缩进两个汉字
+\sloppy\CJKspace                     % 中英文混排的断行
+\CJKtilde                            % 重新定义~，用~隔开中英文
+}
+\AtEndDocument{\end{CJK*}}
+
+%%%%%%%%%% 正文 %%%%%%%%%%
+\begin{document}
+
+%%%%%%%%%% 一些新定义 %%%%%%%%%%
+\newcommand{\song}{\CJKfamily{song}} % 宋体
+\newcommand{\hei}{\CJKfamily{hei}}   % 黑体
+\newcommand{\fs}{\CJKfamily{fs}}     % 仿宋
+\newcommand{\kai}{\CJKfamily{kai}}   % 楷体
+
+%%%%%%%%%% 定理类环境的定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\newtheorem{example}{例}             % 整体编号
+\newtheorem{algorithm}{算法}
+\newtheorem{theorem}{定理}[section]  % 按 section 编号
+\newtheorem{definition}{定义}
+\newtheorem{axiom}{公理}
+\newtheorem{property}{性质}
+\newtheorem{proposition}{命题}
+\newtheorem{lemma}{引理}
+\newtheorem{corollary}{推论}
+\newtheorem{remark}{注解}
+\newtheorem{condition}{条件}
+\newtheorem{conclusion}{结论}
+\newtheorem{assumption}{假设}
+
+%%%%%%%%%% 一些重定义 %%%%%%%%%%
+%% 必须在导入中文环境之后
+\renewcommand{\contentsname}{目录}     % 将Contents改为目录
+\renewcommand{\abstractname}{摘\ \ 要} % 将Abstract改为摘要
+\renewcommand{\refname}{参考文献}      % 将References改为参考文献
+\renewcommand{\indexname}{索引}
+\renewcommand{\figurename}{图}
+\renewcommand{\tablename}{表}
+\renewcommand{\appendixname}{附录}
+\renewcommand{\proofname}{\hei 证明}
+\renewcommand{\algorithm}{\hei 算法}
+\renewcommand{\today}{\number\year 年 \number\month 月 \number\day 日}
+
+%%%%%%%%%% 重定义字号命令 %%%%%%%%%%
+\newcommand{\yihao}{\fontsize{26pt}{36pt}\selectfont}       % 一号, 1.4倍行距
+\newcommand{\erhao}{\fontsize{22pt}{28pt}\selectfont}       % 二号, 1.25倍行距
+\newcommand{\xiaoer}{\fontsize{18pt}{18pt}\selectfont}      % 小二, 单倍行距
+\newcommand{\sanhao}{\fontsize{16pt}{24pt}\selectfont}      % 三号, 1.5倍行距
+\newcommand{\xiaosan}{\fontsize{15pt}{22pt}\selectfont}     % 小三, 1.5倍行距
+\newcommand{\sihao}{\fontsize{14pt}{21pt}\selectfont}       % 四号, 1.5倍行距
+\newcommand{\bansi}{\fontsize{13pt}{19.5pt}\selectfont}     % 半四, 1.5倍行距
+\newcommand{\xiaosi}{\fontsize{12pt}{18pt}\selectfont}      % 小四, 1.5倍行距
+\newcommand{\dawu}{\fontsize{11pt}{11pt}\selectfont}        % 大五, 单倍行距
+\newcommand{\wuhao}{\fontsize{10.5pt}{10.5pt}\selectfont}   % 五号, 单倍行距
+
+
+%%%%%%%%%% 页眉和页脚的设置 %%%%%%%%%%
+\lhead{清华大学软件学院计算机系统软件（2）}
+\rhead{}
+\lfoot{}
+\rfoot{~\thepage~}
+
+%%%%%%%%%% 论文标题、作者等 %%%%%%%%%%
+\title{\hei{HSQLDB的事务机制分析}}
+\author{文庆福 \\ 2011013239 thssvince@163.com  \\
+   \xiaosi  清华大学软件学院11班\\
+}
+\date{\today}                % 日期
+\maketitle                           % 生成标题
+\thispagestyle{empty}                % 首页无页眉页脚
+\tableofcontents
+\newpage
+
+
+%%%%%%%%%% section %%%%%%%%%%
+\section{实验简介}
+\subsection{实验背景}
+数据库事务（transaction）一词看似比较陌生，其实在我们的数据库操作中常常会用到。例如我们在网上购物的时候，但我们点击购买物品并扣款的时候，这时候数据库的操作就应该是一个事务。从用户的账户扣除金额，减少物品数量，生成购买记录等操作应该是一个完整的过程，不可拆分。所以说，数据库事务就是由一系列数据库操作组成的一个完整的逻辑过程，要么完整地执行，要么完全不执行。\\\indent
+事务具有 ACID 四个特性：原子性（Atomicity）、一致性（Consistency）、隔离性（Isolation）和持久性（Durability）。
+\begin{itemize}
+\item 原子性：一个事务（transaction）中的所有操作，要么全部完成，要么全部不完成，不会结束在中间某个环节。事务在执行过程中发生错误，会被回滚（Rollback）到事务开始前的状态，就像这个事务从来没有执行过一样。
+\item 一致性：在事务开始之前和事务结束以后，数据库的完整性没有被破坏。这表示写入的资料必须完全符合所有的默认规则，这包含资料的精确度、串联性以及后续数据库可以自发性地完成预定的工作。
+\item 隔离性：当两个或者多个事务并发访问（此处访问指查询和修改的操作）数据库的同一数据时所表现出的相互关系。事务隔离分为不同级别，包括读未提交（Read uncommitted）、读提交（read committed）、可重复读（repeatable read）和串行化（Serializable）。
+\item 持久性：在事务完成以后，该事务对数据库所作的更改便持久地保存在数据库之中，并且是完全的。
+\end{itemize}
+
+\indent 对事务的以上四大特性，一致性是由程序员保证的，原子性、隔离性与持久性是由 DBMS 来实现，本次实验我们将主要分析数据库的原子性，隔离性和持久性将在接下来的两次实验中再做分析。
+
+\subsection{实验环境}
+\begin{itemize}
+ \item 操作系统：Windows 8 企业版
+ \item JDK: OpenJDK 7（64-Bit）
+ \item HSQLDB: 2.3.1
+ \item IDE: Eclipse Standard(Kepler Service Release 1)
+\end{itemize}
+\section{HSQLDB 事务机制概述}
+HSQLDB 中事务处理部分由数据库实例的事务管理器 TransactionManager 进行管理，事务管理器和 session 相互配合共同事务处理的工作。\\\indent
+事务处理的核心是 TransactionManager，TransactionManager 接口提供了一系列事务处理的基本操作供使用，session 类调用 TransactionManager 接口提供的方法并进行封装，运用这些封装方法进行事务处理。HSQLDB 中事务处理的基本单元是操作 action。 一个 action 是一个 RowAction 类。它也是事务处理中记录操作过程的基本单位。\\
+\indent
+HSQLDB 通过出错回滚的机制保证事务的原子性。一旦遇到不可处理的错误，该事务中所有进行过的操作都将进行回滚。HSQLDB 支持三种并发控制模型，分别是默认的两阶段封锁（2PL），多版本并发控制（MVCC）及多版本两阶段封锁（MV2PL）模式。对于每种模式，
+HSQLDB 支持 SQL 标准中的四个事务隔离级别：未提交读（READ UNCOMMITTED）、已提交读（READ COMMITTED）、可重复读（REPEATABLE READ）和可串行化（SERIALIZABLE）。\\\indent
+\subsection{事务管理器}
+HSQLDB 中 TransactionManager 接口定义了一些列的事务基本操作，下面重点关注三个函数。
+\begin{lstlisting}
+public void beginTransaction(Session session) {
+
+        if (!session.isTransaction) {
+            session.actionTimestamp      = getNextGlobalChangeTimestamp();
+            session.transactionTimestamp = session.actionTimestamp;
+            session.isTransaction        = true;
+
+            transactionCount++;
+        }
+    }
+
+public boolean commitTransaction(Session session) {
+
+        if (session.abortTransaction) {
+            return false;
+        }
+
+        writeLock.lock();
+
+        try {
+            int limit = session.rowActionList.size();
+
+            // new actionTimestamp used for commitTimestamp
+            session.actionTimestamp         = getNextGlobalChangeTimestamp();
+            session.transactionEndTimestamp = session.actionTimestamp;
+
+            endTransaction(session);
+
+            for (int i = 0; i < limit; i++) {
+                RowAction action = (RowAction) session.rowActionList.get(i);
+
+                action.commit(session);
+            }
+
+            adjustLobUsage(session);
+            persistCommit(session);
+            endTransactionTPL(session);
+        } finally {
+            writeLock.unlock();
+        }
+
+        session.tempSet.clear();
+
+        return true;
+    }
+
+public void rollback(Session session) {
+
+        session.abortTransaction        = false;
+        session.actionTimestamp         = getNextGlobalChangeTimestamp();
+        session.transactionEndTimestamp = session.actionTimestamp;
+
+        rollbackPartial(session, 0, session.transactionTimestamp);
+        endTransaction(session);
+        writeLock.lock();
+
+        try {
+            endTransactionTPL(session);
+        } finally {
+            writeLock.unlock();
+        }
+    }
+\end{lstlisting}
+\begin{itemize}
+\item beginTransaction：该方法将对 TransactionManager 做一些初始化工作，以便事务处理能正常工作。
+\item commitTransaction：该方法提交事务，做一些收尾工作，标明事务处理结束。
+\item rollback：该方法实现了回滚操作。
+\end{itemize}'
+可以说，事务管理器是事务机制的核心，事务处理中用到的方法均定义在管理器中。
+共有三个类实现了 org.hsqldb.TransactionManager 接口：
+\begin{itemize}
+\item TransactionManager2PL
+\item TransactionManagerMVCC
+\item transactionManagerMV2PL
+\end{itemize}
+这些类分别对应上文提到的三种事务处理模型，隔离级别也由这三种管理器实现。
+\subsection{事务处理流程}
+我们知道，HSQLDB 中，SQL 语句的执行是由 org.hsqldb.Session 类控制的，每条语句的执行位于 executeCompiledStatement 方法。这部分的工作流程：
+\begin{lstlisting}
+public Result executeCompiledStatement(Statement cs, Object[] pvals,
+                                           int timeout) {
+        Result r;
+        if (abortTransaction) {
+            rollback(false);
+            return Result.newErrorResult(Error.error(ErrorCode.X_40001));
+        }
+        ...
+        boolean isTX = cs.isTransactionStatement();
+        if (!isTX) {
+            ...
+            r                               = cs.execute(this);
+            sessionContext.currentStatement = null;
+            return r;
+        }
+        while (true) {
+            ...
+            if (abortTransaction) {
+                rollback(false);
+                sessionContext.currentStatement = null;
+                return Result.newErrorResult(Error.error(ErrorCode.X_40001));
+            }
+            timeoutManager.startTimeout(timeout);
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                abortTransaction = true;
+            }
+            boolean abort = timeoutManager.endTimeout();
+            if (abort) {
+                r = Result.newErrorResult(Error.error(ErrorCode.X_40502));
+                endAction(r);
+                break;
+            }
+            if (abortTransaction) {
+                rollback(false);
+                sessionContext.currentStatement = null;
+                return Result.newErrorResult(Error.error(ErrorCode.X_40001));
+            }
+            database.txManager.beginActionResume(this);
+            //        tempActionHistory.add("sql execute " + cs.sql + " "
+            //  + actionTimestamp + " " + rowActionList.size());
+            sessionContext.setDynamicArguments(pvals);
+            r = cs.execute(this);
+            if (database.logger.getSqlEventLogLevel()
+                    >= SimpleLog.LOG_NORMAL) {
+                database.logger.logStatementEvent(this, cs, pvals, r,
+                                                  SimpleLog.LOG_NORMAL);
+            }
+            lockStatement = sessionContext.currentStatement;
+            //        tempActionHistory.add("sql execute end "
+            //  + actionTimestamp + " " + rowActionList.size());
+            endAction(r);
+            if (abortTransaction) {
+                rollback(false);
+                sessionContext.currentStatement = null;
+                return Result.newErrorResult(Error.error(r.getException(),
+                        ErrorCode.X_40001, null));
+            }
+
+            if (redoAction) {
+                redoAction = false;
+                try {
+                    latch.await();
+                } catch (InterruptedException e) {
+                    abortTransaction = true;
+                }
+            } else {
+                break;
+            }
+        }
+        ...
+        return r;
+    }
+\end{lstlisting}
+这里保留了 executeCompiledStatement 方法的框架。我们看到，第 10 行，方法首先判断当前处理的语句是否为事务性的，如果不是，则直接处理，否则进入第 17-72 行的循环：
+这里的循环实际上是为第 63 行的 redoAction 设计的，如果没有 redoAction，我们发现，这里的处理过程实际上分为如下几步：
+\begin{itemize}\setlength{\itemsep}{1pt}
+\item 判断是否需要中断事务。
+\item 等待并发事务的结束。
+\item 再次判断是否需要中断当前事务（因为处理并发事务可能会引发新异常）。
+\item 执行语句。
+\item 第三次判断是否需要中断当前事务（因为执行中可能引发异常）。
+\item 判断是否需要重新执行当前语句（对于 INSERT 和 DELETE 语句，可能会由于并发事务的冲突导致失败，这将在下次实验中详细分析）
+\end{itemize}
+由此，我们知道，事务处理的总体流程是，在任何可能产生异常的地方进行检测，如果遇到异常，则执行回滚操作。
+\section{事务的原子性}
+\subsection{新建事务}
+首先，在默认状况下，HSQLDB 会将一个 session 的 isAutoCommit 域设置为 true，这样实际上每一条语句都被视为一个 transaction。
+\begin{lstlisting}
+if (sessionContext.depth == 0
+       && (isAutoCommit || cs.isAutoCommitStatement())) {
+    try {
+        if (r.isError()) {
+            rollback(false);
+        } else {
+            commit(false);
+        }
+    } catch (Exception e) {
+        currentStatement = null;
+        return Result.newErrorResult(
+        Error.error(ErrorCode.X_40001));
+    }
+}
+\end{lstlisting}
+在每一个 executeCompiledStatement 方法中，由于 isAutoCommit 被置为 true，故每一次都会进行 commit 操作。 在 commit 方法中，首先会调用 database.txManager 的 commitTransaction 方法提交此次事务。后面会对 commitTransaction 操作进行详细分析。\\\indent
+接下来的 endTransaction 方法将会清除该 transaction 的各个记录。包括 savepoints, rowActionList, transaction tables, transactionNavigators 等。 另外，这里会将只读属性、隔离模式、锁声明等都设为默认值。
+\begin{lstlisting}
+ private void endTransaction(boolean commit, boolean chain) {
+        sessionContext.savepoints.clear();
+        sessionContext.savepointTimestamps.clear();
+        rowActionList.clear();
+        sessionData.persistentStoreCollection.clearTransactionTables();
+        sessionData.closeAllTransactionNavigators();
+        sessionData.clearLobOps();
+        lockStatement = null;
+        logSequences();
+
+        if (!chain) {
+            sessionContext.isReadOnly = isReadOnlyDefault ? Boolean.TRUE
+                                                          : Boolean.FALSE;
+            setIsolation(isolationLevelDefault);
+        }
+
+        Statement endTX = commit ? StatementSession.commitNoChainStatement
+                                 : StatementSession.rollbackNoChainStatement;
+        if (database.logger.getSqlEventLogLevel() > 0) {
+            database.logger.logStatementEvent(this, endTX, null,
+                                              Result.updateZeroResult,
+                                              SimpleLog.LOG_ERROR);
+        }
+/* debug 190
+        tempActionHistory.add("commit ends " + actionTimestamp);
+        tempActionHistory.clear();
+//*/
+    }
+\end{lstlisting}
+从这里也可以看出， HSQLDB 中一个 transaction 的关键要素有 savepoints、rowActionList、transactionTables、transactionNavigators、isReadOnly、isolationMode、
+lockStatement 等。由于设置了 autoCommit 之后，每一行语句运行完毕就 endTransaction，故为了分析 transaction 机制，必须将该域设置为 false。
+\subsection{事务性语句的执行}
+\subsubsection{插入语句}
+\begin{lstlisting}
+CREATE TABLE testtable (id INTEGER );
+SET AUTOCOMMIT FALSE ;
+INSERT INTO testtable VALUES (1);
+\end{lstlisting}
+采用以上的 SQL 语句为例执行，插入语句的执行入口位于 org.hsqldb.StatementInsert 类的 getResult 方法。该方法在初始化后（包括初始化存储器和列信息、准备数据等），并在检查约束和触发器后，调用 org.hsqldb.Table 类的 insertSingleRow 方法处理插入单行操作。\\\indent
+\begin{lstlisting}
+Row insertSingleRow(Session session, PersistentStore store, Object[] data,
+                    int[] changedCols) {
+    ...
+    Row row = (Row) store.getNewCachedObject(session, data, true);
+    session.addInsertAction(this, store, row, changedCols);
+    return row;
+}
+\end{lstlisting}
+
+\indent insertSingleRow 也会做一些检查，这里，store.getNewCachedObject 方法（实际上是接口的具体实现）会根据表的类型（MEMORY, TEXT, CACHED），新建一个具体类的 Row 对象，并将相应的数据装入 Row。这里以 Memory Table 为例：
+\begin{lstlisting}
+public CachedObject getNewCachedObject (Session session , Object object ,
+    boolean tx) {
+    int id;
+    synchronized ( this ) {
+        id = rowIdSequence ++;
+    }
+    Row row = new RowAVL(table , (Object []) object , id , this );
+    if (tx) {
+        RowAction action = new RowAction (session , table ,
+                                          RowAction .ACTION_INSERT , row ,
+                                          null );
+        row. rowAction = action;
+    }
+    return row;
+}\end{lstlisting}
+
+\indent 第 3-6 行生成一个表中行的唯一的 id。 \\\indent
+第 7 行利用 RowAVL 类的构造方法得到行对象 row。\\\indent
+第 8-13 行给这个行添加了 RowAction 对象，标明当前执行的是插入操作。其中 RowAction 类继承自 RowActionBase 类，表示一个行（Row）的插入、删除、回滚或提交的行为及相关操作。RowAction 类别包括 ACTION\_NONE、ACTION\_INSERT、ACTION\_DELETE 等。\\
+\indent
+在得到填充过数据和 Action 信息的 Row 对象后，insertSingleRow 方法将调用 session 对象的 addInsertAction 方法将行插入，这个方法会调用 TransactionManager 的同名方法 addInsertAction 执行插入操作。和之前提到的 beginAction 方法一样，这里的 ddInsertAction 也随事务管理器的不同而不同。取其主要部分分析：
+\begin{lstlisting}
+public void addInsertAction(Session session, Table table,
+                            PersistentStore store, Row row,
+                            int[] changedColumns) {
+    RowAction action = row.rowAction;
+    if (action == null) {
+        throw Error.runtimeError(ErrorCode.GENERAL_ERROR,
+                                 "null insert action ");
+    }
+    store.indexRow(session, row);
+    session.rowActionList.add(action);
+    row.rowAction = null;
+}
+\end{lstlisting}
+
+\indent 第 9 行，该方法调用 store 对象的 indexRow 方法，将 row 插入到表中。\\
+\indent 第 10 行，将这个 action 加入 session 对象的 rowActionList 中，为之后的回滚做好准备。
+\subsubsection{删除语句}
+执行如下 SQL 语句调试分析：\\
+\indent \indent \indent DELETE FROM testtable\\\indent
+DELETE 语句是在 org.hsqldb.StatementDML 类中处理的，和 INSERT 语句一样，在删除前，还需要做一些准备工作，包括生成 navigator，检查触发器等。最终删除数据的操作在该类的 delete 方法中执行：
+\begin{lstlisting}
+int delete(Session session , Table table ,
+        RowSetNavigatorDataChange navigator ) {
+    int rowCount = navigator .getSize ();
+    ......
+    for ( int i = 0; i < navigator .getSize (); i++) {
+    Row row = navigator . getNextRow ();
+    Table currentTable = (( Table) row.getTable ());
+    session. addDeleteAction (currentTable , row , null );
+    ......
+    }
+    ......
+    return rowCount;
+}\end{lstlisting}
+
+\indent 我们看到，这里的行为与 org.hsqldb.Table 类的 insertSingleRow 的行为类似，首先准备好 row 对象，然后调用 session 对象的 addDeleteAction 方法删除行。这个方法同样会调用事务管理器的同名方法继续执行。\\\indent
+这里，不同的管理器采取了不同的方法进行处理。由于代码都很简单，这里不再列出，仅列出三种管理器的策略：
+\begin{itemize}
+\item 2PL: 从表中删除，并记录此 Action
+\item MVCC: 只记录此 Action，不删除物理数据
+\item MV2PL: 只记录此 Action，不删除物理数据
+\end{itemize}
+\subsection{事务的保存}
+分别执行如下 SQL 语句调试分析：\\
+\indent \indent \indent SAVEPOINT name;\\
+\indent \indent \indent RELEASE SAVEPOINT name; \\\indent
+保存点是由 org.hsqldb.Session 类的 savepoint 方法实现的：
+\begin{lstlisting}
+public synchronized void savepoint(String name) {
+    int index = sessionContext.savepoints.getIndex(name);
+    if (index != -1) {
+        sessionContext.savepoints.remove(name);
+        sessionContext.savepointTimestamps.remove(index);
+    }
+    sessionContext.savepoints.add(name,
+                                  ValuePool.getInt(rowActionList.size()));
+    sessionContext.savepointTimestamps.addLast(actionTimestamp);
+}\end{lstlisting}
+
+\indent 我们看到，这里首先删除可能已经存在的同名保存点。同时记录当前保存点的名称和 rowActionList 的长度组成的键值对至 savepoints 这个 hash 表中。接下来记录当前 action 的时间戳。\\\indent
+    在删除保存点时，是在 org.hsqldb.Session 类的 releaseSavepoint 方法中处理：
+\begin{lstlisting}
+public synchronized void releaseSavepoint (String name) {
+    // remove this and all later savepoints
+    int index = sessionContext . savepoints .getIndex(name );
+    if (index < 0) {
+        throw Error.error( ErrorCode .X_3B001 , name );
+    }
+    while ( sessionContext . savepoints .size () > index) {
+        sessionContext . savepoints .remove( sessionContext . savepoints .size ()
+                                            - 1);
+        sessionContext . savepointTimestamps . removeLast ();
+    }
+}\end{lstlisting}
+显然，此方法不仅删除给定的保存点，还删除其后的所有保存点。
+\subsection{事务的回滚}
+回滚分为两类，一类是回滚整个事务，另一类是回滚至某个保存点。无论是哪一种回滚，都将调用某个事务管理器的 rollbackPartial 方法进行回滚：\\\indent
+回滚整个事务，将调用 rollbackPartial(session, 0, session.transactionTimestamp); \\\indent
+对于回滚至某个保存点，将调用 rollbackPartial(session, start, timestamp); \\\indent
+rollbackPartial 方法用于回滚从 rowActionList 指定下标和某个时间戳开始的全部 Action。\\\indent
+三个管理器的实现不尽相同，但流程基本是一致的，这里以 2PL 为例进行说明：
+\begin{lstlisting}
+public void rollbackPartial(Session session, int start, long timestamp) {
+    int limit = session.rowActionList.size();
+    if (start == limit) {
+        return;
+    }
+    for (int i = limit - 1; i >= start; i--) {
+        RowAction action = (RowAction) session.rowActionList.get(i);
+        if (action == null || action.type == RowActionBase.ACTION_NONE
+                || action.type == RowActionBase.ACTION_DELETE_FINAL) {
+            continue;
+        }
+        Row row = action.memoryRow;
+        if (row == null) {
+            row = (Row) action.store.get(action.getPos(), false);
+        }
+        if (row == null) {
+            continue;
+        }
+        action.rollback(session, timestamp);
+        int type = action.mergeRollback(session, timestamp, row);
+        action.store.rollbackRow(session, row, type, txModel);
+    }
+    session.rowActionList.setSize(start);
+}\end{lstlisting}
+
+\indent 对于列表中指定范围内的每个 RowAction，得到其 Row 对象（第 18-26 行）。 \\\indent
+接下来，调用 action 对象的 rollback 方法，标记 action 的 commitTimestamp等字段。 \\\indent
+第 30 行，action 对象的 mergeRollback 方法，合并部分 Action 对象。\\\indent
+第 32 行，回滚操作最终在 store 对象中的 rollbackRow 方法中执行：
+\begin{lstlisting}
+public void rollbackRow (Session session , Row row , int changeAction ,
+    int txModel) {
+    switch ( changeAction ) {
+        case RowAction . ACTION_DELETE :
+            if (txModel == TransactionManager .LOCKS) {
+                (( RowAVL) row ). setNewNodes ( this );
+                indexRow(session , row );
+            }
+            break ;
+        case RowAction . ACTION_INSERT :
+            if (txModel == TransactionManager .LOCKS) {
+                delete(session , row );
+                remove(row.getPos ());
+            }
+            break ;
+    ......
+    }
+}\end{lstlisting}
+
+\indent 显然，这里的操作是显然的，对于删除，将行重新插入；对于插入，删除行。\\\indent
+然而，MVCC 模型的处理略有不同，之前提到，对于 MVCC/MV2PL，删除操作并未真正执行，因此，MVCC/MV2PL 的最终回滚是在 commitRow 方法中处理的：
+\begin{lstlisting}
+public void commitRow (Session session , Row row , int changeAction ,
+                        int txModel) {
+    Object [] data = row.getData ();
+    switch (changeAction) {
+        case RowAction . ACTION_DELETE :
+        database.logger. writeDeleteStatement (session , (Table) table ,
+                                                data );
+        break ;
+    case RowAction . ACTION_INSERT :
+        database.logger. writeInsertStatement (session , row ,
+                                                (Table) table );
+        break ;
+    case RowAction . ACTION_INSERT_DELETE :
+        // INSERT + DELETE
+        break ;
+    case RowAction . ACTION_DELETE_FINAL :
+        delete(session , row );
+        break ;
+    }
+}\end{lstlisting}
+
+\indent 从名字看，这个方法用于处理事务的提交。这里先分析跟回滚有关的部分：对于 MVCC/MV2PL，插入操作的回滚会被置为 ACTION\_DELETE\_FINAL，因此，会在这里执行真正的删除操作。
+\subsection{事务的提交}
+事务的提交通过 COMMIT 语句执行。这是在各个管理器的 commitTransaction 方法中处理的。和之前一样，
+commitTransaction 方法的实现也不尽相同，大致流程如下：
+\begin{enumerate}
+\item 调用 endTransaction 方法，置 session 的事务状态为 false，同时事务计数器减一。
+\item 遍历每一个 Action，执行 commit。对于 2PL，从刚才列出的代码里可以发现，插入和删除只需记录日志即可。对于 MVCC/MV2PL，还需要进行额外的操作，persistCommit 方法会填充 action 里的信息，这样再调用commitRow 的时候就会顺利删除了。
+\item 最后，调用 endTransactionTPL 方法根据管理器的实现方法做一些收尾工作，例如释放锁等。
+\end{enumerate}
+\section{问题总结}
+\subsection{HSQLDB实现了哪几种隔离级别？}
+HSQLDB 实现了四个隔离级别：
+\begin{itemize}
+\item 可串行化（SERIALIZABLE）
+\item 可重复读（REPEATABLE READ）
+\item 已提交读（READ COMMITTED）
+\item 未提交读（READ UNCOMMITTED）
+\end{itemize}
+\subsection{在每一个事务中，数据操作时如何进行的？}
+见 3.2 节
+\subsection{如何实现回滚和提交操作？}
+见 3.4 节 和 3.5 节
+\subsection{保存点是如何实现的？}
+见 3.3 节
+%%%%%%%%% 参考文献 %%%%%%%%%%
+\newpage
+\end{document}
+%%%%%%%%%% 结束 %%%%%%%%%%
