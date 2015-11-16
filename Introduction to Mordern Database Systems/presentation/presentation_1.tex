@@ -147,7 +147,99 @@ School of Software, Tsinghua University\\ % Your institution for the title page
 %--------------Frame 2---------------------
 \begin{frame}
 \frametitle{Probabilistic Skylines}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+\begin{columns}[t] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+
+\column{.42\textwidth} % Left column and width
+\begin{figure}[htpb]
+  \begin{center}
+	\includegraphics[width=1\linewidth]{pollution.jpg}
+  \end{center}
+\end{figure}
+\begin{figure}[htpb]
+  \begin{center}
+	\includegraphics[width=0.75\linewidth]{coordinate.png}
+  \end{center}
+\end{figure}
+
+\column{.58\textwidth} % Right column and width
+\begin{table}[htbp]
+\scriptsize
+\begin{tabular}{|c|c|c|c|c|}
+\hline Object&Instance&NO$_2$&SO$_2$& Probability\\
+\hline
+\multirow{2}{*}{W}
+             &w$_1$   &10    &40    &0.5\\
+             &w$_2$   &75    &10    &0.4\\\hline
+\multirow{2}{*}{X}
+             &x$_1$   &55    &20    &0.2\\
+             &x$_2$   &65    &30    &0.2\\\hline
+\multirow{2}{*}{Y}
+             &y$_1$   &95    &60    &0.8\\
+             &y$_2$   &80    &70    &0.2\\\hline
+\multirow{2}{*}{Z}
+             &z$_1$   & 5    &80    &0.5\\
+             &z$_2$   &90    &25    &0.5\\
+\hline
+\end{tabular}
+\end{table}
+
+\end{columns}
+\end{frame}
+
+%--------------Frame 3---------------------
+\begin{frame}
+\frametitle{Probabilistic Skylines}
+\begin{columns}[t] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+
+\column{.42\textwidth} % Left column and width
+\begin{figure}[htpb]
+  \begin{center}
+	\includegraphics[width=1\linewidth]{pollution.jpg}
+  \end{center}
+\end{figure}
+\begin{figure}[htpb]
+  \begin{center}
+	\includegraphics[width=0.75\linewidth]{coordinate.png}
+  \end{center}
+\end{figure}
+
+\column{.58\textwidth} % Right column and width
+\begin{table}[htbp]
+\scriptsize
+\begin{tabular}{|c|c|c|c|c|}
+\hline Object&Instance&NO$_2$&SO$_2$& Probability\\
+\hline
+\multirow{2}{*}{W}
+             &w$_1$   &10    &40    &0.5\\
+             &w$_2$   &75    &10    &0.4\\\hline
+\multirow{2}{*}{X}
+             &x$_1$   &55    &20    &0.2\\
+             &x$_2$   &65    &30    &0.2\\\hline
+\multirow{2}{*}{Y}
+             &y$_1$   &95    &60    &0.8\\
+             &y$_2$   &80    &70    &0.2\\\hline
+\multirow{2}{*}{Z}
+             &z$_1$   & 5    &80    &0.5\\
+             &z$_2$   &90    &25    &0.5\\
+\hline
+\end{tabular}
+\end{table}
+
+
+\begin{block}{question}
+\color{red}{
+Which Object's skyline probability is larger than 0.6?
+}
+\end{block}
+
+\end{columns}
+\end{frame}
+
+
+%--------------Frame 4---------------------
+\begin{frame}
+\frametitle{Probabilistic Skylines}
+\begin{columns}[t] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
 
 \column{.42\textwidth} % Left column and width
 \begin{figure}[htpb]
@@ -198,7 +290,7 @@ P_{sky}(Z)&= 0.74\\
 \end{frame}
 
 
-%--------------Frame 3---------------------
+%--------------Frame 5---------------------
 \begin{frame}
 \frametitle{Probabilistic Skylines}
 %\begin{itemize}
@@ -222,7 +314,7 @@ P_{sky}(u_i) = \int_{U}Uf(u)\times\prod\limits_{V\in\mathbb{D},V\neq U}(1-\int_{
 
 \end{frame}
 
-%--------------Frame 4---------------------
+%--------------Frame 6---------------------
 \begin{frame}
 \frametitle{What is MapReduce?}
 \begin{columns}[c]
@@ -242,7 +334,7 @@ P_{sky}(u_i) = \int_{U}Uf(u)\times\prod\limits_{V\in\mathbb{D},V\neq U}(1-\int_{
 \end{columns}
 \end{frame}
 
-%--------------Frame 6---------------------
+%--------------Frame 7---------------------
 \begin{frame}
 \frametitle{PSMR: The State-of-the-art Algorithm}
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
@@ -265,7 +357,7 @@ P_{sky}(u_i) = \int_{U}Uf(u)\times\prod\limits_{V\in\mathbb{D},V\neq U}(1-\int_{
 
 %\section{Second Section}
 
-%--------------Frame 7--------------------
+%--------------Frame 8--------------------
 \begin{frame}
 \frametitle{Early Pruning Techniques}
 %\begin{table}
@@ -290,24 +382,18 @@ delete $u_i$ if $\prod\limits_{V\in\mathbb{D},V\neq U}(1-\sum\limits_{v_j\in V,v
 \column{.4\textwidth} % Left column and width
 \begin{figure}[htpb]
   \begin{center}
-	\includegraphics[width=\linewidth]{node.png}
+	\includegraphics[width=\linewidth]{coordinate.png}
   \end{center}
 \end{figure}
 
-\column{.6\textwidth} % Right column and width
+\column{.55\textwidth} % Right column and width
 \begin{example}[Zero-probability Filtering]
-\tiny
-\begin{align*}
-P_{sky}(y_1)&=P(y_1)(1-P(w_1)-P(w_2))(1-P(x_1)-P(x_2))(1-P(z_2))\\
-            &\leq P(y_1)(1-P(w_1))=0.4\\
-P_{sky}(y_2)&\leq0.1\\
-P_{sky}(Y)& = P_{sky}(y_1) + P_{sky}(y_2) \leq 0.5 \leq T_p\\
-\end{align*}
+we can see, $x_1$ dominate $y_1$, if $P(x_1)=1$, then $P_{sky}(y_1)=0$
 \end{example}
 \end{columns}
 \end{frame}
 
-%--------------Frame 8---------------------
+%--------------Frame 9---------------------
 \begin{frame}
 \frametitle{Early Pruning Techniques}
 
@@ -321,7 +407,7 @@ $up(u_i, U, \mathbb{S}, R(u_i)) = P(u_i)\times \beta(U, \mathbb{S}, R(u_i))$.
 \column{.4\textwidth} % Left column and width
 \begin{figure}[htpb]
   \begin{center}
-	\includegraphics[width=\linewidth]{node.png}
+	\includegraphics[width=\linewidth]{coordinate.png}
   \end{center}
 \end{figure}
 
@@ -332,14 +418,14 @@ $up(u_i, U, \mathbb{S}, R(u_i)) = P(u_i)\times \beta(U, \mathbb{S}, R(u_i))$.
 P_{sky}(y_1)&=P(y_1)(1-P(w_1)-P(w_2))(1-P(x_1)-P(x_2))(1-P(z_2))\\
             &\leq P(y_1)(1-P(w_1))=0.4\\
 P_{sky}(y_2)&\leq0.1\\
-P_{sky}(Y)& = P_{sky}(y_1) + P_{sky}(y_2) \leq 0.5 \leq T_p\\
+P_{sky}(Y)& = P_{sky}(y_1) + P_{sky}(y_2) \leq 0.5 < T_p\\
 \end{align*}
 \end{example}
 \end{columns}
 
 \end{frame}
 
-%--------------Frame 8--------------------
+%--------------Frame 10--------------------
 \begin{frame}
 \frametitle{Early Pruning Techniques}
 \begin{lemma}[Dominance-Power Filtering]
@@ -349,28 +435,28 @@ $\mathbb{F}$ is top$K$ $DP$ set, $\sum\limits_{u_i\in U} P(u_i)\times\prod\limit
 \end{lemma}
 
 \begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-\column{.4\textwidth} % Left column and width
+\column{.38\textwidth} % Left column and width
 \begin{figure}[htpb]
   \begin{center}
-	\includegraphics[width=\linewidth]{node.png}
+	\includegraphics[width=\linewidth]{coordinate2.png}
   \end{center}
 \end{figure}
 
-\column{.6\textwidth} % Right column and width
+\column{.55\textwidth} % Right column and width
 \begin{example}[Dominance-Power Filtering]
-\tiny
+\footnotesize
 \begin{align*}
-P_{sky}(y_1)&=P(y_1)(1-P(w_1)-P(w_2))(1-P(x_1)-P(x_2))(1-P(z_2))\\
-            &\leq P(y_1)(1-P(w_1))=0.4\\
-P_{sky}(y_2)&\leq0.1\\
-P_{sky}(Y)& = P_{sky}(y_1) + P_{sky}(y_2) \leq 0.5 \leq T_p\\
+DP(y_1)&=(100-95)(100-60)=200\\
+DP(y_2)&=(100-80)(100-70)=600\\
+DP(Y)& = P(y_1)*DP(y_1) + P(y_2)*DP(y_2) \\
+     &= 0.8*200+0.2*600 = 280\\
 \end{align*}
 \end{example}
 \end{columns}
 \end{frame}
 
 
-%--------------Frame 9---------------------
+%--------------Frame 11---------------------
 %\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
 %\frametitle{Verbatim}
 %\begin{example}[Theorem Slide Code]
@@ -390,18 +476,28 @@ P_{sky}(Y)& = P_{sky}(y_1) + P_{sky}(y_2) \leq 0.5 \leq T_p\\
 	\includegraphics[width=\linewidth]{PSQtree.png}
   \end{center}
 \end{figure}
-
+\begin{columns}[t]
+\column{.6\textwidth}
 \begin{itemize}
-\item generate PSQtree using a random sample $\mathbb{S}$ of $\mathbb{D}$
+\item generate PSQtree
 \item traverse PSQtree for computing $P_{sky}(node.min)$
 \item zero-probability filtering
 \item upper-bound filtering
-\item partitioning objects by PSQtree
+\item partitioning objects by PSQtree(weakly dominate)
 \end{itemize}
+
+\column{.35\textwidth}
+\begin{figure}[htpb]
+  \begin{center}
+	\includegraphics[width=\linewidth]{tree.png}
+  \end{center}
+\end{figure}
+\end{columns}
+
 \end{frame}
 
 
-%--------------Frame 10---------------------
+%--------------Frame 12---------------------
 \begin{frame}
 \frametitle{MapReduce Algorithms with PSQtree}
 \begin{figure}[htpb]
@@ -410,50 +506,32 @@ P_{sky}(Y)& = P_{sky}(y_1) + P_{sky}(y_2) \leq 0.5 \leq T_p\\
   \end{center}
 \end{figure}
 
-\begin{columns}[t] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-\column{.32\textwidth} % Left column and width
+\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+\column{.3\textwidth} % Left column and width
 \begin{figure}[htpb]
   \begin{center}
-	\includegraphics[width=\linewidth]{main.png}
-  \end{center}
-\end{figure}
-\begin{figure}[htpb]
-  \begin{center}
-	\includegraphics[width=\linewidth]{setup.png}
+	\includegraphics[width=\linewidth]{coordinate.png}
   \end{center}
 \end{figure}
 
-\column{.32\textwidth} % center column and width
-\begin{figure}[htpb]
-  \begin{center}
-	\includegraphics[width=\linewidth]{map.png}
-  \end{center}
-\end{figure}
-
-\column{.32\textwidth} % Right column and width
-\begin{figure}[htpb]
-  \begin{center}
-	\includegraphics[width=\linewidth]{reduce.png}
-  \end{center}
-\end{figure}
+\column{.7\textwidth} % Right column and width
+\begin{example}[PS-QPF-MR]
+\tiny
+\begin{itemize}
+\item $T_p$ = 0.5, map function is called with an uncertain object.\\
+\item for $X$, upper bound $node(10).P_{min} ¡¤ P (x1) + node(10).P_{min} ¡¤ P (x2) = 0.4 < T_p = 0.5$.\\
+$X$ is not a skyline candidate. \\
+\item every instance of $X$, emit the key-value pairs $\langle10, (\{(\langle55, 20\rangle, 0.2), (\langle65,
+30\rangle, 0.2)\},¡°W¡±, False)\rangle and \langle11,(\{(\langle55, 20\rangle, 0.2),$\\$(\langle65, 30\rangle,
+0.2)\},¡°W¡±, False)\rangle$since node(10) weakly dominates node(10) and node(11)
+\end{itemize}
+\end{example}
 \end{columns}
 
 \end{frame}
 
-%--------------Frame 11--------------------
-\begin{frame} 
-\frametitle{MapReduce Algorithms with PSQtree}
-\begin{itemize}
-\item Reducing network overhead by clustering
-\item Workload balancing of reduce functions
-\end{itemize}
-\end{frame}
 
 
-%--------------Frame 12--------------------
-\begin{frame}% Need to use the fragile option when verbatim is used in the slide
-\frametitle{Sample Size and Split Threshold of PSQtree}
-\end{frame}
 
 %--------------Frame 13--------------------
 \begin{frame} % Need to use the fragile option when verbatim is used in the slide
@@ -492,7 +570,7 @@ No. of dominating objects($\mathbb{F}$) &1000$\sim$10,000 &100 for PS-QPF-MR 100
 No. of objects($\mathbb{D}$)&$10^5\sim10^8$ & $10^7$ \\
 \hline
 No. of dimensions($d$)&2 $\sim$ 8 &4\\
-\hline 
+\hline
 Probability threshold ($T_p$) & 0.1$\sim$0.6 &0.3 \\
 \hline
 No. of inst. per object($\ell$)&1 $\sim$ 400 &40 \\
@@ -515,30 +593,30 @@ No. of machines ($t$) &10$\sim$200 &25\\
 \end{frame}
 
 
-%--------------Frame 14--------------------
+%--------------Frame 15--------------------
 \begin{frame} % Need to use the fragile option when verbatim is used in the slide
 \frametitle{Experiments}
 \begin{figure}[htpb]
   \begin{center}
-	\includegraphics[width=\linewidth]{cluster-comparison.png}
+	\includegraphics[width=0.9\linewidth]{cluster-comparison.png}
   \end{center}
 \end{figure}
 
 \begin{figure}[htpb]
   \begin{center}
-	\includegraphics[width=\linewidth]{algorithm-comparison2.png}
+	\includegraphics[width=0.9\linewidth]{algorithm-comparison2.png}
   \end{center}
 \end{figure}
 \end{frame}
 
-%--------------Frame 15--------------------
+%--------------Frame 16--------------------
 \begin{frame} % Need to use the fragile option when verbatim is used in the slide
 \frametitle{Conclusion}
 \begin{itemize}
 \item probabilistic skyline query for both discrete and continuous models
 \item zero-probability, the upper-bound, and dominance power filtering techniques
 \item using a PSQtree to distribute the instances of objects effectively
-\item a single MapReduce phase algorithm PS-QPF-MR and grouping optimization
+\item a single MapReduce phase algorithm PS-QPF-MR and grouping techniques for optimization
 \end{itemize}
 \end{frame}
 
@@ -554,7 +632,7 @@ No. of machines ($t$) &10$\sim$200 &25\\
 %\end{frame}
 
 
-%--------------Frame 1--------------------
+%--------------Frame 17--------------------
 \begin{frame}
 \frametitle{The End}
 \Huge{\centerline{Q \& A}}
