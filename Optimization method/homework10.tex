@@ -1,0 +1,183 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz,comment}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 10}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+Give a function
+\begin{equation}
+f(x) = \frac{x_1+x_2}{3+x_1^2+x_2^2+x_1x_2}  \nonumber
+\end{equation}
+Please find minimum point.\\
+\emph{\textbf{Solution:}}
+
+\begin{equation}
+\left\{
+\begin{aligned}
+\frac{\partial f}{\partial x_1} &= \frac{-x_1^2-2x_1x_2+3}{(3+x_1^2+x_2^2+x_1x_2)^2} =0\\
+\frac{\partial f}{\partial x_2} &= \frac{-x_2^2-2x_1x_2+3}{(3+x_1^2+x_2^2+x_1x_2)^2} =0\\
+\end{aligned} 
+\right. \nonumber
+\end{equation}
+we can get arrest points $x^{(1)}=(1,1), x^{(2)}=(-1,-1)$.\\
+\begin{align} \nonumber
+\frac{\partial^2 f}{\partial x_1^2} &= \frac{-18x_1-12x_2+2x_1^3-2x_2^3+6x_1^2x_2}{(3+x_1^2+x_2^2+x_1x_2)^3}\\\nonumber
+\frac{\partial^2 f}{\partial x_2^2} &= \frac{-12x_1-18x_2-2x_1^3+2x_2^3+6x_1x_2^2}{(3+x_1^2+x_2^2+x_1x_2)^3}\\\nonumber
+\frac{\partial^2 f}{\partial x_1x_2} &= \frac{-12x_1-12x_2+6x_1^2x_2+6x_1x_2^2}{(3+x_1^2+x_2^2+x_1x_2)^3}\\\nonumber
+\end{align}
+$\nabla^2 f(x^{(1)}) = \begin{bmatrix} -\frac{1}{9} & -\frac{1}{18} \\ -\frac{1}{18} & -\frac{1}{9}\end{bmatrix}$ \qquad
+$\nabla^2 f(x^{(2)}) = \begin{bmatrix} \frac{1}{9} & \frac{1}{18} \\ \frac{1}{18} & \frac{1}{9}\end{bmatrix}$ \\
+Since $\nabla^2 f(x^{(1)})$ is a negative definite matrix and $\nabla^2 f(x^{(2)})$ is a positive definite matrix, $(-1, -1)$ is $f(x)'s$ minimum point.
+\section{Problem 2}
+Given a non-linear programming problem.
+\begin{alignat}{2}          \nonumber
+\min\quad & (x_1-\frac{9}{4})^2+(x_2-2)^2 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1^2+x_2 \geq 0\\        \nonumber
+& x_1+x_2 \leq 6\\         \nonumber
+& x_1,x_2 \geq 0
+\end{alignat}
+Judge the following point whether they are optimized solution or not.\\
+\begin{equation}
+x^{(1)}=\begin{bmatrix} \frac{3}{2} \\ \frac{9}{4}\end{bmatrix}, \quad
+x^{(2)}=\begin{bmatrix} \frac{9}{4} \\ 2\end{bmatrix}, \quad
+x^{(3)}=\begin{bmatrix} 0 \\ 2\end{bmatrix} \nonumber
+\end{equation}
+\emph{\textbf{Solution:}}\\
+we can rewrite it into a convex programming:\\
+\begin{alignat}{2}          \nonumber
+\min\quad & (x_1-\frac{9}{4})^2+(x_2-2)^2 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1^2+x_2 \geq 0\\        \nonumber
+& 6-x_1-x_2 \geq 0\\         \nonumber
+& x_1,x_2 \geq 0
+\end{alignat}
+so we just need to check $x^{(1)}$, $x^{(2)}$, $x^{(3)}$ if they are KKT point.\\
+for $x^{(1)}$, its KKT condition:\\
+\begin{equation}
+\left\{
+\begin{aligned}
+2(x_1-\frac{9}{4})+2w_1x_1 =0\\
+2(x_2-2) - w_1 = 0\\
+w_1 \geq 0\\
+\end{aligned}
+\right. \nonumber
+\end{equation}
+we can get $w_1=\frac{1}{2}$, $x^{(1)}$ is a optimized solution, optimized value is $\frac{5}{8}$.\\
+for $x^{(2)}$, we can easily find $x^{(2)}$ is not a optimized solution.\\
+for $x^{(3)}$, its KKT condition:\\ 
+\begin{equation}
+\left\{
+\begin{aligned}
+2(x_1-\frac{9}{4})-w_3 =0\\
+2(x_2-2) = 0\\
+w_3 \geq 0\\
+\end{aligned}
+\right. \nonumber
+\end{equation}
+This equation has no solution, so $x^{(3)}$ is not a optimized solution.
+\section{Problem 3}
+Please compute the minimum distance between base point $x^{(0)}=(0,0)^T$ and convex set 
+\begin{equation}
+S = {x|x_1+x_2\geq4,2x_1+x_2\geq5} \nonumber
+\end{equation}
+\emph{\textbf{Solution:}}\\
+we can rewrite original problem into a convex programming:
+\begin{alignat}{2}          \nonumber
+\min\quad & x_1^2+x_2^2 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& x_1+x_2-4 \geq 0\\        \nonumber
+& 2x_1+x_2-5 \geq 0\\         \nonumber
+& x_1,x_2 \geq 0
+\end{alignat}
+KKT condition is as follow:
+\begin{equation}
+\left\{
+\begin{aligned}
+2x_1-w_1-2w_2 =0\\
+2x_2-w_1-w_2 =0\\
+w_1(x_1+x_2-4) =0\\
+w_2(2x_1+x_2-5) =0\\
+w_1, w_2\geq 0\\
+x_1+x_2-4 \geq 0\\       
+2x_1+x_2-5 \geq 0\\       
+\end{aligned}
+\right. \nonumber
+\end{equation}
+we can get the solution $\overline{x}=(2, 2)^T$, minimum distance is $2\sqrt{2}$.
+\end{document}

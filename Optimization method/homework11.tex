@@ -1,0 +1,353 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz,comment}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 11}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+For the following non-linear programming problem.
+\begin{alignat}{2}          \nonumber
+\min\quad & x_2\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1^2-(x_2-4)^2+16 \geq 0\\        \nonumber
+& (x_1-2)^2+(x_2-3)^2-13 = 0\\         \nonumber
+\end{alignat}
+Judge whether they are local optimal solution or not
+\begin{equation}
+x^{(1)}=\begin{pmatrix} 0 \\ 0\end{pmatrix}, \quad
+x^{(2)}=\begin{pmatrix} \frac{16}{5} \\ \frac{32}{5} \end{pmatrix}, \quad
+x^{(3)}=\begin{pmatrix} 2 \\ 3+\sqrt{13}\end{pmatrix} \nonumber
+\end{equation}
+\emph{\textbf{Solution:}}
+$f(x)=x_2$, $g(x)=-x_1^2-(x_2-4)^2+16$, $h(x)=(x_1-2)^2+(x_2-3)^2-13$\\
+\begin{equation} \nonumber
+\nabla f(x) = \begin{bmatrix}0 \\ 1\end{bmatrix}
+\nabla g(x) = \begin{bmatrix}-2x_1 \\ -2(x_2-4)\end{bmatrix}
+\nabla h(x) = \begin{bmatrix}2(x_1-2) \\ 2(x_2-3)\end{bmatrix}
+\end{equation}
+Lagrange function $L(x,w,v)=x_2-w[-x_1^2-(x_2-4)^2+16]-v[(x_1-2)^2+(x_2-3)^2-13]$\\
+$\nabla^2_xL(x,w,v)=\begin{bmatrix}2(w-v) &0\\0& 2(w-v)\end{bmatrix}$\\
+\\
+For $x^{(1)}=\begin{pmatrix} 0 \\ 0\end{pmatrix}$
+\begin{equation} \nonumber
+\nabla f(x) = \begin{bmatrix}0 \\ 1\end{bmatrix}
+\nabla g(x) = \begin{bmatrix}0 \\ 8\end{bmatrix}
+\nabla h(x) = \begin{bmatrix}-4 \\ -6\end{bmatrix}
+\end{equation}
+K-T-T condition is
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+4v &= 0\\
+1-8w+6v &= 0\\
+w \geq 0
+\end{aligned}
+\right.
+\end{equation}
+when $w=\frac{1}{8}$, $v=0$, the K-T-T condition holds.\\
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+\nabla g(x^{(1)})^Td &= 0\\
+\nabla h(x^{(1)})^Td &= 0\\
+\end{aligned}
+\right.
+\end{equation}
+we get $d=0$ and $G=\emptyset$, so $x^{(1)}$ is an optimal solution.\\
+\\
+For $x^{(2)}=\begin{pmatrix} \frac{16}{5} \\ \frac{32}{5}\end{pmatrix}$
+\begin{equation} \nonumber
+\nabla f(x) = \begin{bmatrix}0 \\ 1\end{bmatrix}
+\nabla g(x) = \begin{bmatrix}-\frac{32}{5}\\ -\frac{24}{5}\end{bmatrix}
+\nabla h(x) = \begin{bmatrix}\frac{12}{5}\\ \frac{34}{5}\end{bmatrix}
+\end{equation}
+K-T-T condition is
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+\frac{32}{5}w-\frac{12}{5}v &= 0\\
+1+\frac{24}{5}w-\frac{34}{5}v &= 0\\
+w \geq 0
+\end{aligned}
+\right.
+\end{equation}
+when $w=\frac{3}{40}$, $v=\frac{1}{5}$, the K-T-T condition holds.\\
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+\nabla g(x^{(2)})^Td &= 0\\
+\nabla h(x^{(2)})^Td &= 0\\
+\end{aligned}
+\right.
+\end{equation}
+we get $d=0$ and $G=\emptyset$, so $x^{(2)}$ is an optimal solution.\\
+\\
+For $x^{(3)}=\begin{pmatrix} 2 \\ 3+\sqrt{13}\end{pmatrix}$
+\begin{equation} \nonumber
+\nabla f(x) = \begin{bmatrix}0\\1\end{bmatrix}
+\nabla h(x) = \begin{bmatrix}0\\2\sqrt{13}\end{bmatrix}
+\end{equation}
+K-T-T condition is
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+1-2\sqrt{13}v &= 0\\
+\end{aligned}
+\right.
+\end{equation}
+when $v=\frac{\sqrt{13}}{26}$, the K-T-T condition holds.\\
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+\nabla h(x^{(3)})^Td &= 0\\
+\end{aligned}
+\right.
+\end{equation}
+we get $d=\begin{bmatrix}d_1\\0\end{bmatrix},d_1\neq0$ and $G=\{d|d=\begin{bmatrix}d_1\\0\end{bmatrix},d_1\neq0\}$.
+\begin{equation}\nonumber
+\nabla^2_xL(x^{(3)},w,v) = \begin{bmatrix}-\frac{1}{\sqrt{13}}& 0\\0 & -\frac{1}{\sqrt{13}}\end{bmatrix}
+\end{equation}
+\begin{equation}\nonumber
+d^T\nabla^2_xL(x^{(3)},w,v)d =(d_1,0)\begin{bmatrix}-\frac{1}{\sqrt{13}}& 0\\0 & -\frac{1}{\sqrt{13}}\end{bmatrix}
+\begin{bmatrix}d_1\\0\end{bmatrix}=-\frac{1}{\sqrt{13}}d^2_1 <0
+\end{equation}
+so $x^{(3)}$ is not an optimal solution.
+\section{Problem 2}
+Given a non-linear programming problem.
+\begin{alignat}{2}          \nonumber
+\max\quad & b^Tx \quad  x\in R^n \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& xx^T \leq 1\\         \nonumber
+\end{alignat}
+$b \neq 0$, prove that $\overline{x} = \frac{b}{||b||}$ holds on necessary condition of optimality.\\
+\\
+\emph{\textbf{Proof:}}\\
+we can rewrite the non-linear programming problem into:
+\begin{alignat}{2}          \nonumber
+\min\quad & -b^Tx \quad  x\in R^n \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& 1-xx^T\geq 0\\         \nonumber
+\end{alignat}
+From K-K-T condition, we can know that:
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+-b+\omega x &= 0\\
+\omega(1-x^Tx) &= 0\\
+\omega \geq 0
+\end{aligned}
+\right.
+\end{equation}
+we can get K-T-T point $x=\frac{b}{||b||}$. Besides, we know the above problem is a convex programming problem, K-T-T condition is the sufficient condition of optimal solution.
+\section{Problem 3}
+Given a non-linear programming problem.
+\begin{alignat}{2}          \nonumber
+\min\quad & \frac{1}{2}[(x_1-1)^2+x_2^2]\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1+\beta x_2^2 = 0\\         \nonumber
+\end{alignat}
+Discuss $\beta$'s span when $\overline{x}=(0,0)^T$ becomes local optimal solution.\\
+\\
+\emph{\textbf{Solution:}}\\
+we can know $f(x)= \frac{1}{2}[(x_1-1)^2+x_2^2]$, $h(x)=-x_1+\beta x_2^2$,\\
+$\nabla f(x)= \begin{bmatrix} x_1-1 \\ x_2\end{bmatrix}$ , $\nabla h(x) = \begin{bmatrix} -1 \\ 2\beta x_2\end{bmatrix}$, from K-T-T condition, we have\\
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+x_1-1+v &= 0\\
+x_2-2\beta vx_2 &= 0\\
+\omega \geq 0
+\end{aligned}
+\right.
+\end{equation}
+Since $\overline{x}=(0,0)^T$, we get $v=1$.
+for Lagrange function
+\begin{equation} \nonumber
+L(x,v) = \frac{1}{2}[(x_1-1)^2+x_2^2] -v(-x_1+\beta x_2^2)
+\end{equation}
+at point $\overline{x}=(0,0)^T$,
+\begin{equation} \nonumber
+\nabla^2_x L(\overline{x},v) = \begin{bmatrix} 1 & 0\\0& 1-2\beta\end{bmatrix}, \nabla h(\overline{x}) = \begin{bmatrix}-1\\0\end{bmatrix},
+\end{equation}
+Direction set $\overline{G}=\{d|\nabla h(\overline(x))^Td=0\}=\{(0,d_2)^T|d_2\in \mathbb{R}\}$,
+\begin{equation} \nonumber
+(0,d_2)\begin{bmatrix} 1 & 0\\0& 1-2\beta\end{bmatrix}\begin{bmatrix} 0\\d_2\end{bmatrix} = (1-2\beta)d^2_2>0
+\end{equation}
+we get $\beta<\frac{1}{2}$, $\overline{x}$ is optimal solution. when $\beta=\frac{1}{2}$, original problem becomes non-constraint problem
+\begin{equation} \nonumber
+\min \frac{1}{2}(x_1^2+1)
+\end{equation}
+$\overline{x}$ is still optimal solution.\\
+Above all, when $\beta\leq\frac{1}{2}$, $\overline{x}$ is optimal solution.
+\section{Problem 4}
+Given a non-linear programming problem.
+\begin{alignat}{2}          \nonumber
+\min\quad & (x_1-1)^2+(x_2+1)^2\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& -x_1+x_2-1 \geq 0\\         \nonumber
+\end{alignat}
+\begin{enumerate}
+\item   Solve this problem using graph method and optimality condition.
+\\
+\emph{\textbf{Solution:}}\\
+we have $f(x)=(x_1-1)^2+(x_2+1)^2$, $g(x)=-x_1+x_2-1$,
+$\nabla f(x)= \begin{bmatrix} 2(x_1-1) \\ 2(x_2+1)\end{bmatrix}$ , $\nabla g(x) = \begin{bmatrix}-1\\1\end{bmatrix}$
+optimal condition is as follows:
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+2(x_1-1)+w &= 0\\
+2(x_2+1)-w &= 0\\
+\omega(-x_1+x_2-1) &= 0\\
+\omega &\geq 0\\
+-x_1+x_2-1&\geq 0
+\end{aligned}
+\right.
+\end{equation}
+we know that when $x_1=-\frac{1}{2}$,$x_2=\frac{1}{2}$,$\omega=3$, optimal value $f_{min}=\frac{9}{2}$.
+\item   Write out its dural problem.
+\\
+\emph{\textbf{Solution:}}\\
+Lagrange function
+\begin{equation} \nonumber
+L(\omega) = (x_1-1)^2+(x_2+1)^2 - \omega(-x_1+x_2-1)
+\end{equation}
+Objective function of dural problem is
+\begin{equation} \nonumber
+\theta(\omega) = inf\{(x_1-1)^2+(x_2+1)^2 - \omega(-x_1+x_2-1) | x\in\mathbb{R}\}
+\end{equation}
+when $\omega\geq0$, $\theta(\omega)=-\frac{1}{2}\omega^2+3\omega$, the dural problem is
+\begin{alignat}{2}          \nonumber
+\max\quad & -\frac{1}{2}\omega^2+3\omega\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+&w \geq 0\\         \nonumber
+\end{alignat}
+\item   Solve the dural problem.
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+-w+3+w_1 &= 0\\
+ww_1 &= 0\\
+w_1&\geq 0\\
+w&\geq 0\\
+\end{aligned}
+\right.
+\end{equation}
+we get $w=3$,$w_1=0$, the optimal value is $\theta_{max}=\frac{9}{2}$
+\end{enumerate}
+
+\section{Problem 5}
+\begin{alignat}{2}          \nonumber
+\min\quad & c^Tx\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& Ax = 0\\         \nonumber
+& x^Tx \leq \gamma^2\\         \nonumber
+\end{alignat}
+$A$ is a $m*n (m<n)$ matrix, rank$(A) = m $, $c\in R^n$ and $c\neq0$, $\gamma$ is positive, What is the optimal solution and optimal value of objective function.\\
+\\
+\emph{\textbf{Proof:}}\\
+Since $f(x)$ is a linear function, $g(x)$ is a concave function and $h(x)$ is a linear function, if the K-T-T condition holds at point $\overline{x}$, $\overline{x}$ is a optimal solution.\\
+we can see that the feasible region is a convex set, $f_{min}$ exists at the edge of region. So we can rewrite the problem into
+\begin{alignat}{2}          \nonumber
+\min\quad & c^Tx\\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& Ax = 0\\         \nonumber
+&  \gamma^2-x^Tx = 0\\         \nonumber
+\end{alignat}
+the K-T-T condition is
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+c-A^Tv+2v_{m+1}x &= 0\\
+Ax &= 0\\
+\gamma^2-x^Tx &= 0\\
+\end{aligned}
+\right.
+\end{equation}
+$v=(v_1,v_2,\cdots,v_m)^T$ and $v_{m+1}$ is a K-T-T multiplier, then we can get the following result:\\
+when $c\neq A^Tv$
+\begin{equation} \nonumber
+v = (AA^T)^{-1}Ac, v_{m+1}= -\frac{f_{min}}{2\gamma^2}\\
+\end{equation}
+\begin{equation} \nonumber
+f_{min} = -r\sqrt{c^T(c-A^Tv)}
+\end{equation}
+\begin{equation} \nonumber
+x = \frac{\gamma^2}{f_{min}}(c-A^Tv)
+\end{equation}
+when $c=A^Tv$, the solution is nonunique, the optimal value is $f_{min}=0$
+\end{document}
