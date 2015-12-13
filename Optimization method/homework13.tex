@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz,comment}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 13}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+Algorithm mapping is defined as follows:
+\begin{equation} \nonumber
+f(x) = (6+x_1+x_2)^2+(2-3x_1-3x_2-x_1x_2)^2
+\end{equation}
+Solve the Newton direction and the steepest descent direction at point $\hat{x}=\begin{bmatrix}-4\\6\end{bmatrix}$.
+\\
+\emph{\textbf{Solution:}}
+\begin{equation}\nonumber
+\frac{\partial f}{\partial x_1}=2(10x_1+8x_2+6x_1x_2+3x_2^2+x_1x_2^2), \quad
+\frac{\partial f}{\partial x_2}=2(8x_1+10x_2++3x_1^2+6x_1x_2+x_1^2x_2) 
+\end{equation}
+\begin{equation}\nonumber
+\frac{\partial^2 f}{\partial x_1^2}=2(10+6x_2+x_2^2),\quad
+\frac{\partial^2 f}{\partial x_2^2}=2(10+6x_1+x_1^2),\quad
+\frac{\partial^2 f}{\partial x_1\partial x_2}=2(8+6x_1+6x_2+2x_1x_2) 
+\end{equation}
+for $\hat{x}=\begin{bmatrix}-4\\6\end{bmatrix}$, the steepest descent direction
+\begin{equation}\nonumber
+d = - \nabla f(\hat{x}) = \begin{bmatrix}344\\-56\end{bmatrix}
+\end{equation}
+the Newton direction
+\begin{equation}\nonumber
+d = - \nabla^2 f(\hat{x})^{-1}\nabla f(\hat{x}) =\begin{bmatrix}164&-56\\-56&4\end{bmatrix}^{-1}\begin{bmatrix}344\\-56\end{bmatrix}
+=\begin{bmatrix} \begin{smallmatrix}\frac{22}{31}\\\frac{-126}{31} \end{smallmatrix}\end{bmatrix}
+\end{equation}
+\section{Problem 2}
+Suppose we have function 
+\begin{equation} \nonumber
+f(x) = \frac{1}{2}x^TAx+b^Tx+c
+\end{equation}
+$A$ is positive definite matrix, suppose $x^{(1)}(\neq\bar{x})$ can denote as
+ \begin{equation} \nonumber
+x^{(1)} = \bar{x} + \mu p
+\end{equation}
+$\bar{x}$ is $f(x)$'s minimal point, $p$ is $A$'s eigenvalue $\lambda$ eigenvector, prove that:
+\begin{enumerate}
+\item $\nabla f(x^{(1)})=\mu\lambda p$
+\item Doing one-dimension search from $x^{(1)}$ along the steepest descent direction, we can get the minimal point
+$\bar{x}$ in one step.
+\end{enumerate}
+\emph{\textbf{Proof:}}\\
+\begin{enumerate}
+\item Since $A$ is positive definite matrix, $\bar{x}=-A^{-1}b$.\\
+\begin{align*}\nonumber
+\nabla f(x^{(1)})& = Ax^{(1)} + b \\
+& = A(\bar{x}+\mu p) + b \\
+& = A(-A^{-1}b) + \mu Ap + b\\
+& = -b + \mu\lambda p + b \\
+& = \mu\lambda p
+\end{align*}
+\item From point $x^{(1)}$, conduct the steepest descent method.
+\begin{align*}\nonumber
+x^{(2)} &= x^{(1)}-\alpha\nabla f(x^{(1)})\\
+& = \bar{x} + \mu p - \alpha \mu\lambda p \\
+& = \bar{x} + \mu p(1-\alpha\lambda) 
+\end{align*}
+Thus, we choose $\alpha = \frac{1}{\lambda}$, we can get the minimal $\bar{x}$ in one step.
+\end{enumerate}
+
+\section{Problem 3}
+Suppose $A$ is $n$ order real symmetric positive definite matrix, Prove that $A$ has $n$ orthogonal eigenvector $p^{(1)}, p^{(2)},\cdots, p^{(n)}$ is conjugate with $A$.
+\\
+\emph{\textbf{Proof:}}\\
+we have $Ap^{(i)}=\lambda_i p^{(i)}$, $i=1,\cdots,n$. And when $i\neq j$, $p^{{(i)}^T}p^{(j)} = 0$. Then
+\begin{equation}\nonumber
+p^{{(i)}^T}Ap^{(j)} = \lambda_j p^{{(i)}^T}p^{(j)} = 0, i \neq j
+\end{equation}
+So $p^{(1)}, p^{(2)},\cdots, p^{(n)}$ is conjugate with $A$.
+
+\section{Problem 4}
+Suppose $A$ is $n$ order symmetric positive definite matrix, non-zero vector $p^{(1)}, p^{(2)},\cdots, p^{(n)} \in \mathbf{E}^n$ is conjugate with $A$. Prove that:
+\begin{enumerate}
+\item $x = \sum_{i=1}^{n}\frac{p^{{(i)}^T}Ax}{p^{{(i)}^T}Ap^{(i)}}p^{(i)}, \quad \forall x \in \mathbf{E}^n$
+\item $A^{-1} = \sum \frac{p^{(i)} p^{{(i)}^T}}{p^{{(i)}^T}Ap^{(i)}}$
+\end{enumerate}
+\emph{\textbf{Proof:}}\\
+\begin{enumerate}
+\item 
+we can know that $p^{(1)}, p^{(2)},\cdots, p^{(n)}$ are linearly independent. Thus, they can be a base. $\forall x \in  \mathbf{E}^n$, we have
+\begin{equation}
+\label{equ 4.1}
+x = \sum_{i=1}^n \lambda_ip^{(i)}
+\end{equation}
+multiply $p^{(i)^T}A$ for above equation,we have
+\begin{equation}\nonumber
+p^{(i)^T}Ax = \lambda_i p^{(i)^T}Ap^{(i)}
+\end{equation}
+\begin{equation}\nonumber
+\lambda_i= \frac{p^{(i)^T}Ax}{p^{(i)^T}Ap^{(i)}}
+\end{equation}
+Replace $\lambda_i$ of \ref{equ 4.1}, we get
+\begin{equation}\nonumber
+x = \sum_{i=1}^{n}\frac{p^{{(i)}^T}Ax}{p^{{(i)}^T}Ap^{(i)}}p^{(i)}
+\end{equation}
+
+\item 
+Suppose $A^{-1}=\left(\beta_1,\cdots,\beta_n\right)$, from (1) we know
+\begin{equation}\nonumber
+\beta_i = \sum_{i=1}^{n}\frac{p^{{(i)}^T}A\beta_i}{p^{{(i)}^T}Ap^{(i)}}p^{(i)}
+\end{equation}
+So
+\begin{align*}\nonumber
+\left(\beta_1,\cdots,\beta_n\right)& = \sum_{i=1}^{n}\frac{p^{{(i)}^T}A\left(\beta_1,\cdots,\beta_n\right)}{p^{{(i)}^T}Ap^{(i)}}p^{(i)}\\
+&=\sum_{i=1}^{n}\frac{p^{{(i)}^T}AA^{-1}}{p^{{(i)}^T}Ap^{(i)}}p^{(i)}\\
+&=\sum_{i=1}^{n}\frac{p^{{(i)}^T}p^{(i)}}{p^{{(i)}^T}Ap^{(i)}}
+\end{align*}
+So
+\begin{equation}\nonumber
+A^{-1} = \sum \frac{p^{(i)} p^{{(i)}^T}}{p^{{(i)}^T}Ap^{(i)}}
+\end{equation}
+
+\end{enumerate}
+
+\section{Problem 5}
+Suppose we have a linear programming problem
+\begin{alignat}{2}          \nonumber
+\min\quad & \frac{1}{2}x^TAx \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& x\geq b
+\end{alignat}\\
+$A$ is a $n$ order symmetric positive definite matrix. Suppose $\bar{x}$ is optimal solution, prove that $\bar{x}$ and $\bar{x}-b$ is conjugate with $A$.\\
+\emph{\textbf{Solution:}}\\
+This problem is convex programming problem and $\bar{x}$ is K-T-T point. We have
+\begin{equation}
+\left\{
+\begin{aligned}
+A\bar{x}-w^T =0\\
+w(\bar{x}-b) = 0\\
+w \geq 0
+\end{aligned}
+\right. \nonumber
+\end{equation}
+So we get $w=\bar{x}^TA$.
+\begin{equation}\nonumber
+\bar{x}^TA(\bar{x}-b) = w (\bar{x}-b) = 0
+\end{equation}
+Thus, $\bar{x}$ and $\bar{x}-b$ is conjugate with $A$.
+\end{document}
