@@ -1,0 +1,180 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz,comment}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 15}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+Consider the following problem:
+\begin{alignat}{2}          \nonumber
+\min\quad & x_1^3+x_2^3 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& x_1+x_2=1 \\    \nonumber
+\end{alignat}\\
+\begin{enumerate}
+\item Solve the optimum of problem.
+\item Define penalty function 
+\begin{equation}\nonumber
+F(x,\sigma) = x_1^3+x_2^3+\sigma(x_1+x_2-1)^2
+\end{equation}
+Can we get the optimal solution of original problem by solving non-constraint problem $\min F(x,\sigma)$? Why?
+\end{enumerate}
+~\\
+\emph{\textbf{Solution:}}\\
+\begin{enumerate}
+\item we can use $x_2 = 1-x_1$ replace into objective function, we change original problem into a non-constraint problem
+\begin{alignat}{2}          \nonumber
+\min\quad & 3x_1^2-3x_1+1 \\    \nonumber
+\end{alignat}
+Set $f'(x)=6x-3=0$, we get $x=\frac{1}{2}$. Then we can easily get the optimal solution $\bar{x}=(\frac{1}{2},\frac{1}{2})^T$,$f_{min}=\frac{1}{4}$.
+\item No, $F(x^{(k)},\sigma_k)\leq f(\bar{x})$ 's solution is not contained in a compact set.
+\end{enumerate}
+\section{Problem 2}
+Consider the following problem:
+\begin{alignat}{2}          \nonumber
+\min\quad & x_1x_2 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& g(x)=-2x_1+x_2+3\geq0\\    \nonumber
+\end{alignat}
+\begin{enumerate}
+\item  Prove that 
+\begin{equation} \nonumber
+\bar{x} = \begin{bmatrix}\begin{smallmatrix}\frac{3}{4}\\-\frac{3}{2}\end{smallmatrix}\end{bmatrix}
+\end{equation}
+is local optimum, and tell whether it is global optimum or not.
+\item Define barrier function 
+\begin{equation}\nonumber
+G(x,r)=x_1x_2-r\ln g(x)
+\end{equation}
+\end{enumerate}
+Solve this problem using inner point method and explain that sequence generated by inner point method incline to $\bar{x}$.\\~\\
+\emph{\textbf{Solution:}}\\~\\
+\begin{enumerate}
+\item  at point $\bar{x}$,we have
+\begin{equation}\nonumber
+\nabla f(x) = \begin{bmatrix}x_2\\x_1\end{bmatrix} = \begin{bmatrix}-\frac{3}{2} \\ \frac{3}{4}\end{bmatrix}, \nabla g(\bar{x}) = \begin{bmatrix}-2 \\ 1\end{bmatrix}
+\end{equation}
+\begin{equation}\nonumber
+\begin{bmatrix}-\frac{3}{2} \\ \frac{3}{4}\end{bmatrix}- w\begin{bmatrix}-2 \\ 1\end{bmatrix}=\begin{bmatrix}0\\ 0\end{bmatrix}
+\end{equation}
+Solve it and we get $w=\frac{3}{4}>0$, $\bar{x}$ is a KTT point.
+we get Lagrange function
+\begin{equation}\nonumber
+L(x,w) = x_1x_2-w(-2x_1+x_2+3)
+\end{equation}
+Then
+\begin{equation}\nonumber
+\nabla^2L(x,w) = \begin{bmatrix}0 &1 \\ 1 & 0\end{bmatrix}
+\end{equation}
+Set 
+\begin{equation}\nonumber
+\nabla g(\bar{x})^Td=[-2, 1]\begin{bmatrix}d_1\\d_2\end{bmatrix}=0
+\end{equation}
+we get $d_2=2d_1$. $\forall d\in G$, we have
+\begin{equation}\nonumber
+d^T\nabla^2L(x,w)d=4d_1^2 > 0
+\end{equation}
+So, $\bar{x}$ is strict local optimum, and it is easy to find out $\bar{x}$ is not global optimum.
+\item
+\begin{equation}\nonumber
+G(x,r)=x_1x_2-r\ln (-2x_1+x_2+3)
+\end{equation}
+Set 
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+\frac{\partial G(x,r)}{\partial x_1}=x_2+\frac{2r}{-2x_1+x_2+3}=0\\
+\frac{\partial G(x,r)}{\partial x_2}=x_1-\frac{r}{-2x_1+x_2+3}=0
+\end{aligned}
+\right.
+\end{equation}
+Solve the above equation, we get
+\begin{equation} \nonumber
+\left\{
+\begin{aligned}
+x_1 = \frac{3+\sqrt{9-16r}}{8}=0\\
+x_2 = -\frac{3+\sqrt{9-16r}}{4}=0
+\end{aligned}
+\right.
+\end{equation}
+Set $r\rightarrow0$, we have 
+\begin{equation}\nonumber
+\bar{x} = (\frac{3}{4}, -\frac{3}{2})^T
+\end{equation}
+\end{enumerate}
+
+\end{document}

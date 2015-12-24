@@ -1,0 +1,168 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{pgfplots, tikz,comment}
+\usetikzlibrary{intersections}
+\usepackage[CJKbookmarks=true,
+            colorlinks,linkcolor=black,anchorcolor=blue,citecolor=green]{hyperref}
+
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\renewcommand\thesection{\roman{section}}
+
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize
+\textsc{School of Software, Tsinghua University} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Optimization Method\\ % The assignment title
+\LARGE\textit{homework 14}
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Qingfu Wen \\ \normalsize 2015213495} % Your Info
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+\tableofcontents
+\newpage
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+\section{Problem 1}
+Consider the following problem:
+\begin{alignat}{2}          \nonumber
+\min\quad & x_1^2+x_1x_2+2x_2^2-6x_1-2x_2-12x_3 \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& x_1+x_2+x_3 = 2 \\    \nonumber
+& -x_1+2x_2 \leq 3 \\     \nonumber
+& x_1,x_2,x_3 \geq 0       \nonumber
+\end{alignat}\\
+Please compute the descent feasible direction at point $\hat{x}=(1,1,0)^T$.
+\\~\\
+\emph{\textbf{Solution:}}\\
+~\\
+$\hat{x}$'s active constraint are $x_1+x_2+x_3=0$ and $x_3\geq0$. so feasible direction $d$ holds
+\begin{equation}
+\left\{
+\begin{aligned}
+d_1+d_2+d_3 =0\\
+d_3\geq0\\
+\end{aligned}
+\right. \nonumber
+\end{equation}
+As a descent direction, we have $\nabla f(\hat{x})d<0$. Since\\
+\begin{equation} \nonumber
+\nabla f(\hat{x}) = \begin{bmatrix}2x_1+x_2-6\\x_1+4x_2-2\\-12\end{bmatrix} = \begin{bmatrix}-3\\3\\-12\end{bmatrix}
+\end{equation}
+So the descent feasible direction holds 
+\begin{equation}
+\left\{
+\begin{aligned}
+d_1+d_2+d_3 =0\\
+d_3\geq0\\
+-3d_1+3d_2-12d_3 < 0
+\end{aligned}
+\right. \nonumber
+\end{equation}
+A possible solution is $d=(-1,0,1)$.
+
+\section{Problem 2}
+Consider the following problem:
+\begin{alignat}{2}          \nonumber
+\min\quad & f(x) \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& g_i(x) \geq 0, i=1,2,\cdots,m \\    \nonumber
+& h_j(x) =0, j=1,2,\cdots,l\\     \nonumber
+\end{alignat}\\
+Suppose $\hat{x}$ is a feasible point, $I=\{i|g_i(\hat{x})=0\}$.\\
+Please prove $\hat{x}$ is a KTT point's Necessary and Sufficient Condition is that the optimum of the following objective function is 0:
+\begin{alignat}{2}          \nonumber
+\min\quad & \nabla f(\hat{x})^Td \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& \nabla g_i(\hat{x})^Td \geq0, i\in I \\    \nonumber
+& \nabla h_j(\hat{x})^Td =0, j=1,2,\cdots,l\\ \nonumber
+& -1 \leq d_j \leq 1, j =1,2,\cdots,n
+\end{alignat}\\
+\emph{\textbf{Proof:}}\\~\\
+$\hat{x}$ is a KTT point whose Necessary and Sufficient Condition is that $\exists w_i\geq0(i\in I)$ and $v_j$,
+\begin{equation} \label{equ 2.1}
+\nabla f(\hat{x}) - \sum_{i\in I}w_i\nabla g_i(\hat{x})-\sum_{j=1}^{l}v_j\nabla h_j(\hat{x}) = 0
+\end{equation}
+Mark $A_1$ = $\left[\nabla g_{i1}(\hat{x}),\cdots,\nabla g_{im}(\hat{x})\right]$, $E=\left[\nabla h_1(\hat{x},\cdots,\nabla h_l(\hat{x}\right]$, $v = p-q(p\geq0,q\geq0)$. We can rewrite equation \ref{equ 2.1} into
+\begin{equation} \label{equ 2.2}
+(-A_1, -E, E)\begin{bmatrix}w\\p\\q\end{bmatrix}=-\nabla f(\hat{x}), \begin{bmatrix}w\\p\\q\end{bmatrix}\geq 0
+\end{equation}
+From Farkas Theorem, we know \ref{equ 2.2} has solution whose Necessary and Sufficient Condition is
+\begin{equation}
+\begin{bmatrix}-A_1^T\\ -E^T\\ E^T\end{bmatrix}d\leq0, -\nabla f(\hat{x})^Td> 0
+\end{equation}
+has no solution. That is
+\begin{equation}
+\left\{
+\begin{aligned}
+\nabla f(\hat{x})^Td< 0\\
+A_1^Td\geq0\\
+E^Td = 0
+\end{aligned}
+\right. \nonumber
+\end{equation}
+has no solution. Thus,
+\begin{alignat}{2}          \nonumber
+\min\quad & \nabla f(\hat{x})^Td \\    \nonumber
+\mbox{s.t.}\quad            \nonumber
+& \nabla g_i(\hat{x})^Td \geq0, i\in I \\    \nonumber
+& \nabla h_j(\hat{x})^Td =0, j=1,2,\cdots,l\\ \nonumber
+& -1 \leq d_j \leq 1, j =1,2,\cdots,n
+\end{alignat}
+has optimal solution 0.
+\end{document}
