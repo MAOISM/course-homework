@@ -1,0 +1,358 @@
+\documentclass{article}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{CJK}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+%\include{macros}
+%\usepackage{floatflt}
+%\usepackage{graphics}
+%\usepackage{epsfig}
+
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{defition}{Definition}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem*{exercise}{Exercise}
+
+\setlength{\oddsidemargin}{-0.25 in}
+\setlength{\evensidemargin}{-0.25 in} \setlength{\topmargin}{-0.25
+in} \setlength{\textwidth}{7 in} \setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.25 in} \setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newcommand{\homework}[4]{
+\pagestyle{myheadings} \thispagestyle{plain}
+\newpage
+\setcounter{page}{1} \setcounter{section}{#4} \noindent
+\begin{center}
+\framebox{ \vbox{\vspace{2mm} \hbox to 6.28in { {\bf
+THU-70250043,~Pattern~Recognition~(Spring 2016) \hfill Homework: 4} }
+\vspace{6mm} \hbox to 6.28in { {\Large \hfill #1 \hfill} }
+\vspace{6mm} \hbox to 6.28in { {\it Lecturer: #2 \hfill} }
+\vspace{2mm} \hbox to 6.28in { {\it Student: #3 \hfill} }
+\vspace{2mm} } }
+\end{center}
+\markboth{#1}{#1} \vspace*{4mm} }
+
+
+\begin{document}
+
+\begin{CJK*}{GBK}{song}
+
+\homework{Linear Classifiers and SVM}{Changshui Zhang
+\hspace{5mm} {\tt zcs@mail.tsinghua.edu.cn}}{Qingfu Wen \hspace{5mm} {\tt
+wqf15@mails.tsinghua.edu.cn } }{8}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section 2.  Problem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Problem 1}
+Suppose we have $N$ points $x_i$ in $\mathcal{R}^p$ in general position, with class labels $y_i \in \{-1, 1\}$. Prove that the perceptron learning algorithm converges to a separating hyperplane in a finite number of steps:
+\begin{itemize}
+  \item Denoting a hyperplane by $f(x) = \beta_1^T(x) + \beta_0 = 0$, or in more compact notation $\beta^T x^* = 0$, where $x^* = (x,1)$ and $\beta = (\beta_1, \beta_0)$. Let $z_i = \frac{x_i^*}{||x_i^*||}$. Show that separability implies the existence of a $\beta_{sep}$ such that $y_i\beta_{sep}^Tz_i \geq 1, \forall i$
+  \item Given a current $\beta_{old}$, the perceptron algorithm identifies a point $z_i$ that is misclassified, and produces the update $\beta_{new} = \beta_{old} + y_iz_i$. Show that $||\beta_{new} - \beta_{sep}||^2 \leq ||\beta_{old} - \beta_{sep}||^2 - 1$, and hence the algorithm converges to a separating hyperplane in no more than $||\beta_{start} - \beta_{sep}||^2$ steps. (Ripley, 1996)
+\end{itemize}
+
+\emph{\textbf{SOLUTION:}}
+\begin{enumerate}
+\item when $\beta^T x^* > 0$, $y_i = 1$, $\beta^T x_i^* < 0$, $y_i = -1$. Thus, $\forall i,y_i \beta^T x_i^*>0$. \\
+    $\exists \epsilon >0,\forall i,y_i \beta^T x_i^*\geq\epsilon$
+    \begin{equation} \nonumber
+    \begin{aligned}
+    y_i \beta^T x_i^* &\geq \epsilon\\
+    y_i ||x_i^*||\beta^T z_i &\geq \epsilon\\
+    y_i \frac{||x_i^*||}{\epsilon}\beta^T z_i &\geq 1\\
+    y_i\beta_{sep}^Tz_i \geq 1
+    \end{aligned}
+    \end{equation}
+\item
+    \begin{equation} \nonumber
+    \begin{aligned}
+    ||\beta_{new} - \beta_{sep}||^2 &= ||\beta_{new}||^2 + ||\beta_{sep}||^2-2\beta_{sep}^T\beta_{new} \\
+    &= ||\beta_{old} + y_iz_i||^2+ ||\beta_{sep}||^2-2\beta_{sep}^T(\beta_{old} + y_iz_i) \\
+    &= ||\beta_{old}||^2 + ||y_iz_i||^2 + 2y_i\beta_{old}^Tz_i +||\beta_{sep}||^2-2\beta_{sep}^T\beta_{old}-2y_i\beta_{sep}^Tz_i\\
+    &\leq ||\beta_{old}||^2+||\beta_{sep}||^2-2\beta_{sep}^T\beta_{old} + 1 -2\\
+    &=||\beta_{old} - \beta_{sep}||^2 - 1
+    \end{aligned}
+    \end{equation}
+Suppose that the algorithm converges in $k$ steps. Thus, we have $||\beta_{new} - \beta_{sep}||^2=0$
+\begin{equation}\nonumber
+0 =||\beta_{new} - \beta_{sep}||^2 \leq ||\beta_{new-1} - \beta_{sep}||^2 - 1 \leq ||\beta_{start} - \beta_{sep}||^2 - k
+\end{equation}
+\end{enumerate}
+Thus \[k\leq||\beta_{start} - \beta_{sep}||^2\]
+the algorithm converges in at most $||\beta_{start} - \beta_{sep}||^2$ steps.
+\section*{Problem 2}
+
+In the multicategory case ($c$ classes):
+
+\begin{itemize}
+
+\item A set of samples is said to be \textbf{linearly separable} if there exists a
+\textbf{linear machine (线性机器)} that can classify them correctly. If any samples labeled $\omega_i$ can be separated
+from all others by a single hyperplane, we shall say the samples are \textbf{totally linearly separable}.
+Give examples to show that totally linear separable must be linearly separable, but that the
+converse need not to be true.
+
+\item A set of samples is said to be \textbf{pairwise linearly separable} if there exist $c(c-1)/2$ hyperplanes
+$H_{ij}$ such that $H_{ij}$ separates samples labeled $\omega_i$ from samples labeled $\omega_j$. Give examples
+to show that a pairwise linearly separable set of patterns may not be linearly separable.
+
+\end{itemize}
+
+\emph{\textbf{SOLUTION:}}
+\begin{enumerate}
+\item we can easily see that totally linear separable must be linearly separable. for each label $\omega_i$, there is a $f_i(x)$ which can separate it from others. Thus, all these $f_i(x)$ are formed to be a linear machine to classify them.\\
+    On the contrary, linearly separable samples may not be totally linearly separable. For example,
+    \begin{equation}\nonumber
+    \begin{aligned}
+        \omega_1 &= {x<0}\\
+        \omega_2 &= {0<x<1}\\
+        \omega_3 &= {x>1}
+    \end{aligned}
+    \end{equation}
+    There is no linear function to separate $\omega_2$ from others, but it can be linear separable by $x=0$ and $x=1$.
+\item Pairwise linearly separable samples must be linearly separable by a linear machine.
+
+\end{enumerate}
+
+\section*{Problem 3}
+
+Consider an SVM and the following training data from two categories:
+\begin{table}[!h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Category & $x_1$ & $x_2$\\
+\hline
+$\omega_1$ & 0 & 0\\
+$\omega_1$ & 0 & 1\\
+$\omega_1$ & 1 & 0\\
+\hline
+$\omega_2$ & 1 & 1\\
+$\omega_2$ & 2 & 2\\
+$\omega_2$ & 0 & 2\\
+\hline
+\end{tabular}
+\end{table}
+\begin{itemize}
+\item Plot these six training points and construct by inspection the weight vector for the optimal hyperplane and the optimal margin.
+\item What are the support vectors?
+\item Construct the solution in the dual space by finding the Lagrange undetermined multipliers $\alpha_i$. Compare your result to that in problem 3.~1.
+\end{itemize}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=3in]{3.eps}\\
+\end{figure}
+\begin{enumerate}
+\item From the above picture, we can see that the hyperplane is $x_1+x_2-1.5=0$, so the weight vector can be $(-1.5,1,1)^T$.
+\item The support vectors are $(0,1),(1,0),(1,1),(0,2)$.
+\item we can try to solve the dual problem
+\begin{equation}\nonumber
+\begin{aligned}
+\max_{\alpha}L(\alpha)&=\max_{\alpha} \sum_{i=1}^{n}\alpha_i-\frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jd_id_jx_i^Tx_j\\
+s.t.&\\
+&\sum_{i=1}^n \alpha_id_i = 0\\
+&a_i \geq 0, i= 1\cdots n
+\end{aligned}
+\end{equation}
+First, we try to maximize $L(\alpha)$. From $\sum_{i=1}^n a_id_i = 0$, we get $\alpha_6 = \alpha_1 + \alpha_2 + \alpha_3 - \alpha_4 - \alpha_5$. We replace this into $L(\alpha)$ and compute the partial derivative $\frac{\partial L(\alpha)}{\partial \alpha_i}$:
+\[\begin{pmatrix}
+-1 &-2 &-2 &0 &1\\
+-2 &-5 &2 &-1 &1\\
+-2 &2 &5 &1 &1\\
+0 &-1 &1 &-1 &-1\\
+1 &1 &3 &-1 &-2\\
+\end{pmatrix}\begin{pmatrix}\alpha_1\\ \alpha_2 \\ \alpha_3 \\ \alpha_4 \\ \alpha_5\end{pmatrix}=\begin{pmatrix}-2 \\ -2 \\ -2 \\ 0 \\ 0\end{pmatrix}\]
+Solving this,  we get $\alpha = (3.2~0~0.8 ~ 0 ~ 2.8 ~ 1.2)^T$. Now, we can minimize $L(w)$
+\[L(w)=\frac{1}{2}||w||^2-\sum_{i=1}^{n}\alpha_i(d_i(w^Tx_i+b)-1)\]
+\[\frac{\partial L(w)}{w}=w-\sum_{i=1}^{n}\alpha_id_ix_i=0\]
+\[w=3.2x_1+0.8x_3-2.8x_5-1.2x_6=\begin{pmatrix}2\\2\end{pmatrix}\]
+since $\alpha_1>0$, $d_1(w^Tx_1+b)-1=0$. $b = 1-w^Tx_1=-3$. Thus, the solution is:
+\[2x_1+2x_2-3 = 0\]
+It is the same as the result in 3.1.
+\end{enumerate}
+\section*{Problem 4}
+
+Convert the soft-marginal SVM
+\begin{equation*}
+ \begin{aligned}
+ & \min_\omega
+ & & \frac{1}{2}||\omega||^2 + C\sum_{i=1}^n\xi_i \\
+ & \mbox{s.t.}
+ & & y_i\omega^Tx_i\ge1-\xi_i, \;\;\;\; i = 1, \ldots, n \\
+ &
+ & & \xi_i\ge0, \;\;\;\; i = 1, \ldots, n
+ \end{aligned}
+\end{equation*}
+into an unconstrained form and give a geometry interpretation.
+
+\emph{\textbf{SOLUTION:}}
+
+Directly, the dual problem is:
+\[
+L(w,b,\xi,\alpha,\beta)=
+\frac{1}{2}||w||^2+C\sum_{i=1}^n\xi_i-\sum_{i=1}^{n}\alpha_i(d_i(w^Tx_i+b)-1+\xi_i)-\sum_{i=1}^{n}\beta_i\xi_i
+\]
+\[\frac{\partial L}{\partial w}=0 \Rightarrow w = \sum_{i=1}^{n}\alpha_id_ix_i\]
+\[\frac{\partial L}{\partial b}=0 \Rightarrow \sum_{i=1}^{n}\alpha_id_i=0\]
+\[\frac{\partial L}{\partial \xi_i}=0 \Rightarrow C-\alpha_i-\xi_i=0, i = 1,\cdots,n\]
+Thus, $L(w,b,\xi,\alpha,\beta)$ can be simplified as follow:
+\begin{equation}\nonumber
+\begin{aligned}
+\max_{\alpha}L(\alpha)&=\max_{\alpha} \sum_{i=1}^{n}\alpha_i-\frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jd_id_jx_i^Tx_j\\
+s.t.&\\
+&\sum_{i=1}^n \alpha_id_i = 0\\
+&0 \leq a_i \leq C, i= 1\cdots n
+\end{aligned}
+\end{equation}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=3in]{svm.eps}\\
+\end{figure}
+From the above picture, we can see that $\xi=0$ means the point is on the support vector, $0<\xi<1$ means the point is in the margin, $\xi\geq1$ means it is misclassified.
+\section*{Problem 5}
+
+Let there be a binary classification problem with $y \in \{0,1\}$. The perceptron uses
+hypotheses of the form $h_\theta (x)=g(\theta^Tx)$, where $g(z)=1\{z \ge 0\}$.
+In this problem we will consider a \textbf{single-sample-correction-like} implementation of the perceptron algorithm where each update to the parameters $\theta$ is made using only one training example. The perceptron algorithm will only make one pass through the entire training set. The update rule for this version of the perceptron algorithm is given by
+$$\theta^{(i+1)} := \theta^{(i)} + \alpha[y^{(i+1)}-h_{\theta^{(i)}}(x^{(i+1)})]x^{(i+1)},$$
+where $\theta^{(i)}$ is the value of the parameters after the algorithm has seen the first $i$ training examples. Prior to seeing any training examples, $\theta^{(0)}$ is initialized to $\vec{0}$ (This means that $\theta$ will always be a linear combination of the $\phi(x^{(i)})$, i.e., $\theta^{(i)}=\sum_{l=1}^i\beta_l\phi(x^{(l)})$ after incorporated $i$ training points)
+
+Let $K$ be a Mercer kernel corresponding to some very high-dimensional feature mapping $\phi$. Suppose $\phi$ is so high-dimensional (say, $\infty$-dimension) that it's infeasible to ever represent $\phi(x)$ explicitly. Describe how you would apply the “kernel trick” we have seen in SVM to the perceptron to make it work in the high-dimensional feature space $\phi$, but \textbf{without ever explicitly computing} $\phi(x)$. Your description should specify:
+\begin{itemize}
+\item How you will (implicitly) represent the high-dimensional parameter vector $\theta^{(i)}$;
+
+\item How you will efficiently make a prediction on a new input $x^{(i+1)}$, i.e., how you will compute $h_{\theta^{(i)}}(x^{(i+1)})=g(\theta^{(i)^T}\phi(x^{(i+1)}))$, using your representation of $\theta^{(i)}$;
+
+\item How you will modify the update rule given above to perform an update to $\theta$ on a new training example $(x^{(i+1)},y^{(i+1)})$; i.e., using the update rule corresponding to the feature mapping $\phi$:
+$$\theta^{(i+1)} := \theta^{(i)} + \alpha[y^{(i+1)}-h_{\theta^{(i)}}(\phi(x^{(i+1)}))]\phi(x^{(i+1)})$$
+\end{itemize}
+
+\begin{itemize}
+\item 在高维空间中，$$\theta^{(i+1)} = \theta^{(i)}+ \alpha[y^{(i+1)}-h_{\theta^{(i)}}(\phi(x^{(i+1)}))]\phi(x^{(i+1)})$$ 假设 $\theta$ 初值为0，$\theta$ 可以用 $\phi(x^{(i+1)})$ 的线性组合来表示，因此我们只需要存储线性组合的系数$\beta_l$就可以表示$\theta$ 了。
+\item 预测过程就是要计算$h_{\theta^{(i)}}(x^{(i+1)})$，也就是$g(\theta^{(i)^T}\phi(x^{(i+1)}))$。对于计算$g(\theta^{(i)^T}\phi(x^{(i+1)}))$，
+\[g(\theta^{(i)^T}\phi(x^{(i+1)}))=g(\sum_{l=1}^i\beta_l\phi(x^{(l)})^T\phi(x^{(i+1)}))=g(\sum_{l=1}^i\beta_l K(x^{(l)}, x^{(i+1)}))\]将向量乘积转化为kernel函数就可以快速计算出结果。
+\item 对于新的$(x^{(i+1)},y^{(i+1)})$，需要迭代更新$\theta$，要算出每次$\theta^{(i+1)}$所对应的$\beta_{i+1}$.
+\[\beta_{i+1}=\alpha(y^{(i+1)}-h_{\theta^{(i)}}(\phi(x^{(i+1)})))\]
+当分类正确的时候，$y^{(i+1)}-h_{\theta^{(i)}}(\phi(x^{(i+1)}))=0$，否则等于$2y^{(i+1)}$。因此
+\[\theta^{(i)} = \sum_{i\in Misclassified} 2y^{(i)}\phi(x^{(i)})\]
+\end{itemize}
+
+\section*{Problem 6}
+经典感知器（Algorithm \ref{alg:1}）的训练过程可以看成在解区内寻找一个解，并没有对这个解的性能有所限定。这个解只需满足~$\alpha^Ty_n>0$，其中~$\alpha$是感知器的权向量，$y_n$是规范化增广样本向量。而~margin 感知器（Algorithm \ref{alg:2}）则要求算法收敛的超平面有一个大于~$\gamma$ 的~margin，其中~$\gamma$ 是预先设定的一个正数。即，~margin 感知器的解需要满足~$\alpha^Ty_n>\gamma$。
+
+\begin{algorithm}[htb]
+  \caption{Fixed-Increment Single Sample Correction Algorithm}
+  \label{alg:1}
+  \begin{algorithmic}[1]
+  \STATE \textbf{initialize} $\alpha$,$k \gets 0$
+  \REPEAT
+    \STATE $k \gets (k+1)$ $mod$ $n$
+    \IF{$y_k$ is misclassified by $\alpha$}
+        \STATE $\alpha \gets \alpha + y_k$
+    \ENDIF
+  \UNTIL {all patterns are properly classified}
+  \STATE \textbf{return} $\alpha$
+  \end{algorithmic}
+\end{algorithm}
+
+因此，在~margin 感知器的训练中，“错误”包括两种情况：1）标签预测错误（prediction mistake）；2）标签预测正确但~margin不够大（margin mistake）。
+
+\begin{algorithm}[htb]
+  \caption{Single Sample Correction Algorithm With Margin}
+  \label{alg:2}
+  \begin{algorithmic}[1]
+  \STATE \textbf{initialize} $\alpha,k \gets 0,~\gamma > 0$
+  \REPEAT
+    \STATE $k \gets (k+1)$ $mod$ $n$
+    \IF{$\alpha^Ty_k\leq\gamma$}
+        \STATE $\alpha \gets \alpha + y_k$
+    \ENDIF
+  \UNTIL {all patterns are properly classified with a large enough margin $\gamma$}
+  \STATE \textbf{return} $\alpha$
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{itemize}
+\item 随机生成~$200$ 个二维平面上的点，其中~$100$ 个标记为~$1$，剩下的~$100$ 个标记为~$-1$，保证它们是线性可分的。画出这~$200$ 个点的分布。
+\item 编程实现经典感知器算法，并在生成的数据集上运行。在一张图上画出分界线和数据点。
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=4in]{6-2.eps}\\
+  \caption{problem 6-2}
+\end{figure}
+
+\item 编程实现~margin 感知器算法，并在生成的数据集上运行。在一张图上画出分界线和数据点，分析 $\gamma$ 取值对算法收敛性及分界面位置的影响。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=4in]{6-3.eps}\\
+  \caption{problem 6-3}
+\end{figure}
+
+\begin{table}[!htbp]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+ $\gamma$ & time(s)\\
+\hline
+0.1 & 0.130 \\
+\hline
+1 & 0.302\\
+\hline
+10 & 1.874 \\
+\hline
+100 & 15.206 \\
+\hline
+\end{tabular}
+\caption{problem 6-3}
+\end{table}
+From the above table and figure, we can see that when $\gamma$ gets bigger, training time is longer but the performance of algorithm are better(larger $\gamma$ with larger margin).
+
+\section*{Problem 7}
+真实数据往往是线性不可分的，此时经典的感知器算法无法收敛。针对这种情况，Gallant~在文献~[1]~中提出了口袋感知器算法（Pocket Perceptron）。其原理是依然采用经典感知器来训练，但在训练过程中维护一个最优权值的口袋，在迭代预设次数后算法结束，输出口袋中记录的最优权值。
+
+\begin{itemize}
+\item 参照文献~[1]~第~181~页的算法流程图，编程实现口袋感知器算法。
+\item 在~MNIST~数据集中针对~“0”~和~“1”~两类数字运行口袋感知器算法，给出结果和相应的分析。（鼓励探究不同的图像特征，这里给出一个简单的特征示例：将图片在~$x$ 方向投影得到~28 维统计量，在~$y$ 方向投影得到~28 维统计量，两个统计量合并成一个~56~维特征向量）
+\item 观察算法运行过程中错误率的变化情况，画出“错误率---迭代次数”曲线，并分析。
+\end{itemize}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=4in]{7.eps}\\
+  \caption{problem 7}
+\end{figure}
+在起始迭代中，迭代次数不断增加，可以使得错误率不断减小，但是当达到某一固定值后，错误率恒定，增加迭代次数没有变化。从算法的流程我们可以发现，每次迭代都会去找更新错误率最小值，当错误率全局最小后，增加迭代次数确实是徒劳的。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Reference
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{1}
+
+[1] Gallant S I. Perceptron-based learning algorithms[J]. Neural Networks, IEEE Transactions on, 1990, 1(2): 179-191.
+
+\end{thebibliography}
+
+
+\end{CJK*}
+%\end{thebibliography}
+\end{document}
