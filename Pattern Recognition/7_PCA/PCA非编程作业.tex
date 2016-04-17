@@ -1,0 +1,193 @@
+\documentclass{article}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{cite}
+%\include{macros}
+%\usepackage{floatflt}
+%\usepackage{graphics}
+%\usepackage{epsfig}
+
+
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem*{defition}{Definition}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem*{note}{Note}
+\newtheorem*{exercise}{Exercise}
+
+\setlength{\oddsidemargin}{-0.25 in}
+\setlength{\evensidemargin}{-0.25 in} \setlength{\topmargin}{-0.25
+in} \setlength{\textwidth}{7 in} \setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.25 in} \setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+\newcommand{\homework}[4]{
+\pagestyle{myheadings} \thispagestyle{plain}
+\newpage
+\setcounter{page}{1} \setcounter{section}{#4} \noindent
+\begin{center}
+\framebox{ \vbox{\vspace{2mm} \hbox to 6.28in { {\bf
+THU-70250043,~Pattern~Recognition~(Spring 2016) \hfill Homework: 7} }
+\vspace{6mm} \hbox to 6.28in { {\Large \hfill #1 \hfill} }
+\vspace{6mm} \hbox to 6.28in { {\it Lecturer: #2 \hfill} }
+\vspace{2mm} \hbox to 6.28in { {\it Student: #3 \hfill} }
+\vspace{2mm} } }
+\end{center}
+\markboth{#1}{#1} \vspace*{4mm} }
+
+
+\begin{document}
+
+\homework{PCA and Non-linear dimensionality reduction}{Changshui Zhang
+\hspace{5mm} {\tt zcs@mail.tsinghua.edu.cn}}{XXX \hspace{5mm} {\tt
+xxx@mails.tsinghua.edu.cn } }{8}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section 2.  Problem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Problem 1}\label{problem:1}
+\emph{Maximum-variance and Minimum-error approaches to PCA}
+
+You have gone through the K-L and PCA algorithms in the class, but don't be confused by the names of this algorithm: Principal component analysis(PCA) is also known as K-L transform, they are completely the same thing.
+
+PCA can be defined as the orthogonal projection of the data onto a lower dimensional linear space, known as the principal subspace, such that \emph{the variance of the projected data is maximized}; It can also be defined as the linear projection that \emph{minimizes the average projection cost}, defined as the mean squared distance between the data points and their projections. We'll consider both approaches in this problem.
+
+Suppose we have a data set of observations $\{\bold{x}_{n}\}$, where $n=1, ..., N$, $\bold{x}_{n} \in \mathcal{R}^{D}$. Our goal is to project the data onto a space having dimensionality $M<D$.
+
+\subsubsection*{Maximum-variance approach}
+1.1 To begin with, let's consider the projection onto a one-dimensional space$(M=1)$. Define the direction of this space using a D-dimensional vector $\bold{u}_{1}$. Prove that the variance of the projected data is given by the following expression: $\bold{u}_{1}^{T}S\bold{u}_{1}$, where $S$ is called the data covariance matrix.
+
+1.2 We now maximize the projected variance $\bold{u}_{1}^{T}S\bold{u}_{1}$ with respect to $\bold{u}_{1}$. Clearly, this has to be a constrained maximization to prevent $||\bold{u}_{1}||\to \infty$, the appropriate constraint comes from the normalization condition $\bold{u}_{1}^{T}\bold{u}_{1}=1$. We can introduce a Lagrange multiplier denoted as $\lambda_{1}$ and solve this maximization problem. Show the details of solving $\bold{u}_{1}$ and the maximum variance.
+
+1.3 For cases $M\geq 2$, we use proof by induction to show the same principle. Suppose the result above holds for some general value of $M$, show that it consequently holds for dimensionality $M+1$.
+
+\emph{Hint: To do this, remember that we've already selected the $M$ eigen-vectors corresponding to the M largest eigen-values of the data covariance matrix $S$. We're now tying to maximize the variance on direction $\bold{u}_{M+1}$. The maximization should be done subject to the constraints that $\bold{u}_{M+1}$ be orthogonal to the existing vectors $\bold{u}_{1}, ..., \bold{u}_{M}$, and also that it be normalized to unit length.}
+\subsubsection*{Minimum-error approach}
+Suppose we have a \emph{complete orthonormal set} of $D$-dimensional basis vector $\{\bold{u}_{i}\}$ where $i=1, ..., D$ that satisfy:
+\begin{eqnarray}
+\bold{u}_{i}^{T}\bold{u}_{j}=\delta_{ij}
+\end{eqnarray}
+Since this basis is \emph{complete}, each data point can be presented as follows:
+\begin{eqnarray}
+\bold{x}_{n}=\sum_{i=1}^{D}(\bold{x}_{n}^{T}\bold{u}_{i})\bold{u}_{i}
+\end{eqnarray}
+Our goal is to approximate this data point using a restricted number $M<D$ of variables corresponding to a projection onto a lower-dimensional subspace. Let's make use of the following expression:
+\begin{eqnarray}
+\tilde{\bold{x}}_{n}=\sum_{i=1}^{M}z_{ni}\bold{u}_{i}+\sum_{i=M+1}^{D}b_{i}\bold{u}_{i}
+\end{eqnarray}
+Where the $\{z_{ni}\}$ depends on the particular data point, whereas the $\{b_{i}\}$ are constants same for all data points.
+
+Just as the subtitle, we shall minimize the squared distance between the original data point $\bold{x}_{n}$ and its approximation $\tilde{\bold{x}}_{n}$:
+\begin{eqnarray}
+J=\frac{1}{N}\sum_{n=1}^{N}||\bold{x}_{n}-\tilde{\bold{x}}_{n}||_{2}^{2}
+\end{eqnarray}
+1.4 Prove that the optimal $\{z_{ni}\}$ complies with:
+\begin{eqnarray}
+z_{ni}=\bold{x}_{n}^{T}\bold{u}_{i}
+\end{eqnarray}
+And the optimal $\{b_{i}\}$ complies with:
+\begin{eqnarray}
+b_{i}=\bar{\bold{x}}^{T}\bold{u}_{j}
+\end{eqnarray}
+Where $\bar{\bold{x}}=(1/N)\sum_{n=1}^{N}\bold{x}_{n}$.
+
+1.5 If we substitute for $\{z_{ni}\}$ and $\{b_{i}\}$, and make use of the general expansion (2), we obtain:
+\begin{eqnarray}
+\bold{x}_{n}-\tilde{\bold{x}}_{n}=\sum_{i=M+1}^{D}\{(\bold{x}_{n}-\bar{\bold{x}})^{T}\bold{u}_{i}\}\bold{u}_{i}
+\end{eqnarray}
+Take equation (7) into equation (4) to get the distortion measure $J$ purely related to $\{\bold{u}_{i}\}$ and the data covariance matrix $S$. Then, show that the distortion measure $J$ with constraints (1) can be further written as:
+\begin{eqnarray}
+L=Tr\{USU\}+Tr\{H(I-U^{T}U)\}
+\end{eqnarray}
+Where, $U$ is a matrix of dimension $D\times (D-M)$ whose columns are given by $\bold{u}_{i}$. Matrix $H$ is the Lagrange multipliers, one for each constraint.
+
+1.6 Take the derivative of (8) with respect to $U$ to find the optimal $\bold{u}_{i}$.
+
+\emph{Hint: The last problem may be a little tricky and involves derivative of trace. You can look up the uploaded book "The Matrix Cookbook".}
+
+1.7 Give me your explicit explanations of these two approaches. You can illustrate it with hand-drawn images, either inserted in your report or included in the package is ok.
+\\
+\\
+\\
+\\
+\section*{Problem 2}\label{problem:2}
+\emph{Probabilistic PCA}
+
+In the previous problem, the PCA was based on a linear projection of the data onto a subspace. In this problem, we'll show that PCA can also be expressed as the maximum likelihood solution of a probabilistic latent variable model.
+
+\emph{Probabilistic PCA} is a simple example of the linear-Gaussian framework, in which all of the marginal and conditional distributions are Gaussian. We can formulate this model by first introducing an explicit latent variable $\bold{z}$ corresponding to the principle-component subspace. Next we define a Gaussian prior $p(\bold{z})$ over the latent variable with zero-mean and unit-covariance:
+\begin{eqnarray}
+p(\bold{z})=\mathcal{N}(\bold{z}|0, I)
+\end{eqnarray}
+Similarly, the conditional distribution of the observed variable $\bold{x}$ is again Gaussian:
+\begin{eqnarray}
+p(\bold{x}|\bold{z})=\mathcal{N}(\bold{x}|W\bold{z}+\bold{\mu},\sigma^{2}I)
+\end{eqnarray}
+With $W\in \mathcal{R}^{D\times M}$, $\bold{\mu}\in \mathcal{R}^{D}$ governing the mean and $\sigma^{2}$ governing the variance of the conditional distribution.
+
+2.1 Suppose we wish to determine the values of the parameters $W$, $\bold{\mu}$ and $\sigma^{2}$ using maximum likelihood, so we need an expression for the marginal distribution $p(\bold{x})$ of the observed variable. From the sum and product rules of probability, we have:
+\begin{eqnarray}
+p(\bold{x})=\int p(\bold{x}|\bold{z})p(\bold{z})d\bold{z}
+\end{eqnarray}
+Show that the marginal distribution is given by:
+\begin{eqnarray}
+p(\bold{x})=\mathcal{N}(\bold{x}|\bold{\mu}, C)
+\end{eqnarray}
+Where $C=WW^{T}+\sigma^{2}I$
+
+2.2 We also require the posterior distribution $p(\bold{z}|\bold{x})$, show that:
+\begin{eqnarray}
+p(\bold{z}|\bold{x})=\mathcal{N}(\bold{z}|M^{-1}W^{T}(\bold{x}-\bold{\mu}),\sigma^{-2}M)
+\end{eqnarray}
+Where $M=W^{T}W+\sigma^{2}I$.
+
+2.3 Write down the log likelihood function of the observed variables:
+\begin{eqnarray}
+lnp(X|\bold{\mu}, W, \sigma^{2})=\sum_{n=1}^{N}lnp(\bold{x}_{n}|W,\bold{\mu},\sigma^{2})
+\end{eqnarray}
+Then verify that maximizing (14) with respect to $\bold{\mu}$ gives the result $\bold{\mu}_{ML}=\bar{\bold{x}}$ where $\bar{\bold{x}}$ is the mean of the data vectors.
+
+2.4 Maximization with respect to $W$ and $\sigma^{2}$ is more complex but has exact closed-form solution:
+\begin{eqnarray}
+W_{ML}=U_{M}(L_{M}-\sigma^{2}I)^{\frac{1}{2}}R \\
+\sigma_{ML}^{2}=\frac{1}{D-M}\sum_{i=M+1}^{D}\lambda_{i}
+\end{eqnarray}
+Where $U_{M}$ is a $D\times M$ matrix whose columns are given by the eigenvectors of the data covariance matrix S, and the corresponding eigenvalues are the M largest; $L_{M}$ is a $M\times M$ diagonal matrix with the largest M eigenvalues of S as its elements; $R$ is an arbitrary $M\times M$ orthogonal matrix; $\lambda_{i}(i = M+1, ..., D)$ are the smallest eigenvalues.
+
+As what we've derived from 2.2, we have:
+\begin{eqnarray}
+E[\bold{z}|\bold{x}]=M^{-1}W_{ML}^{T}(\bold{x}-\bar{\bold{x}})
+\end{eqnarray}
+$M$ is the same as that of equation (13).
+
+Show that in the limit $\sigma^{2}\to 0$, the posterior mean for the probabilistic PCA model becomes an orthogonal projection onto the principal subspace, as in conventional PCA.
+
+\emph{Hint: Orthogonal projection in the conventional PCA is $\bold{y}_{n}=L_{M}^{-\frac{1}{2}}U_{M}^{T}(\bold{x}_{n}-\bar{\bold{x}})$. When $M=D$, this operation is called whitening or sphereing which makes $\{y_{n}\}$ have zero-mean and unit-variance.}
+\\
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Reference
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{thebibliography}{1}
+
+%\bibitem{Ray2015}
+%Changshui Zhang, \emph{Pattern Recognition}, Tsinghua
+%\end{thebibliography}
+\end{document}
